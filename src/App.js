@@ -1,11 +1,16 @@
-import './App.css';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from "./components/Home";
+import "./App.css";
 
 const App = () => {
-  return (
-    <div className="App">
-      <h1>React App</h1>
-    </div>
+  return(
+    <>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+      </Routes>
+    </>
   );
-}
+};
 
 export default App;
