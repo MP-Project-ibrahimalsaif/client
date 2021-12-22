@@ -1,0 +1,191 @@
+.navbar {
+  margin: 0;
+  padding: 0 2rem;
+  height: 4rem;
+  width: 100%;
+  background-color: #131418;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  text-align: center;
+  color: white;
+}
+
+.logo img {
+  height: 5rem;
+  width: 5rem;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  justify-content: space-evenly;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  margin: 0 1rem;
+  color: #f2f5f7;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.nav-links li a:hover {
+  cursor: pointer;
+  color: #dddcff;
+  border-bottom: 3px solid #dddcff;
+}
+
+.login-button {
+  color: #f2f5f7;
+  letter-spacing: 1px;
+  font-weight: 300;
+  background-color: transparent;
+  border: 1.5px solid #f2f5f7;
+  border-radius: 2em;
+  padding: 0.6rem 0.8rem;
+  font-size: 100%;
+  margin: 0 1rem;
+}
+
+.login-button:hover {
+  color: #131418;
+  cursor: pointer;
+  background-color: #f2f5f7;
+  border: 1.5px solid #f2f5f7;
+  transition: all ease-in-out 350ms;
+}
+
+.signup-button {
+  letter-spacing: 1px;
+  font-weight: 300;
+  color: #131418;
+  background-color: #dddcff;
+  border: 1.5px solid #dddcff;
+  border-radius: 2em;
+  padding: 0.6rem 0.8rem;
+  font-size: 100%;
+}
+
+.signup-button:hover {
+  color: #f2f5f7;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1.5px solid #f2f5f7;
+  transition: all ease-in-out 350ms;
+}
+
+.hamburger div {
+  width: 30px;
+  height: 3px;
+  background: #f2f5f7;
+  margin: 5px;
+  transition: all 0.3s ease;
+}
+
+.hamburger {
+  display: none;
+}
+
+.overlay {
+  height: 0%;
+  width: 100%;
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow-y: hidden;
+  transition: 0.5s;
+}
+
+.open {
+  height: 100%;
+}
+
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a:hover,
+.overlay a:focus {
+  color: #f1f1f1;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+@media screen and (max-width: 800px) {
+  .hamburger {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    right: 5%;
+    top: 50%;
+    transform: translate(-5%, -50%);
+    z-index: 2;
+    transition: all 0.7s ease;
+  }
+
+  .navbarButtons {
+    height: 8rem;
+  }
+
+  .navbarButtonsAvatar {
+    display: none;
+  }
+
+  .login-button {
+    font-size: 110%;
+  }
+
+  .join-button {
+    font-size: 100%;
+  }
+
+  .link {
+    display: none;
+  }
+
+  .overlay {
+    overflow-y: auto;
+  }
+
+  .overlay a {
+    font-size: 20px;
+  }
+
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}
