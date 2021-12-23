@@ -5,10 +5,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import { FaUser } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
+import { BiLogOut } from "react-icons/bi";
 import "./style.css";
 
 const Navbar = () => {
   const [user, setUser] = useState(true);
+  const [navbar, setNavbar] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -25,9 +29,19 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
+  const changeColor = () => {
+    if (window.scrollY > 15) {
+      setNavbar(true);
+    } else {
+      setNavbar(false);
+    }
+  };
+  
+  window.addEventListener("scroll", changeColor);
+
   return (
     <>
-      <nav className="navbar">
+      <nav className={navbar ? "navbar navbarColored" : "navbar"}>
         <div className="logo">
           <img src="logo.png" alt="Logo" />
         </div>
@@ -37,10 +51,11 @@ const Navbar = () => {
             <div></div>
             <div></div>
           </div>
-          <ul className="nav-links">
+          <ul className="navLinks">
             <li className="link">
               <a href="/">Home</a>
             </li>
+            <span className="dot link">&#11044;</span>
             <li className="link">
               <a href="/explore">Explore</a>
             </li>
@@ -58,7 +73,7 @@ const Navbar = () => {
               >
                 <Tooltip title="Account settings">
                   <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                    <Avatar sx={{ width: 40, height: 40 }}>M</Avatar>
+                    <Avatar sx={{ width: 45, height: 45 }}>M</Avatar>
                   </IconButton>
                 </Tooltip>
               </Box>
@@ -96,9 +111,18 @@ const Navbar = () => {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>Dashboard</MenuItem>
-                <MenuItem>Logout</MenuItem>
+                <MenuItem>
+                  <FaUser />
+                  &nbsp;Profile
+                </MenuItem>
+                <MenuItem>
+                  <MdDashboard />
+                  &nbsp;Dashboard
+                </MenuItem>
+                <MenuItem>
+                  <BiLogOut />
+                  &nbsp;Logout
+                </MenuItem>
               </Menu>
             </>
           ) : (
@@ -110,17 +134,11 @@ const Navbar = () => {
         </div>
       </nav>
       <div id="myNav" className={openMenu ? "overlay open" : "overlay"}>
-        <a
-          href="javascript:void(0)"
-          className="closebtn"
-          onClick={hamburgerClick}
-        >
+        <a href="/#" className="closebtn" onClick={hamburgerClick}>
           &times;
         </a>
-        <div class="overlay-content">
-          <a href="/">Home</a>
-          <a href="/explore">Explore</a>
-          <>
+        {user && (
+          <div className="overlayAvatar">
             <Box
               sx={{
                 display: "flex",
@@ -130,7 +148,7 @@ const Navbar = () => {
             >
               <Tooltip title="Account settings">
                 <IconButton onClick={handleClick}>
-                  <Avatar sx={{ width: 50, height: 50 }}>M</Avatar>
+                  <Avatar sx={{ width: 60, height: 60 }}>M</Avatar>
                 </IconButton>
               </Tooltip>
             </Box>
@@ -168,11 +186,32 @@ const Navbar = () => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Dashboard</MenuItem>
-              <MenuItem>Logout</MenuItem>
+              <MenuItem>
+                <FaUser />
+                &nbsp;Profile
+              </MenuItem>
+              <MenuItem>
+                <MdDashboard />
+                &nbsp;Dashboard
+              </MenuItem>
+              <MenuItem>
+                <BiLogOut />
+                &nbsp;Logout
+              </MenuItem>
             </Menu>
-          </>
+          </div>
+        )}
+        <div
+          className={user ? "overlayContent contentMargin" : "overlayContent"}
+        >
+          <a href="/">Home</a>
+          <a href="/explore">Explore</a>
+          {!user && (
+            <div className="overlyButtons">
+              <button className="login-button">Login</button>
+              <button className="signup-button">Signup</button>
+            </div>
+          )}
         </div>
       </div>
     </>
