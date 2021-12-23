@@ -4,3 +4,11 @@
   box-sizing: border-box;
   font-family: "Outfit", sans-serif;
 }
+
+:root {
+  --background: #2f2057;
+  --light-purple2: #dddcff;
+  --light-purple1: #bbb9ff;
+  --text-light: #ffffff;
+  --text-dark: #1c1b3d;
+}
