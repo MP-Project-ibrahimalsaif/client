@@ -1,4 +1,5 @@
 import React from "react";
+import Typewriter from "typewriter-effect";
 import Flicking from "@egjs/react-flicking";
 import "@egjs/react-flicking/dist/flicking.css";
 import Navbar from "./../Navbar";
@@ -18,10 +19,17 @@ const Home = () => {
           <h1 className="homeLandingTitle fade-in">&nbsp;MAZAD</h1>
         </div>
         <h1 className="homeLandingDesc fade-in">
-          <span></span>&nbsp;anything in less than a minute
+          <Typewriter
+            options={{
+              strings: ['Sell', 'Buy'],
+              autoStart: true,
+              loop: true,
+            }}
+          />
+          anything in less than a minute
         </h1>
       </div>
-      <div className="homeShow">
+      <div className="homeShow fade-in">
         <div className="showCardsBox">
           <div className="showCardsBoxTitle">
             <div className="titleAndEmoji">
@@ -33,11 +41,7 @@ const Home = () => {
             <p>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
-            <Flicking
-              align="prev"
-              circular={true}
-              onMoveEnd={(e) => {}}
-            >
+            <Flicking align="prev" circular={true} onMoveEnd={(e) => {}}>
               <div className="card"></div>
               <div className="card"></div>
               <div className="card"></div>
@@ -62,11 +66,7 @@ const Home = () => {
             <p>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
-            <Flicking
-              align="prev"
-              circular={true}
-              onMoveEnd={(e) => {}}
-            >
+            <Flicking align="prev" circular={true} onMoveEnd={(e) => {}}>
               <div className="card"></div>
               <div className="card"></div>
               <div className="card"></div>
@@ -91,11 +91,7 @@ const Home = () => {
             <p>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
-            <Flicking
-              align="prev"
-              circular={true}
-              onMoveEnd={(e) => {}}
-            >
+            <Flicking align="prev" circular={true} onMoveEnd={(e) => {}}>
               <div className="card"></div>
               <div className="card"></div>
               <div className="card"></div>
@@ -110,34 +106,51 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="homeHowItWorks">
+      <div className="homeHowItWorks fade-in">
         <h1 className="homeHowItWorksTitle">How It Works</h1>
-        <div className="homeHowItWorksCustomer">
-          <h1 className="homeHowItWorksCustomerTitle">Buyer</h1>
-          <div className="homeHowItWorksCustomerSteps">
+        <div className="homeHowItWorksType">
+          <h1 className="homeHowItWorksTypeTitle">Buyer</h1>
+          <div className="homeHowItWorksSteps">
             <div>
-              <img src="./account.png" className="homeHowItWorksCustomerStepsImg" />
-              <div className="homeHowItWorksCustomerStepsNumber">1</div>
-              <div>Create a new accout or login if you already ahve one</div>
+              <img src="./img/account.svg" className="homeHowItWorksStepsImg" />
+              <div className="homeHowItWorksStepsNumber">1</div>
+              <div>Create a new accout or login if you already have one</div>
             </div>
             <div>
-              <img src="./bid.png" className="homeHowItWorksCustomerStepsImg" />
-              <div className="homeHowItWorksCustomerStepsNumber">2</div>
+              <img src="./img/bid.svg" className="homeHowItWorksStepsImg" />
+              <div className="homeHowItWorksStepsNumber">2</div>
               <div>Bid on the auction you want</div>
             </div>
             <div>
-            <img src="./win.png" className="homeHowItWorksCustomerStepsImg" />
-              <div className="homeHowItWorksCustomerStepsNumber">3</div>
-              <div>If you are the hightest bidder, congrats you win the auction</div>
+              <img src="./img/win.svg" className="homeHowItWorksStepsImg" />
+              <div className="homeHowItWorksStepsNumber">3</div>
+              <div>
+                If you are the highest bidder, congrats you win the auction
+              </div>
             </div>
           </div>
         </div>
-        <div className="homeHowItWorksCustomer">
-          <h1 className="homeHowItWorksCustomerTitle">Seller</h1>
-          <div className="homeHowItWorksCustomerSteps">
-            <div>1 user</div>
-            <div>2 make an auction</div>
-            <div>3 win</div>
+        <div className="homeHowItWorksType">
+          <h1 className="homeHowItWorksTypeTitle">Seller</h1>
+          <div className="homeHowItWorksSteps">
+            <div>
+              <img src="./img/account.svg" className="homeHowItWorksStepsImg" />
+              <div className="homeHowItWorksStepsNumber">1</div>
+              <div>Create a new accout or login if you already have one</div>
+            </div>
+            <div>
+              <img src="./img/auction.svg" className="homeHowItWorksStepsImg" />
+              <div className="homeHowItWorksStepsNumber">2</div>
+              <div>Make a new auction for the item you want to sell</div>
+            </div>
+            <div>
+              <img src="./img/sold.svg" className="homeHowItWorksStepsImg" />
+              <div className="homeHowItWorksStepsNumber">3</div>
+              <div>
+                Congrats you sold the item, now it's time so send it to the
+                buyer
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -146,15 +159,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const Emoji = (props) => (
-  <option
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-    value={props.label}
-  >
-    {props.symbol}
-  </option>
-);
