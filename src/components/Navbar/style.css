@@ -8,10 +8,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 20;
 }
 
 .navbarColored {
-  background-color: var(--background);
+  background-color: var(--text-dark);
 }
 
 .logo {
