@@ -76,12 +76,19 @@
   align-items: center;
 }
 
-.card {
-  margin: 1rem;
-  height: 13rem;
-  width: 13rem;
-  border-radius: 1.75rem;
-  background-color: var(--background);
+.cardsCarousel {
+  display: flex;
+  align-items: center;
+}
+
+.carouselArrow {
+  font-size: 200%;
+}
+
+.carouselArrow:hover {
+  cursor: pointer;
+  background-color: rgb(214, 214, 214);
+  border-radius: 50%;
 }
 
 .homeHowItWorks {
@@ -89,7 +96,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 0;
+  padding: 4rem 0;
   background-color: var(--light-purple1);
 }
 
@@ -102,8 +109,9 @@
   gap: 40px;
 }
 
-.homeHowItWorksTitle::before, .homeHowItWorksTitle::after {
-  content: '';
+.homeHowItWorksTitle::before,
+.homeHowItWorksTitle::after {
+  content: "";
   border-top: 6px double;
 }
 
@@ -119,7 +127,8 @@
 .homeHowItWorksTypeTitle {
   font-size: 300%;
   color: var(--text-light);
-  text-shadow: -2px 0 2px var(--text-dark), 0 2px 2px var(--text-dark), 2px 0 2px var(--text-dark), 0 -2px 2px var(--text-dark);
+  text-shadow: -2px 0 2px var(--text-dark), 0 2px 2px var(--text-dark),
+    2px 0 2px var(--text-dark), 0 -2px 2px var(--text-dark);
   margin-bottom: 2rem;
 }
 

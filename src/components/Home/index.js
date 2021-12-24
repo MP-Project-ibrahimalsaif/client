@@ -1,10 +1,13 @@
 import React from "react";
 import Typewriter from "typewriter-effect";
-import Flicking from "@egjs/react-flicking";
-import "@egjs/react-flicking/dist/flicking.css";
+import { Carousel } from "@trendyol-js/react-carousel";
+import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
 import Navbar from "./../Navbar";
+import Card from "./../Card";
 import Footer from "./../Footer";
 import "./style.css";
+
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const Home = () => {
   return (
@@ -22,7 +25,7 @@ const Home = () => {
         <h1 className="homeLandingDesc fade-in">
           <Typewriter
             options={{
-              strings: ['Sell', 'Buy'],
+              strings: ["Sell", "Buy"],
               autoStart: true,
               loop: true,
             }}
@@ -41,19 +44,19 @@ const Home = () => {
             </div>
             <p>view more&nbsp;&#8594;</p>
           </div>
-          <div className="showCards">
-            <Flicking align="prev" circular={true} onMoveEnd={(e) => {}}>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-            </Flicking>
+          <div className="showCards" rightArrow={null}>
+            <Carousel
+              show={3.5}
+              swiping={true}
+              infinite={false}
+              className="cardsCarousel"
+              rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
+              leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
+            >
+              {arr.map((ele) => {
+                return <Card />;
+              })}
+            </Carousel>
           </div>
         </div>
         <div className="showCardsBox">
@@ -67,18 +70,18 @@ const Home = () => {
             <p>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
-            <Flicking align="prev" circular={true} onMoveEnd={(e) => {}}>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-            </Flicking>
+            <Carousel
+              show={3.5}
+              swiping={true}
+              infinite={false}
+              className="cardsCarousel"
+              rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
+              leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
+            >
+              {arr.map((ele) => {
+                return <Card />;
+              })}
+            </Carousel>
           </div>
         </div>
         <div className="showCardsBox">
@@ -92,18 +95,18 @@ const Home = () => {
             <p>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
-            <Flicking align="prev" circular={true} onMoveEnd={(e) => {}}>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-            </Flicking>
+            <Carousel
+              show={3.5}
+              swiping={true}
+              infinite={false}
+              className="cardsCarousel"
+              rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
+              leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
+            >
+              {arr.map((ele) => {
+                return <Card />;
+              })}
+            </Carousel>
           </div>
         </div>
       </div>
@@ -113,17 +116,29 @@ const Home = () => {
           <h1 className="homeHowItWorksTypeTitle">Buyer</h1>
           <div className="homeHowItWorksSteps">
             <div>
-              <img src="./img/account.svg" alt="account img" className="homeHowItWorksStepsImg" />
+              <img
+                src="./img/account.svg"
+                alt="account img"
+                className="homeHowItWorksStepsImg"
+              />
               <div className="homeHowItWorksStepsNumber">1</div>
               <div>Create a new accout or login if you already have one</div>
             </div>
             <div>
-              <img src="./img/bid.svg" alt="bid img" className="homeHowItWorksStepsImg" />
+              <img
+                src="./img/bid.svg"
+                alt="bid img"
+                className="homeHowItWorksStepsImg"
+              />
               <div className="homeHowItWorksStepsNumber">2</div>
               <div>Bid on the auction you want</div>
             </div>
             <div>
-              <img src="./img/win.svg" alt="win img" className="homeHowItWorksStepsImg" />
+              <img
+                src="./img/win.svg"
+                alt="win img"
+                className="homeHowItWorksStepsImg"
+              />
               <div className="homeHowItWorksStepsNumber">3</div>
               <div>
                 If you are the highest bidder, congrats you win the auction
@@ -135,17 +150,29 @@ const Home = () => {
           <h1 className="homeHowItWorksTypeTitle">Seller</h1>
           <div className="homeHowItWorksSteps">
             <div>
-              <img src="./img/account.svg" alt="account img" className="homeHowItWorksStepsImg" />
+              <img
+                src="./img/account.svg"
+                alt="account img"
+                className="homeHowItWorksStepsImg"
+              />
               <div className="homeHowItWorksStepsNumber">1</div>
               <div>Create a new accout or login if you already have one</div>
             </div>
             <div>
-              <img src="./img/auction.svg" alt="auction img" className="homeHowItWorksStepsImg" />
+              <img
+                src="./img/auction.svg"
+                alt="auction img"
+                className="homeHowItWorksStepsImg"
+              />
               <div className="homeHowItWorksStepsNumber">2</div>
               <div>Make a new auction for the item you want to sell</div>
             </div>
             <div>
-              <img src="./img/sold.svg" alt="sold img" className="homeHowItWorksStepsImg" />
+              <img
+                src="./img/sold.svg"
+                alt="sold img"
+                className="homeHowItWorksStepsImg"
+              />
               <div className="homeHowItWorksStepsNumber">3</div>
               <div>
                 Congrats you sold the item, now it's time so send it to the

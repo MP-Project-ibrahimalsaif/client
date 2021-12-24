@@ -29,11 +29,10 @@
 
 @media (max-width: 720px) {
   .footer {
-    text-align: left;
     padding: 5%;
   }
-  
+
   .footer .row .footerIcon {
-    margin: 0 3rem;
+    margin: 0 1rem;
   }
 }
