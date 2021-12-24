@@ -3,6 +3,7 @@ import Typewriter from "typewriter-effect";
 import Flicking from "@egjs/react-flicking";
 import "@egjs/react-flicking/dist/flicking.css";
 import Navbar from "./../Navbar";
+import Footer from "./../Footer";
 import "./style.css";
 
 const Home = () => {
@@ -112,17 +113,17 @@ const Home = () => {
           <h1 className="homeHowItWorksTypeTitle">Buyer</h1>
           <div className="homeHowItWorksSteps">
             <div>
-              <img src="./img/account.svg" className="homeHowItWorksStepsImg" />
+              <img src="./img/account.svg" alt="account img" className="homeHowItWorksStepsImg" />
               <div className="homeHowItWorksStepsNumber">1</div>
               <div>Create a new accout or login if you already have one</div>
             </div>
             <div>
-              <img src="./img/bid.svg" className="homeHowItWorksStepsImg" />
+              <img src="./img/bid.svg" alt="bid img" className="homeHowItWorksStepsImg" />
               <div className="homeHowItWorksStepsNumber">2</div>
               <div>Bid on the auction you want</div>
             </div>
             <div>
-              <img src="./img/win.svg" className="homeHowItWorksStepsImg" />
+              <img src="./img/win.svg" alt="win img" className="homeHowItWorksStepsImg" />
               <div className="homeHowItWorksStepsNumber">3</div>
               <div>
                 If you are the highest bidder, congrats you win the auction
@@ -134,17 +135,17 @@ const Home = () => {
           <h1 className="homeHowItWorksTypeTitle">Seller</h1>
           <div className="homeHowItWorksSteps">
             <div>
-              <img src="./img/account.svg" className="homeHowItWorksStepsImg" />
+              <img src="./img/account.svg" alt="account img" className="homeHowItWorksStepsImg" />
               <div className="homeHowItWorksStepsNumber">1</div>
               <div>Create a new accout or login if you already have one</div>
             </div>
             <div>
-              <img src="./img/auction.svg" className="homeHowItWorksStepsImg" />
+              <img src="./img/auction.svg" alt="auction img" className="homeHowItWorksStepsImg" />
               <div className="homeHowItWorksStepsNumber">2</div>
               <div>Make a new auction for the item you want to sell</div>
             </div>
             <div>
-              <img src="./img/sold.svg" className="homeHowItWorksStepsImg" />
+              <img src="./img/sold.svg" alt="sold img" className="homeHowItWorksStepsImg" />
               <div className="homeHowItWorksStepsNumber">3</div>
               <div>
                 Congrats you sold the item, now it's time so send it to the
@@ -154,6 +155,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

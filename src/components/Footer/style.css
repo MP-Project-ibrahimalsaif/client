@@ -1,0 +1,39 @@
+.footer {
+  background: var(--text-dark);
+  padding: 1rem;
+  font-family: "Play", sans-serif;
+  text-align: center;
+}
+
+.footer .row {
+  width: 100%;
+  padding: 0.5rem;
+  color: var(--text-light);
+  font-size: 70%;
+}
+
+.footer .row a {
+  text-decoration: none;
+  color: var(--text-light);
+  transition: 0.5s;
+}
+
+.footer .row a:hover {
+  color: var(--light-purple1);
+}
+
+.footer .row .footerIcon {
+  font-size: 200%;
+  margin: 0 1rem;
+}
+
+@media (max-width: 720px) {
+  .footer {
+    text-align: left;
+    padding: 5%;
+  }
+  
+  .footer .row .footerIcon {
+    margin: 0 3rem;
+  }
+}
