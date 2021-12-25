@@ -1,0 +1,159 @@
+.signup {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ebeef7;
+}
+
+.signupBox {
+  min-width: 30%;
+  margin: 3rem 0;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--text-light);
+}
+
+.loginOption {
+  color: grey;
+  font-size: 70%;
+}
+
+.loginOptionLink {
+  color: var(--text-dark);
+  text-decoration: none;
+}
+
+.loginOptionLink:hover {
+  cursor: pointer;
+  color: var(--light-purple1);
+}
+
+.signupWelcome {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 170%;
+  color: var(--text-dark);
+}
+
+.signupWelcomeDesc {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 90%;
+  color: var(--text-dark);
+}
+
+.message {
+  padding: 0.5rem;
+  text-align: center;
+  background-color: var(--light-purple1);
+  border: 2px solid var(--background);
+  border-radius: 1rem;
+}
+
+.signupForm .signupFormSection {
+  position: relative;
+  padding: 1.5rem 0;
+}
+
+.signupForm .signupFormSection input {
+  color: #000000;
+  width: 100%;
+  padding: 1.5em 2em;
+  border: 1px solid #bebebe;
+  border-radius: 5px;
+}
+
+.signupForm .signupFormSection .signupName,
+.signupForm .signupFormSection .signupEmail,
+.signupForm .signupFormSection .signupPassword {
+  background-repeat: no-repeat;
+  background-position: right 1em top 1.25em;
+}
+
+.signupForm .signupFormSection .signupEmail {
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="lightgrey" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="4"></circle><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0v-1.5a9 9 0 1 0 -5.5 8.28"></path></svg>');
+}
+
+.signupForm .signupFormSection .signupPassword {
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="lightgrey" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><rect x="5" y="11" width="14" height="10" rx="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M8 11v-4a4 4 0 0 1 8 0v4"></path></svg>');
+}
+
+.signupForm .signupFormSection input:focus {
+  outline-color: var(--light-purple1);
+  border-color: var(--light-purple1);
+}
+
+.signupForm .signupFormSection label {
+  font-size: 0.85em;
+  position: absolute;
+  top: 1.25em;
+  left: 1.5em;
+  background: #fff;
+  padding: 0 0.5em;
+}
+
+.signupForm .signupFormSection:focus-within label {
+  color: var(--light-purple1);
+  font-weight: 600;
+}
+
+.signupForm .signupFormSection .signupBtn {
+  color: #fff;
+  font-size: 1em;
+  letter-spacing: 1px;
+  line-height: 1;
+  background-color: var(--background);
+  border-color: var(--background);
+  transition: all 500ms ease;
+}
+
+.signupForm .signupFormSection .signupBtn:disabled {
+  color: #fff;
+  font-size: 1em;
+  letter-spacing: 1px;
+  line-height: 1;
+  background-color: var(--light-purple1);
+  border-color: var(--light-purple1);
+  transition: all 500ms ease;
+}
+
+.signupForm .signupFormSection .signupBtn:hover,
+.signupForm .signupFormSection .signupBtn:focus {
+  cursor: pointer;
+  background-color: var(--text-dark);
+  border-color: var(--text-dark);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.signupForm .signupFormSection .signupBtn:hover:disabled,
+.signupForm .signupFormSection .signupBtn:focus:disabled {
+  cursor: default;
+  background-color: var(--light-purple1);
+  border-color: var(--light-purple1);
+  box-shadow: none;
+}
+
+@media screen and (max-width: 1100px) {
+  .signupBox {
+    min-width: 40%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .signupBox {
+    min-width: 50%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .signupBox {
+    min-width: 65%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .signupBox {
+    min-width: 80%;
+  }
+}
