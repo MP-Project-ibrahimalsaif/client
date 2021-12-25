@@ -128,6 +128,7 @@ const Login = () => {
                   name="email"
                   onChange={(e) => setEmail(e.target.value)}
                   className="loginEmail"
+                  required
                 />
               </div>
               <div className="loginFormSection">
@@ -137,6 +138,7 @@ const Login = () => {
                   name="password"
                   onChange={(e) => setPassword(e.target.value)}
                   className="loginPassword"
+                  required
                 />
               </div>
               <p className="forgotPassword" onClick={forgotPassword}>

@@ -1,5 +1,5 @@
 .login {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +43,7 @@
 }
 
 .message {
-  width: auto;
+  padding: 0.5rem;
   text-align: center;
   background-color: var(--light-purple1);
   border: 2px solid var(--background);
