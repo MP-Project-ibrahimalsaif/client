@@ -97,7 +97,7 @@
   align-items: center;
   justify-content: center;
   padding: 4rem 0;
-  background-color: var(--light-purple1);
+  background-color: #e7e7fdcc;
 }
 
 .homeHowItWorksTitle {
@@ -150,7 +150,6 @@
   font-size: 100%;
   padding: 1rem;
   background-color: #f3f3fd;
-  box-shadow: 0px 0px 15px 0px #ffffff;
   border-radius: 1rem;
 }
 

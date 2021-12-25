@@ -4,6 +4,18 @@
   height: 4rem;
   width: 100%;
   background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+}
+
+.navbarFixed {
+  margin: 0;
+  padding: 0 2rem;
+  height: 4rem;
+  width: 100%;
+  background-color: transparent;
   position: fixed;
   display: flex;
   justify-content: space-between;
@@ -91,7 +103,8 @@
   transition: all ease-in-out 350ms;
 }
 
-.hamburger div {
+.hamburger div,
+.hamburgerNormalNavbar div {
   width: 30px;
   height: 3px;
   background: var(--text-light);
@@ -99,7 +112,8 @@
   transition: all 0.3s ease;
 }
 
-.hamburger {
+.hamburger,
+.hamburgerNormalNavbar {
   display: none;
 }
 
@@ -164,7 +178,7 @@
 
 .overlayAvatar {
   position: absolute;
-  top: 30px;
+  top: 40px;
   left: 45px;
 }
 
@@ -189,6 +203,14 @@
     right: 5%;
     top: 50%;
     transform: translate(-5%, -50%);
+    transition: all 0.7s ease;
+  }
+
+  .hamburgerNormalNavbar {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    right: 5%;
     transition: all 0.7s ease;
   }
 
