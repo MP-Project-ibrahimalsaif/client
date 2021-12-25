@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
@@ -8,14 +11,30 @@ import Tooltip from "@mui/material/Tooltip";
 import { FaUser } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
+import { userLogout } from "./../../reducers/Login";
 import "./style.css";
 
 const Navbar = () => {
-  const [user, setUser] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [navbar, setNavbar] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const state = useSelector((state) => {
+    return {
+      token: state.Login.token,
+      role: state.Login.role,
+      user: state.Login.user,
+    };
+  });
+
+  const signout = async () => {
+    dispatch(userLogout({ role: "", token: "", user: null }));
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/logout`);
+    navigate("/login");
+  };
 
   const hamburgerClick = () => {
     setOpenMenu(!openMenu);
@@ -36,7 +55,7 @@ const Navbar = () => {
       setNavbar(false);
     }
   };
-  
+
   window.addEventListener("scroll", changeColor);
 
   return (
@@ -62,7 +81,7 @@ const Navbar = () => {
           </ul>
         </>
         <div className="navbarButtonsAvatar">
-          {user ? (
+          {state.token ? (
             <>
               <Box
                 sx={{
@@ -119,7 +138,7 @@ const Navbar = () => {
                   <MdDashboard />
                   &nbsp;Dashboard
                 </MenuItem>
-                <MenuItem>
+                <MenuItem onClick={signout}>
                   <BiLogOut />
                   &nbsp;Logout
                 </MenuItem>
@@ -137,7 +156,7 @@ const Navbar = () => {
         <a href="/#" className="closebtn" onClick={hamburgerClick}>
           &times;
         </a>
-        {user && (
+        {state.token && (
           <div className="overlayAvatar">
             <Box
               sx={{
@@ -194,7 +213,7 @@ const Navbar = () => {
                 <MdDashboard />
                 &nbsp;Dashboard
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={signout}>
                 <BiLogOut />
                 &nbsp;Logout
               </MenuItem>
@@ -202,11 +221,11 @@ const Navbar = () => {
           </div>
         )}
         <div
-          className={user ? "overlayContent contentMargin" : "overlayContent"}
+          className={state.token ? "overlayContent contentMargin" : "overlayContent"}
         >
           <a href="/">Home</a>
           <a href="/explore">Explore</a>
-          {!user && (
+          {!state.token && (
             <div className="overlyButtons">
               <button className="login-button">Login</button>
               <button className="signup-button">Signup</button>
