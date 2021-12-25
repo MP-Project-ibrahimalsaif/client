@@ -7,16 +7,76 @@
   font-family: "Poppins", sans-serif;
 }
 
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 :root {
   --background: #2f2057;
   --light-purple2: #dddcff;
   --light-purple1: #bbb9ff;
   --text-light: #ffffff;
   --text-dark: #1c1b3d;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorImg {
+  height: 20rem;
+  width: 30rem;
+}
+
+.errorText {
+  font-size: 300%;
+}
+
+@media screen and (max-width: 1100px) {
+  .errorImg {
+    height: 19rem;
+    width: 28rem;
+  }
+  
+  .errorText {
+    font-size: 280%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .errorImg {
+    height: 17rem;
+    width: 26rem;
+  }
+  
+  .errorText {
+    font-size: 250%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .errorImg {
+    height: 14rem;
+    width: 24rem;
+  }
+  
+  .errorText {
+    font-size: 200%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .errorImg {
+    height: 9rem;
+    width: 18rem;
+  }
+  
+  .errorText {
+    font-size: 150%;
+  }
 }
