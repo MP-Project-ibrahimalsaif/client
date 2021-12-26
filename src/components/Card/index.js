@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -6,9 +6,19 @@ import { BsThreeDots } from "react-icons/bs";
 import { RiPlayListAddFill } from "react-icons/ri";
 import "./style.css";
 
-const Card = () => {
+const Card = ({ preview, data }) => {
+  const [days, setDays] = useState("");
+  const [hours, setHours] = useState("");
+  const [minutes, setMinutes] = useState("");
+  const [seconds, setSeconds] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    const time = setInterval(timer, 1000);
+    return () => clearInterval(time);
+    // eslint-disable-next-line
+  }, [data.endDateTime]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -18,24 +28,39 @@ const Card = () => {
     setAnchorEl(null);
   };
 
+  const timer = () => {
+    const now = new Date();
+
+    const distance = data.endDateTime - now;
+
+    setDays(Math.floor(distance / (1000 * 60 * 60 * 24)));
+    setHours(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+    setMinutes(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+    setSeconds(Math.floor((distance % (1000 * 60)) / 1000));
+  };
+
   return (
     <div className="auctionCard">
       <div className="auctionCardHeader">
         <img
           className="auctionCardAvatar"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwVLdSDmgrZN7TkzbHJb8dD0_7ASUQuERL2A&usqp=CAU"
+          src={data.createdBy.avatar}
           alt="user avatar"
         />
-        <span className="auctionCardCounter">10d 5h 4m 2s</span>
+        <span className="auctionCardCounter">
+          {days}d{hours}h{minutes}m{seconds}s
+        </span>
       </div>
       <img
         className="auctionCardImage"
-        src="https://cdn.vox-cdn.com/thumbor/2xj1ySLIz1EZ49NvSsPzq8Itjyg=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/23084330/bored_ape_nft_accidental_.jpg"
-        alt="auction title"
+        src={data.images.length > 0 ? data.images[0] : "https://www.urbansplash.co.uk/images/placeholder-16-9.jpg"}
+        alt="auction img"
       />
       <div className="auctionCardInfo">
         <div className="auctionCardInfoHeader">
-          <h1 className="auctionCardTitle">Bored Ape</h1>
+          <h1 className="auctionCardTitle">
+            {data.title ? data.title : "title"}
+          </h1>
           <div>
             <IconButton
               aria-label="more"
@@ -58,8 +83,8 @@ const Card = () => {
           </div>
         </div>
         <div className="auctionCardInfoPrice">
-          <span>50 SR</span>
-          <span>35 Bids</span>
+          <span>{data.initialPrice ? data.initialPrice : "0"} SAR</span>
+          <span>0 Bids</span>
         </div>
       </div>
       <div className="auctionCardOptions">
