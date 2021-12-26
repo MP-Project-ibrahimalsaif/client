@@ -29,9 +29,7 @@ const Card = ({ preview, data }) => {
   };
 
   const timer = () => {
-    const now = new Date();
-
-    const distance = data.endDateTime - now;
+    const distance = Date.parse(data.endDateTime) - new Date();
 
     setDays(Math.floor(distance / (1000 * 60 * 60 * 24)));
     setHours(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Typewriter from "typewriter-effect";
 import { Carousel } from "@trendyol-js/react-carousel";
 import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
@@ -7,9 +8,44 @@ import Card from "./../Card";
 import Footer from "./../Footer";
 import "./style.css";
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
 const Home = () => {
+  const [auctions, setAuctions] = useState([]);
+
+  useEffect(() => {
+    getAuctions();
+    // eslint-disable-next-line
+  }, []);
+
+  const getAuctions = async () => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/auctions`);
+      const lastMinAuctions = [...res.data]
+        .sort((a, b) => {
+          return (
+            Math.abs(Date.now() - Date.parse(a.endDateTime)) -
+            Math.abs(Date.now() - Date.parse(b.endDateTime))
+          );
+        })
+        .slice(0, 10);
+      // const popularAuctions = [...res.data]
+      //   .sort((a, b) => {
+      //     return a.bids - b.bids;
+      //   })
+      //   .slice(0, 10);
+      const newAuctions = [...res.data]
+        .sort((a, b) => {
+          return (
+            Math.abs(Date.now() - Date.parse(b.endDateTime)) -
+            Math.abs(Date.now() - Date.parse(a.endDateTime))
+          );
+        })
+        .slice(0, 10);
+      setAuctions({ lastMinAuctions, newAuctions });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Navbar show={false} />
@@ -45,18 +81,24 @@ const Home = () => {
             <p>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards" rightArrow={null}>
-            <Carousel
-              show={3.5}
-              swiping={true}
-              infinite={false}
-              className="cardsCarousel"
-              rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
-              leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
-            >
-              {arr.map((ele) => {
-                return <Card />;
-              })}
-            </Carousel>
+            {auctions.lastMinAuctions ? (
+              <Carousel
+                show={3.5}
+                swiping={true}
+                infinite={false}
+                className="cardsCarousel"
+                rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
+                leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
+              >
+                {auctions.lastMinAuctions.map((auction) => {
+                  return (
+                    <Card preview={false} data={auction} key={auction._id} />
+                  );
+                })}
+              </Carousel>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="showCardsBox">
@@ -70,18 +112,24 @@ const Home = () => {
             <p>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
-            <Carousel
-              show={3.5}
-              swiping={true}
-              infinite={false}
-              className="cardsCarousel"
-              rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
-              leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
-            >
-              {arr.map((ele) => {
-                return <Card />;
-              })}
-            </Carousel>
+            {auctions.lastMinAuctions ? (
+              <Carousel
+                show={3.5}
+                swiping={true}
+                infinite={false}
+                className="cardsCarousel"
+                rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
+                leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
+              >
+                {auctions.lastMinAuctions.map((auction) => {
+                  return (
+                    <Card preview={false} data={auction} key={auction._id} />
+                  );
+                })}
+              </Carousel>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="showCardsBox">
@@ -95,18 +143,24 @@ const Home = () => {
             <p>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
-            <Carousel
-              show={3.5}
-              swiping={true}
-              infinite={false}
-              className="cardsCarousel"
-              rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
-              leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
-            >
-              {arr.map((ele) => {
-                return <Card />;
-              })}
-            </Carousel>
+            {auctions.newAuctions ? (
+              <Carousel
+                show={3.5}
+                swiping={true}
+                infinite={false}
+                className="cardsCarousel"
+                rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
+                leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
+              >
+                {auctions.newAuctions.map((auction) => {
+                  return (
+                    <Card preview={false} data={auction} key={auction._id} />
+                  );
+                })}
+              </Carousel>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

@@ -74,7 +74,7 @@ const CreateAuction = () => {
 
   const handleUpload = () => {
     const promises = [];
-    pictures.map((image) => {
+    pictures.forEach((image) => {
       const uploadTask = storage.ref(`images/${image.name}`).put(image);
       promises.push(uploadTask);
       uploadTask.on(
