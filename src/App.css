@@ -37,6 +37,14 @@
   font-size: 300%;
 }
 
+.MuiFormLabel-root.Mui-focused {
+  color: var(--light-purple1) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--light-purple1) !important;
+}
+
 @media screen and (max-width: 1100px) {
   .errorImg {
     height: 19rem;
