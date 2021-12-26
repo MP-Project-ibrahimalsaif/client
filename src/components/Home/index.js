@@ -27,20 +27,20 @@ const Home = () => {
           );
         })
         .slice(0, 10);
-      // const popularAuctions = [...res.data]
-      //   .sort((a, b) => {
-      //     return a.bids - b.bids;
-      //   })
-      //   .slice(0, 10);
+      const popularAuctions = [...res.data]
+        .sort((a, b) => {
+          return b.bids - a.bids;
+        })
+        .slice(0, 10);
       const newAuctions = [...res.data]
         .sort((a, b) => {
           return (
-            Math.abs(Date.now() - Date.parse(b.endDateTime)) -
-            Math.abs(Date.now() - Date.parse(a.endDateTime))
+            Math.abs(Date.now() - Date.parse(a.timestamp)) -
+            Math.abs(Date.now() - Date.parse(b.timestamp))
           );
         })
         .slice(0, 10);
-      setAuctions({ lastMinAuctions, newAuctions });
+      setAuctions({ lastMinAuctions, popularAuctions, newAuctions });
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +97,14 @@ const Home = () => {
                 })}
               </Carousel>
             ) : (
-              ""
+              <div className="center">
+                <div className="lds-ring">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -112,7 +119,7 @@ const Home = () => {
             <p>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
-            {auctions.lastMinAuctions ? (
+            {auctions.popularAuctions ? (
               <Carousel
                 show={3.5}
                 swiping={true}
@@ -121,14 +128,21 @@ const Home = () => {
                 rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
                 leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
               >
-                {auctions.lastMinAuctions.map((auction) => {
+                {auctions.popularAuctions.map((auction) => {
                   return (
                     <Card preview={false} data={auction} key={auction._id} />
                   );
                 })}
               </Carousel>
             ) : (
-              ""
+              <div className="center">
+                <div className="lds-ring">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -159,7 +173,14 @@ const Home = () => {
                 })}
               </Carousel>
             ) : (
-              ""
+              <div className="center">
+                <div className="lds-ring">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
             )}
           </div>
         </div>

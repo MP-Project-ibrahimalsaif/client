@@ -1,0 +1,125 @@
+.editAuctionLanding {
+  height: 40vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-light);
+  background: linear-gradient(-45deg, #13192b, #181f34, #293357, #394779);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+}
+
+.editAuction {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ebeef7;
+}
+
+.editAuctionLayout {
+  width: 70%;
+  margin: 3rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editAuctionInfo {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+}
+
+.editAuctionInfoLeft,
+.editAuctionInfoRight {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.editAuctionItem {
+  width: 70%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.editAuctionPreview {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.editAuctionPreview h2 {
+  margin-left: 1rem;
+  font-size: 130%;
+}
+
+.imageDesc {
+  font-size: 80%;
+  color: grey;
+}
+
+.progressBar {
+  width: 100%;
+}
+
+.UploadBtn,
+.SubmitBtn {
+  padding: 1rem;
+  border-radius: 1rem;
+  border: none;
+  background-color: var(--text-dark);
+  color: var(--text-light);
+}
+
+.UploadBtn:hover,
+.SubmitBtn:hover {
+  cursor: pointer;
+  background-color: var(--background);
+}
+
+.SubmitBtn {
+  margin: 2rem;
+  width: 20%;
+  font-size: 150%;
+}
+
+@media screen and (max-width: 1200px) {
+  .editAuctionLayout {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .editAuctionLayout {
+    width: 95%;
+    flex-direction: column;
+  }
+
+  .editAuctionInfo {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .editAuctionInfoLeft,
+  .editAuctionInfoRight {
+    width: 100%;
+    margin: 2rem 0;
+    align-items: center;
+  }
+
+  .editAuctionPreview {
+    width: 100%;
+  }
+
+  .SubmitBtn {
+    width: 40%;
+  }
+}
