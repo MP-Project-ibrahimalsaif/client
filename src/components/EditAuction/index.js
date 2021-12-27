@@ -73,8 +73,8 @@ const EditAuction = () => {
       const res = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/auctions/${id}`
       );
-      setAuction(res.data);
-      setDateTime(res.data.endDateTime);
+      setAuction(res.data.auction);
+      setDateTime(res.data.auction.endDateTime);
     } catch (error) {
       console.log(error);
     }
