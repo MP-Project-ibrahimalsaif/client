@@ -198,7 +198,7 @@ const Auction = () => {
                   <span className="auctionBidsHistoryItemName">{bid.createdBy.name}</span>
                   <p>&nbsp;Made a&nbsp;</p>
                   <span className="auctionBidsHistoryItemBid">{bid.bid}</span>
-                  <p>&nbsp;bid at&nbsp;</p>
+                  <p>&nbsp;SAR bid at&nbsp;</p>
                   <span className="auctionBidsHistoryItemDate">{bid.timestamp.substring(0, 10)}</span>
                 </div>
               ))}
