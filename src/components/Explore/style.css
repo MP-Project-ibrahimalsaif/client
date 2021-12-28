@@ -11,6 +11,10 @@
   animation: gradient 10s ease infinite;
 }
 
+.exploreLandingTitle {
+  font-size: 250%;
+}
+
 .explore {
   min-height: 60vh;
   display: flex;
