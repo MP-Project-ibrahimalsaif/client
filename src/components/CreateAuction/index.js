@@ -271,7 +271,7 @@ const CreateAuction = () => {
           </>
         ) : (
           <div className="error">
-            <img src="./img/stop.svg" className="errorImg" alt="error" />
+            <img src="/img/stop.svg" className="errorImg" alt="error" />
             <h1 className="errorText">You are not logged in yet</h1>
           </div>
         )}

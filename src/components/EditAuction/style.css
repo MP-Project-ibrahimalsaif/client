@@ -11,6 +11,10 @@
   animation: gradient 10s ease infinite;
 }
 
+.editAuctionLandingTitle {
+  font-size: 250%;
+}
+
 .editAuction {
   min-height: 60vh;
   display: flex;
