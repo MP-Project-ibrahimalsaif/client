@@ -17,6 +17,7 @@ const Auction = () => {
   const { id } = useParams();
   const [auction, setAuction] = useState(null);
   const [bids, setBids] = useState([]);
+  const [bidsShow, setBidsShow] = useState([]);
   const [days, setDays] = useState("");
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
@@ -24,6 +25,8 @@ const Auction = () => {
   const [bid, setBid] = useState("");
   const [message, setMessage] = useState("");
   const [bidPrice, setBidPrice] = useState("");
+  const [loadMore, setLoadMore] = useState(false);
+  const [loadElements, setLoadElements] = useState(5);
 
   const state = useSelector((state) => {
     return {
@@ -53,12 +56,23 @@ const Auction = () => {
     // eslint-disable-next-line
   }, [auction]);
 
+  useEffect(() => {
+    setBidsShow(bids.slice(0, loadElements));
+    setLoadMore(false);
+  }, [loadMore]);
+
+  const loadMoreBids = () => {
+    setLoadMore(true);
+    setLoadElements(loadElements + 5);
+  };
+
   const getAuction = async () => {
     try {
       const res = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/auctions/${id}`
       );
-      setBids(res.data.bids);
+      setBids(res.data.bids.reverse());
+      setBidsShow(res.data.bids.slice(0, loadElements));
       setAuction(res.data.auction);
     } catch (error) {
       console.log(error);
@@ -101,7 +115,7 @@ const Auction = () => {
               }
             );
             socket.emit("make_bid", { bid: bidNumber, room: id });
-            setBidPrice(bidNumber)
+            setBidPrice(bidNumber);
             // getAuction();
           } catch (error) {
             console.log(error);
@@ -202,7 +216,7 @@ const Auction = () => {
             )}
             <div className="auctionBidsHistory">
               <h1>Bids history</h1>
-              {bids.map((bid) => (
+              {bidsShow.map((bid) => (
                 <div className="auctionBidsHistoryItem">
                   <img
                     src={bid.createdBy.avatar}
@@ -219,6 +233,13 @@ const Auction = () => {
                   </span>
                 </div>
               ))}
+              {loadElements <= bids.length ? (
+                <button className="loadMoreBtn" onClick={loadMoreBids}>
+                  {loadMore ? "Loading..." : "Load More"}
+                </button>
+              ) : (
+                ""
+              )}
             </div>
           </>
         ) : (

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
 import axios from "axios";
 import Typewriter from "typewriter-effect";
 import { Carousel } from "@trendyol-js/react-carousel";
@@ -9,15 +8,8 @@ import Card from "./../Card";
 import Footer from "./../Footer";
 import "./style.css";
 
-let socket;
-let CONNECTION_PORT = process.env.REACT_APP_BASE_URL;
-
 const Home = () => {
   const [auctions, setAuctions] = useState([]);
-
-  useEffect(() => {
-    socket = io(CONNECTION_PORT);
-  }, [CONNECTION_PORT]);
 
   useEffect(() => {
     getAuctions();
