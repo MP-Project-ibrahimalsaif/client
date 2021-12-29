@@ -12,7 +12,7 @@
 }
 
 .auctionLandingTitle {
-  font-size: 250%;
+  font-size: 350%;
 }
 
 .auctionDisplay {
@@ -33,15 +33,7 @@
 
 .auctionInfoSlideShow {
   width: 55%;
-  height: 30rem;
   margin-right: 3rem;
-}
-
-.imagesCarousel {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  width: 100%;
 }
 
 .auctionInfoSlideShow img {
@@ -214,4 +206,28 @@
 .auctionBidsHistoryItem p {
   font-size: 100%;
   color: var(--text-dark);
+}
+
+@media screen and (max-width: 1200px) {
+  .auctionInfo {
+    width: 85%;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auctionInfoDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .auctionInfoSlideShow {
+    width: 90%;
+  }
+
+  .auctionInfoDetails {
+    width: 80%;
+  }
 }
