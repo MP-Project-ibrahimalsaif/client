@@ -208,26 +208,117 @@
   color: var(--text-dark);
 }
 
+.loadMoreBtn {
+  float: right;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: none;
+  background-color: var(--text-dark);
+  color: var(--text-light);
+}
+
+.loadMoreBtn:hover {
+  cursor: pointer;
+  background-color: var(--background);
+}
+
 @media screen and (max-width: 1200px) {
   .auctionInfo {
-    width: 85%;
-    flex-direction: column-reverse;
-    align-items: center;
+    width: 90%;
+    flex-direction: column;
+  }
+
+  .auctionInfoSlideShow {
+    width: 100%;
+    margin: 1.5rem 0;
+    display: flex;
     justify-content: center;
+    align-items: center;
+    background-color: thistle;
   }
 
   .auctionInfoDetails {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
   }
-  
+
   .auctionInfoSlideShow {
-    width: 90%;
+    width: 100%;
   }
 
   .auctionInfoDetails {
     width: 80%;
+  }
+  .auctionBid,
+  .auctionBidsHistory {
+    margin: 1.5rem 0;
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .auctionBidsHistoryItem img {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  .auctionBidsHistoryItemName {
+    font-size: 120%;
+  }
+
+  .auctionBidsHistoryItemBid,
+  .auctionBidsHistoryItemDate {
+    font-size: 100%;
+  }
+
+  .auctionBidsHistoryItem p {
+    font-size: 90%;
+  }
+}
+
+@media screen and (max-width: 510px) {
+  .auctionBidsHistoryItemName {
+    font-size: 100%;
+  }
+
+  .auctionBidsHistoryItemBid,
+  .auctionBidsHistoryItemDate {
+    font-size: 90%;
+  }
+
+  .auctionBidsHistoryItem p {
+    font-size: 80%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .auctionBidsHistoryItemName {
+    font-size: 80%;
+  }
+
+  .auctionBidsHistoryItemBid,
+  .auctionBidsHistoryItemDate {
+    font-size: 70%;
+  }
+
+  .auctionBidsHistoryItem p {
+    font-size: 60%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .auctionBidsHistoryItemName {
+    font-size: 65%;
+  }
+
+  .auctionBidsHistoryItemBid,
+  .auctionBidsHistoryItemDate {
+    font-size: 55%;
+  }
+
+  .auctionBidsHistoryItem p {
+    font-size: 45%;
   }
 }
