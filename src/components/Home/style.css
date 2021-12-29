@@ -61,6 +61,16 @@
   margin-bottom: 1rem;
 }
 
+.showCardsBoxTitle p{
+  font-size: 130%;
+  color: var(--text-dark);
+}
+
+.showCardsBoxTitle p:hover{
+  cursor: pointer;
+  color: var(--light-purple1);
+}
+
 .showCardsBoxTitle .titleAndEmoji {
   display: flex;
   align-items: center;
@@ -242,6 +252,10 @@
     height: 9rem;
     width: 9rem;
   }
+
+  .showCardsBoxTitle p{
+    font-size: 120%;
+  }
 }
 
 @media screen and (max-width: 850px) {
@@ -279,6 +293,10 @@
     width: 85%;
     font-size: 110%;
     margin-bottom: 2rem;
+  }
+
+  .showCardsBoxTitle p{
+    font-size: 110%;
   }
 }
 
