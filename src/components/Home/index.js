@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Typewriter from "typewriter-effect";
 import { Carousel } from "@trendyol-js/react-carousel";
@@ -9,6 +10,7 @@ import Footer from "./../Footer";
 import "./style.css";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [auctions, setAuctions] = useState([]);
 
   useEffect(() => {
@@ -20,6 +22,7 @@ const Home = () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/auctions`);
       const lastMinAuctions = [...res.data]
+        .filter((auction) => auction.sold === false)
         .sort((a, b) => {
           return (
             Math.abs(Date.now() - Date.parse(a.endDateTime)) -
@@ -28,11 +31,13 @@ const Home = () => {
         })
         .slice(0, 10);
       const popularAuctions = [...res.data]
+        .filter((auction) => auction.sold === false)
         .sort((a, b) => {
           return b.bids - a.bids;
         })
         .slice(0, 10);
       const newAuctions = [...res.data]
+        .filter((auction) => auction.sold === false)
         .sort((a, b) => {
           return (
             Math.abs(Date.now() - Date.parse(a.timestamp)) -
@@ -78,24 +83,28 @@ const Home = () => {
               </span>
               <h1>&nbsp;Last Minute Auctions</h1>
             </div>
-            <p>view more&nbsp;&#8594;</p>
+            <p onClick={() => navigate("/explore")}>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards" rightArrow={null}>
             {auctions.lastMinAuctions ? (
-              <Carousel
-                show={5}
-                swiping={true}
-                infinite={false}
-                className="cardsCarousel"
-                rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
-                leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
-              >
-                {auctions.lastMinAuctions.map((auction) => {
-                  return (
-                    <Card preview={false} data={auction} key={auction._id} />
-                  );
-                })}
-              </Carousel>
+              auctions.lastMinAuctions.length > 0 ? (
+                <Carousel
+                  show={5}
+                  swiping={true}
+                  infinite={false}
+                  className="cardsCarousel"
+                  rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
+                  leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
+                >
+                  {auctions.lastMinAuctions.map((auction) => {
+                    return (
+                      <Card preview={false} data={auction} key={auction._id} />
+                    );
+                  })}
+                </Carousel>
+              ) : (
+                <h2>No auctions yet!!</h2>
+              )
             ) : (
               <div className="center">
                 <div className="lds-ring">
@@ -116,24 +125,28 @@ const Home = () => {
               </span>
               <h1>&nbsp;Popular Auctions</h1>
             </div>
-            <p>view more&nbsp;&#8594;</p>
+            <p onClick={() => navigate("/explore")}>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
             {auctions.popularAuctions ? (
-              <Carousel
-                show={5}
-                swiping={true}
-                infinite={false}
-                className="cardsCarousel"
-                rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
-                leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
-              >
-                {auctions.popularAuctions.map((auction) => {
-                  return (
-                    <Card preview={false} data={auction} key={auction._id} />
-                  );
-                })}
-              </Carousel>
+              auctions.lastMinAuctions.length > 0 ? (
+                <Carousel
+                  show={5}
+                  swiping={true}
+                  infinite={false}
+                  className="cardsCarousel"
+                  rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
+                  leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
+                >
+                  {auctions.popularAuctions.map((auction) => {
+                    return (
+                      <Card preview={false} data={auction} key={auction._id} />
+                    );
+                  })}
+                </Carousel>
+              ) : (
+                <h2>No auctions yet!!</h2>
+              )
             ) : (
               <div className="center">
                 <div className="lds-ring">
@@ -154,24 +167,28 @@ const Home = () => {
               </span>
               <h1>&nbsp;New Auctions</h1>
             </div>
-            <p>view more&nbsp;&#8594;</p>
+            <p onClick={() => navigate("/explore")}>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
             {auctions.newAuctions ? (
-              <Carousel
-                show={5}
-                swiping={true}
-                infinite={false}
-                className="cardsCarousel"
-                rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
-                leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
-              >
-                {auctions.newAuctions.map((auction) => {
-                  return (
-                    <Card preview={false} data={auction} key={auction._id} />
-                  );
-                })}
-              </Carousel>
+              auctions.lastMinAuctions.length > 0 ? (
+                <Carousel
+                  show={5}
+                  swiping={true}
+                  infinite={false}
+                  className="cardsCarousel"
+                  rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
+                  leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
+                >
+                  {auctions.newAuctions.map((auction) => {
+                    return (
+                      <Card preview={false} data={auction} key={auction._id} />
+                    );
+                  })}
+                </Carousel>
+              ) : (
+                <h2>No auctions yet!!</h2>
+              )
             ) : (
               <div className="center">
                 <div className="lds-ring">

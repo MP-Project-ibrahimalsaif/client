@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import io from "socket.io-client";
 import axios from "axios";
+import schedule from "node-schedule";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -37,6 +38,7 @@ const Auction = () => {
   useEffect(() => {
     socket = io(process.env.REACT_APP_BASE_URL);
     socket.emit("auction_room", { room: id });
+    // eslint-disable-next-line
   }, [process.env.REACT_APP_BASE_URL]);
 
   useEffect(() => {
@@ -45,9 +47,22 @@ const Auction = () => {
   }, []);
 
   useEffect(() => {
+    if (auction) {
+      schedule.scheduleJob(auction.endDateTime, () => {
+        getAuction();
+      });
+    }
+    // eslint-disable-next-line
+  }, [auction]);
+
+  useEffect(() => {
     socket.on("recieve_bid", (data) => {
       setBidPrice(data.bid);
+      setBid(data.bid);
+      document.getElementById("outlined-adornment-amount").value = data.bid;
+      getAuction();
     });
+    // eslint-disable-next-line
   }, [bid]);
 
   useEffect(() => {
@@ -59,6 +74,7 @@ const Auction = () => {
   useEffect(() => {
     setBidsShow(bids.slice(0, loadElements));
     setLoadMore(false);
+    // eslint-disable-next-line
   }, [loadMore]);
 
   const loadMoreBids = () => {
@@ -116,7 +132,7 @@ const Auction = () => {
             );
             socket.emit("make_bid", { bid: bidNumber, room: id });
             setBidPrice(bidNumber);
-            // getAuction();
+            getAuction();
           } catch (error) {
             console.log(error);
           }
@@ -140,7 +156,11 @@ const Auction = () => {
           <>
             <div className="auctionInfo">
               <div className="auctionInfoSlideShow">
-                <Splide>
+                <Splide
+                  options={{
+                    rewind: true,
+                  }}
+                >
                   {auction.images.map((image, index) => {
                     return (
                       <SplideSlide key={index}>
@@ -152,32 +172,70 @@ const Auction = () => {
               </div>
               <div className="auctionInfoDetails">
                 <div className="auctionInfoDetailsTimer">
-                  <p>
-                    Auctions ends in{" "}
-                    <span>
-                      {days}d {hours}h {minutes}m {seconds}s
-                    </span>
-                  </p>
+                  {auction.sold ? (
+                    <p>Auction ended</p>
+                  ) : (
+                    <p>
+                      Auction ends in{" "}
+                      <span>
+                        {days}d {hours}h {minutes}m {seconds}s
+                      </span>
+                    </p>
+                  )}
                 </div>
                 <div className="auctionInfoDetailsTitle">
                   <h1>{auction.title}</h1>
                 </div>
                 <div className="auctionInfoDetailsCat">
                   {auction.categories.map((category, index) => (
-                    <span key={index}>{category}</span>
+                    <span className="auctionCat" key={index}>
+                      {category}
+                    </span>
                   ))}
                 </div>
                 <div className="auctionInfoDetailsDesc">
                   <p>{auction.description}</p>
                 </div>
-                <div className="auctionInfoDetailsPrice">
-                  <div className="auctionInfoDetailsPriceLabel">
-                    <h2>Current Price</h2>
+                {!auction.sold ? (
+                  <div className="auctionInfoDetailsPrice">
+                    <div className="auctionInfoDetailsPriceLabel">
+                      <h2>Current Price</h2>
+                    </div>
+                    <div className="auctionInfoDetailsPriceDetails">
+                      <p>{bidPrice ? bidPrice : auction.currentPrice} SAR</p>
+                    </div>
                   </div>
-                  <div className="auctionInfoDetailsPriceDetails">
-                    <p>{bidPrice ? bidPrice : auction.currentPrice} SAR</p>
+                ) : auction.buyer ? (
+                  <div className="auctionPriceAndWinner">
+                    <div className="auctionInfoDetailsPrice">
+                      <div className="auctionInfoDetailsPriceLabel">
+                        <h2>Sold for</h2>
+                      </div>
+                      <div className="auctionInfoDetailsPriceDetails">
+                        <p>{bidPrice ? bidPrice : auction.currentPrice} SAR</p>
+                      </div>
+                    </div>
+                    <div className="auctionInfoDetailsCreator">
+                      <div className="auctionInfoDetailsCreatorLabel">
+                        <h2>Winner</h2>
+                      </div>
+                      <div className="auctionInfoDetailsCreatorDetails">
+                        <img
+                          src={auction.buyer.avatar}
+                          alt={`${auction.buyer.name} avatar`}
+                        />
+                        <p>{auction.buyer.name}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="auctionNoBids">
+                    <div className="auctionInfoDetailsPriceLabel">
+                      <h2>Sold for</h2>
+                    </div>
+                    <p>Auction ended with no bids</p>
+                  </div>
+                )}
                 <div className="auctionInfoDetailsCreator">
                   <div className="auctionInfoDetailsCreatorLabel">
                     <h2>Posted by</h2>
@@ -192,7 +250,7 @@ const Auction = () => {
                 </div>
               </div>
             </div>
-            {state.token ? (
+            {state.token && !auction.sold ? (
               <div className="auctionBid">
                 <h1>Make a bid</h1>
                 {message ? <div className="bidMessage">{message}</div> : ""}
@@ -216,23 +274,29 @@ const Auction = () => {
             )}
             <div className="auctionBidsHistory">
               <h1>Bids history</h1>
-              {bidsShow.map((bid) => (
-                <div className="auctionBidsHistoryItem">
-                  <img
-                    src={bid.createdBy.avatar}
-                    alt={`${bid.createdBy.name}`}
-                  />
-                  <span className="auctionBidsHistoryItemName">
-                    {bid.createdBy.name}
-                  </span>
-                  <p>&nbsp;Made a&nbsp;</p>
-                  <span className="auctionBidsHistoryItemBid">{bid.bid}</span>
-                  <p>&nbsp;SAR bid at&nbsp;</p>
-                  <span className="auctionBidsHistoryItemDate">
-                    {bid.timestamp.substring(0, 10)}
-                  </span>
+              {bids.length > 0 ? (
+                bidsShow.map((bid) => (
+                  <div className="auctionBidsHistoryItem" key={bid._id}>
+                    <img
+                      src={bid.createdBy.avatar}
+                      alt={`${bid.createdBy.name}`}
+                    />
+                    <span className="auctionBidsHistoryItemName">
+                      {bid.createdBy.name}
+                    </span>
+                    <p>&nbsp;Made a&nbsp;</p>
+                    <span className="auctionBidsHistoryItemBid">{bid.bid}</span>
+                    <p>&nbsp;SAR bid at&nbsp;</p>
+                    <span className="auctionBidsHistoryItemDate">
+                      {bid.timestamp.substring(0, 10)}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <div className="auctionNoBidsHistory">
+                  <p>no bids yet!!</p>
                 </div>
-              ))}
+              )}
               {loadElements <= bids.length ? (
                 <button className="loadMoreBtn" onClick={loadMoreBids}>
                   {loadMore ? "Loading..." : "Load More"}
