@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import io from "socket.io-client";
 import axios from "axios";
-import { Carousel } from "@trendyol-js/react-carousel";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/splide/dist/css/splide.min.css";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
-import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
 import Navbar from "./../Navbar";
 import Footer from "./../Footer";
 import "./style.css";
+
+let socket;
 
 const Auction = () => {
   const { id } = useParams();
@@ -20,6 +23,7 @@ const Auction = () => {
   const [seconds, setSeconds] = useState("");
   const [bid, setBid] = useState("");
   const [message, setMessage] = useState("");
+  const [bidPrice, setBidPrice] = useState("");
 
   const state = useSelector((state) => {
     return {
@@ -28,9 +32,20 @@ const Auction = () => {
   });
 
   useEffect(() => {
+    socket = io(process.env.REACT_APP_BASE_URL);
+    socket.emit("auction_room", { room: id });
+  }, [process.env.REACT_APP_BASE_URL]);
+
+  useEffect(() => {
     getAuction();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    socket.on("recieve_bid", (data) => {
+      setBidPrice(data.bid);
+    });
+  }, [bid]);
 
   useEffect(() => {
     const time = setInterval(timer, 1000);
@@ -85,7 +100,9 @@ const Auction = () => {
                 },
               }
             );
-            getAuction();
+            socket.emit("make_bid", { bid: bidNumber, room: id });
+            setBidPrice(bidNumber)
+            // getAuction();
           } catch (error) {
             console.log(error);
           }
@@ -109,18 +126,15 @@ const Auction = () => {
           <>
             <div className="auctionInfo">
               <div className="auctionInfoSlideShow">
-                <Carousel
-                  show={1}
-                  swiping={true}
-                  infinite={true}
-                  className="imagesCarousel"
-                  rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
-                  leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
-                >
-                  {auction.images.map((image) => {
-                    return <img src={image} alt={`${auction.title} img`} />;
+                <Splide>
+                  {auction.images.map((image, index) => {
+                    return (
+                      <SplideSlide key={index}>
+                        <img src={image} alt={`${auction.title} img`} />
+                      </SplideSlide>
+                    );
                   })}
-                </Carousel>
+                </Splide>
               </div>
               <div className="auctionInfoDetails">
                 <div className="auctionInfoDetailsTimer">
@@ -147,7 +161,7 @@ const Auction = () => {
                     <h2>Current Price</h2>
                   </div>
                   <div className="auctionInfoDetailsPriceDetails">
-                    <p>{auction.currentPrice} SAR</p>
+                    <p>{bidPrice ? bidPrice : auction.currentPrice} SAR</p>
                   </div>
                 </div>
                 <div className="auctionInfoDetailsCreator">
@@ -164,42 +178,45 @@ const Auction = () => {
                 </div>
               </div>
             </div>
-            <div className="auctionBid">
-              <h1>Make a bid</h1>
-              {state.token ? (
-                <>
-                  {message ? <div className="bidMessage">{message}</div> : ""}
-                  <div>
-                    <OutlinedInput
-                      id="outlined-adornment-amount"
-                      defaultValue={auction.currentPrice}
-                      onChange={(e) => setBid(e.target.value)}
-                      required
-                      endAdornment={
-                        <InputAdornment position="end">SAR</InputAdornment>
-                      }
-                    />
-                    <button onClick={addBid} className="addBidBtn">
-                      ADD
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div className="bidMessage">
-                  You have to login to start biding
+            {state.token ? (
+              <div className="auctionBid">
+                <h1>Make a bid</h1>
+                {message ? <div className="bidMessage">{message}</div> : ""}
+                <div>
+                  <OutlinedInput
+                    id="outlined-adornment-amount"
+                    defaultValue={auction.currentPrice}
+                    onChange={(e) => setBid(e.target.value)}
+                    required
+                    endAdornment={
+                      <InputAdornment position="end">SAR</InputAdornment>
+                    }
+                  />
+                  <button onClick={addBid} className="addBidBtn">
+                    ADD
+                  </button>
                 </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              ""
+            )}
             <div className="auctionBidsHistory">
               <h1>Bids history</h1>
               {bids.map((bid) => (
                 <div className="auctionBidsHistoryItem">
-                  <img src={bid.createdBy.avatar} alt={`${bid.createdBy.name}`} />
-                  <span className="auctionBidsHistoryItemName">{bid.createdBy.name}</span>
+                  <img
+                    src={bid.createdBy.avatar}
+                    alt={`${bid.createdBy.name}`}
+                  />
+                  <span className="auctionBidsHistoryItemName">
+                    {bid.createdBy.name}
+                  </span>
                   <p>&nbsp;Made a&nbsp;</p>
                   <span className="auctionBidsHistoryItemBid">{bid.bid}</span>
                   <p>&nbsp;SAR bid at&nbsp;</p>
-                  <span className="auctionBidsHistoryItemDate">{bid.timestamp.substring(0, 10)}</span>
+                  <span className="auctionBidsHistoryItemDate">
+                    {bid.timestamp.substring(0, 10)}
+                  </span>
                 </div>
               ))}
             </div>
