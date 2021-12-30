@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
@@ -23,6 +24,12 @@ const Explore = () => {
   const [auctions, setAuctions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [condition, setCondition] = useState("");
+
+  const state = useSelector((state) => {
+    return {
+      user: state.Login.user,
+    };
+  });
 
   useEffect(() => {
     getAuctions();
@@ -114,9 +121,53 @@ const Explore = () => {
           </div>
         </div>
         <div className="cards">
-          {auctions.map((auction) => {
-            return <Card preview={false} data={auction} key={auction._id} />;
-          })}
+          {auctions ? (
+            auctions.map((auction) => {
+              if (state.user.watchlist) {
+                if (
+                  state.user.watchlist.find(
+                    (addedAuction) => addedAuction === auction._id
+                  )
+                ) {
+                  return (
+                    <Card
+                      preview={false}
+                      data={auction}
+                      watchlist={true}
+                      key={auction._id}
+                    />
+                  );
+                } else {
+                  return (
+                    <Card
+                      preview={false}
+                      data={auction}
+                      watchlist={false}
+                      key={auction._id}
+                    />
+                  );
+                }
+              } else {
+                return (
+                  <Card
+                    preview={false}
+                    data={auction}
+                    watchlist={false}
+                    key={auction._id}
+                  />
+                );
+              }
+            })
+          ) : (
+            <div className="center">
+              <div className="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <Footer />

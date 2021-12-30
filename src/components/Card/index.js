@@ -1,24 +1,51 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { BsThreeDots } from "react-icons/bs";
-import { RiPlayListAddFill } from "react-icons/ri";
+import { CgPlayListAdd, CgPlayListRemove } from "react-icons/cg";
+import { useSnackbar } from "notistack";
+import { addAuctionToWatchList } from "./../../reducers/Login";
+import { deleteAuctionFromWatchList } from "./../../reducers/Login";
 import "./style.css";
 
-const Card = ({ preview, data }) => {
+const MySwal = withReactContent(Swal);
+
+const Card = ({ preview, data, watchlist }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const [days, setDays] = useState("");
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
   const [seconds, setSeconds] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
+  const [watchList, setWatchList] = useState(watchlist);
   const open = Boolean(anchorEl);
+
+  const state = useSelector((state) => {
+    return {
+      token: state.Login.token,
+      user: state.Login.user,
+    };
+  });
 
   useEffect(() => {
     const time = setInterval(timer, 1000);
     return () => clearInterval(time);
     // eslint-disable-next-line
   }, [data.endDateTime]);
+
+  const handleSnackbar = (message, type) => {
+    enqueueSnackbar(message, {
+      variant: type,
+    });
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,21 +64,144 @@ const Card = ({ preview, data }) => {
     setSeconds(Math.floor((distance % (1000 * 60)) / 1000));
   };
 
+  const createReport = async (id, auction_id) => {
+    if (state.token) {
+      const { value: reason } = await MySwal.fire({
+        title: "Report an auction",
+        input: "textarea",
+        inputPlaceholder: "Type the reason for this report",
+        inputAttributes: {
+          "aria-label": "Type the reason for this report",
+        },
+        showCancelButton: true,
+        confirmButtonColor: "#2f2057",
+        confirmButtonText: "Report",
+        cancelButtonText: "Cancel",
+        reverseButtons: true,
+      });
+
+      if (reason) {
+        const reportReason = `${reason}, report about the auction ${auction_id}`;
+
+        try {
+          await axios.post(
+            `${process.env.REACT_APP_BASE_URL}/reports/${id}`,
+            {
+              reason: reportReason,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${state.token}`,
+              },
+            }
+          );
+          handleSnackbar(
+            "a report for this auction has been issued",
+            "success"
+          );
+        } catch (error) {
+          console.log(error);
+          handleSnackbar("oops something went wrong", "error");
+        }
+      }
+    } else {
+      handleSnackbar("you have to log-in to report an auction", "error");
+    }
+  };
+
+  const addToWatchList = async (id) => {
+    if (state.token) {
+      try {
+        await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/addAuctionToWatchlist/${id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+          }
+        );
+
+        const user = state.user;
+        user.watchlist.push(id);
+
+        dispatch(addAuctionToWatchList(user));
+
+        setWatchList(true);
+
+        handleSnackbar(
+          "the auction has been added to your watchlist",
+          "success"
+        );
+      } catch (error) {
+        console.log(error);
+        handleSnackbar("oops something went wrong", "error");
+      }
+    } else {
+      handleSnackbar(
+        "you have to log-in to add an auction to watchlist",
+        "error"
+      );
+    }
+  };
+
+  const deleteFromWatchList = async (id) => {
+    if (state.token) {
+      try {
+        await axios.put(
+          `${process.env.REACT_APP_BASE_URL}/deleteAuctionFromWatchlist/${id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+          }
+        );
+        const user = state.user;
+        user.watchlist = user.watchlist.filter((auction) => auction !== id);
+
+        dispatch(deleteAuctionFromWatchList(user));
+
+        setWatchList(false);
+
+        handleSnackbar(
+          "the auction has been removed from your watchlist",
+          "success"
+        );
+      } catch (error) {
+        console.log(error);
+        handleSnackbar("oops something went wrong", "error");
+      }
+    } else {
+      handleSnackbar(
+        "you have to log-in to delete an auction to watchlist",
+        "error"
+      );
+    }
+  };
+
   return (
     <div className="auctionCard">
       <div className="auctionCardHeader">
         <img
           className="auctionCardAvatar"
           src={data.createdBy.avatar}
+          onClick={() => navigate(`/users/${data.createdBy._id}`)}
           alt="user avatar"
         />
-        <span className="auctionCardCounter">
-          {days}d{hours}h{minutes}m{seconds}s
-        </span>
+        {!data.sold && (
+          <span className="auctionCardCounter">
+            {days}d {hours}h {minutes}m {seconds}s
+          </span>
+        )}
       </div>
       <img
         className="auctionCardImage"
-        src={data.images.length > 0 ? data.images[0] : "https://www.urbansplash.co.uk/images/placeholder-16-9.jpg"}
+        src={
+          data.images.length > 0
+            ? data.images[0]
+            : "https://www.urbansplash.co.uk/images/placeholder-16-9.jpg"
+        }
         alt="auction img"
       />
       <div className="auctionCardInfo">
@@ -76,7 +226,11 @@ const Card = ({ preview, data }) => {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Report</MenuItem>
+              <MenuItem
+                onClick={() => createReport(data.createdBy._id, data._id)}
+              >
+                Report
+              </MenuItem>
             </Menu>
           </div>
         </div>
@@ -86,8 +240,20 @@ const Card = ({ preview, data }) => {
         </div>
       </div>
       <div className="auctionCardOptions">
-        <span>Place a bid</span>
-        <RiPlayListAddFill className="auctionCardOptionsAdd" />
+        <span onClick={() => navigate(`/explore/${data._id}`)}>
+          {data.sold ? 'Visit auction' : 'Place a bid'}
+        </span>
+        {watchList ? (
+          <CgPlayListRemove
+            className="auctionCardOptionsdelete"
+            onClick={() => deleteFromWatchList(data._id)}
+          />
+        ) : (
+          <CgPlayListAdd
+            className="auctionCardOptionsAdd"
+            onClick={() => addToWatchList(data._id)}
+          />
+        )}
       </div>
     </div>
   );
