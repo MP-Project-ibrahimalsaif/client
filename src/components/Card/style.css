@@ -6,7 +6,7 @@
   width: 18rem;
   margin: 1rem;
   padding: 0.8rem;
-  background-color: var(--background);
+  border: 1px solid rgb(199, 199, 199);
   border-radius: 1rem;
 }
 
@@ -23,11 +23,15 @@
   width: 3rem;
 }
 
+.auctionCardAvatar:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
 .auctionCardCounter {
   padding: 0.3rem;
-  color: var(--text-dark);
-  background-color: var(--text-light);
-  border: 3px solid var(--light-purple1);
+  color: var(--text-light);
+  background-color: var(--background);
   border-radius: 1rem;
 }
 
@@ -53,28 +57,30 @@
 
 .auctionCardTitle {
   font-size: 120%;
-  color: var(--text-light);
+  font-weight: bold;
+  color: var(--text-dark);
 }
 
 .auctionCardReport {
   font-size: 90%;
-  color: var(--light-purple1);
+  color: gray;
 }
 
 .auctionCardReport:hover {
-  color: var(--text-light);
+  color: var(--text-dark);
 }
 
 .auctionCardInfoPrice {
   width: 50%;
+  font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--text-light);
+  color: var(--text-dark);
 }
 
 .auctionCardInfoPrice span:nth-child(2) {
-  color: var(--light-purple2);
+  color: rgb(104, 104, 104);
 }
 
 .auctionCardOptions {
@@ -86,20 +92,25 @@
 }
 
 .auctionCardOptions span {
-  color: var(--text-light);
+  font-weight: bold;
+  color: var(--text-dark);
 }
 
 .auctionCardOptions span:hover {
   cursor: pointer;
-  color: var(--light-purple2);
+  color: gray;
 }
 
-.auctionCardOptionsAdd {
-  font-size: 120%;
-  color: var(--text-light);
+.auctionCardOptionsAdd, .auctionCardOptionsdelete {
+  font-size: 150%;
+  color: var(--text-dark);
+}
+.auctionCardOptionsdelete {
+  font-size: 160%;
 }
 
-.auctionCardOptionsAdd:hover {
+.auctionCardOptionsAdd:hover,
+.auctionCardOptionsdelete:hover {
   cursor: pointer;
-  color: var(--light-purple2);
+  color: gray;
 }

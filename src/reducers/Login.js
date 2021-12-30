@@ -14,6 +14,14 @@ const Login = (state = initialState, action) => {
       localStorage.setItem("role", role);
       localStorage.setItem("user", JSON.stringify(user));
       return { role, token, user };
+    case "ADD_WATCHLIST":
+      const userAfterAdd = payload;
+      localStorage.setItem("user", JSON.stringify(userAfterAdd));
+      return { role: state.role, token: state.token, user: userAfterAdd };
+    case "DELETE_WATCHLIST":
+      const userAfterDelete = payload;
+      localStorage.setItem("user", JSON.stringify(userAfterDelete));
+      return { role: state.role, token: state.token, user: userAfterDelete };
     case "LOGOUT":
       localStorage.removeItem("token");
       localStorage.removeItem("role");
@@ -34,6 +42,20 @@ export default Login;
 export const userLogin = (data) => {
   return {
     type: "LOGIN",
+    payload: data,
+  };
+};
+
+export const addAuctionToWatchList = (data) => {
+  return {
+    type: "ADD_WATCHLIST",
+    payload: data,
+  };
+};
+
+export const deleteAuctionFromWatchList = (data) => {
+  return {
+    type: "DELETE_WATCHLIST",
     payload: data,
   };
 };
