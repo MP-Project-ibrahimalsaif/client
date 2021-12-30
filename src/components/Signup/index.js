@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import PasswordChecklist from "react-password-checklist";
+import { useSnackbar } from "notistack";
 import Navbar from "./../Navbar";
 import Footer from "./../Footer";
 import "./style.css";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +22,12 @@ const Signup = () => {
     };
   });
 
+  const handleSnackbar = (message, type) => {
+    enqueueSnackbar(message, {
+      variant: type,
+    });
+  };
+
   const signup = async () => {
     setMessage("");
     const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/signup`, {
@@ -28,6 +36,7 @@ const Signup = () => {
       password,
     });
     if (res.status === 201) {
+      handleSnackbar("you have signup successfully", "success");
       navigate("/verify_from_email");
     } else {
       setMessage(res.data.message);

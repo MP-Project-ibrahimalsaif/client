@@ -5,6 +5,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { BsGoogle } from "react-icons/bs";
+import { useSnackbar } from "notistack";
 import Navbar from "./../Navbar";
 import Footer from "./../Footer";
 import { userLogin } from "./../../reducers/Login";
@@ -16,6 +17,7 @@ const MySwal = withReactContent(Swal);
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -25,6 +27,12 @@ const Login = () => {
       token: state.Login.token,
     };
   });
+
+  const handleSnackbar = (message, type) => {
+    enqueueSnackbar(message, {
+      variant: type,
+    });
+  };
 
   const login = async () => {
     setMessage("");
@@ -40,6 +48,7 @@ const Login = () => {
           user: res.data.result,
         })
       );
+      handleSnackbar("you have been logged-in successfully", "success");
       navigate("/");
     } catch (error) {
       setMessage(error.response.data.message);
@@ -54,6 +63,7 @@ const Login = () => {
       function (err, user) {
         if (err) {
           console.log(err);
+          handleSnackbar("oops something went wrong", "error");
         } else {
           dispatch(
             userLogin({
@@ -62,6 +72,7 @@ const Login = () => {
               user: user.result,
             })
           );
+          handleSnackbar("you have been logged-in successfully", "success");
           navigate("/");
         }
       }
@@ -107,7 +118,9 @@ const Login = () => {
           <div className="loginBox">
             <p className="signupOption">
               Don't have an account?{" "}
-              <a href="/signup" className="signupOptionLink">Sign Up</a>
+              <a href="/signup" className="signupOptionLink">
+                Sign Up
+              </a>
             </p>
             <h1 className="loginWelcome">Welcome to MAZAD</h1>
             <p className="loginWelcomeDesc">

@@ -70,7 +70,7 @@
 
 .auctionInfoDetailsCat span {
   font-size: 95%;
-  padding: 0.3rem;
+  padding: 0.3rem 0.5rem;
   color: var(--text-light);
   background-color: var(--background);
   border-radius: 1rem;
@@ -146,16 +146,6 @@
 .auctionBid {
   margin: 2rem 0;
   width: 80%;
-}
-
-.bidMessage {
-  text-align: center;
-  width: 30%;
-  color: var(--text-light);
-  border-radius: 1rem;
-  letter-spacing: 0.1rem;
-  background-color: #dc3545;
-  border: 3px solid #8b1a25;
 }
 
 .auctionBid div {

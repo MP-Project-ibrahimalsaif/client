@@ -12,7 +12,7 @@
 }
 
 .createAuctionLandingTitle {
-  font-size: 250%;
+  font-size: 350%;
 }
 
 .createAuction {
@@ -102,10 +102,15 @@
 }
 
 @media screen and (max-width: 1000px) {
+  .createAuctionLandingTitle {
+    font-size: 250%;
+  }
+
   .createAuctionLayout {
     width: 95%;
     flex-direction: column;
   }
+  
 
   .createAuctionInfo {
     width: 100%;
@@ -125,5 +130,11 @@
 
   .SubmitBtn {
     width: 40%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .createAuctionLandingTitle {
+    font-size: 200%;
   }
 }
