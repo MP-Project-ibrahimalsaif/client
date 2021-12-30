@@ -13,6 +13,7 @@ import Chip from "@mui/material/Chip";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import { useSnackbar } from "notistack";
 import { storage } from "./../firebase";
 import Navbar from "./../Navbar";
 import Card from "./../Card";
@@ -29,6 +30,8 @@ const category = [
 ];
 
 const CreateAuction = () => {
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [pictures, setPictures] = useState([]);
@@ -60,6 +63,12 @@ const CreateAuction = () => {
     }
     // eslint-disable-next-line
   }, [title, urls, initialPrice, dateTime]);
+
+  const handleSnackbar = (message, type) => {
+    enqueueSnackbar(message, {
+      variant: type,
+    });
+  };
 
   const onDrop = (picture) => {
     setPictures(picture);
@@ -125,8 +134,11 @@ const CreateAuction = () => {
           },
         }
       );
+      handleSnackbar('your auction has been added successfully', 'success');
+      navigate("/");
     } catch (error) {
       console.log(error);
+      handleSnackbar('oops something went wrong', 'error');
     }
   };
 

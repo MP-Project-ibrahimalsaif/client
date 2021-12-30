@@ -12,7 +12,7 @@
 }
 
 .editAuctionLandingTitle {
-  font-size: 250%;
+  font-size: 350%;
 }
 
 .editAuction {
@@ -102,6 +102,10 @@
 }
 
 @media screen and (max-width: 1000px) {
+  .editAuctionLandingTitle {
+    font-size: 250%;
+  }
+
   .editAuctionLayout {
     width: 95%;
     flex-direction: column;
@@ -125,5 +129,11 @@
 
   .SubmitBtn {
     width: 40%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .editAuctionLandingTitle {
+    font-size: 200%;
   }
 }

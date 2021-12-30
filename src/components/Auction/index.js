@@ -8,6 +8,7 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
+import { useSnackbar } from "notistack";
 import Navbar from "./../Navbar";
 import Footer from "./../Footer";
 import "./style.css";
@@ -16,6 +17,7 @@ let socket;
 
 const Auction = () => {
   const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
   const [auction, setAuction] = useState(null);
   const [bids, setBids] = useState([]);
   const [bidsShow, setBidsShow] = useState([]);
@@ -24,7 +26,6 @@ const Auction = () => {
   const [minutes, setMinutes] = useState("");
   const [seconds, setSeconds] = useState("");
   const [bid, setBid] = useState("");
-  const [message, setMessage] = useState("");
   const [bidPrice, setBidPrice] = useState("");
   const [loadMore, setLoadMore] = useState(false);
   const [loadElements, setLoadElements] = useState(5);
@@ -77,6 +78,12 @@ const Auction = () => {
     // eslint-disable-next-line
   }, [loadMore]);
 
+  const handleSnackbar = (message, type) => {
+    enqueueSnackbar(message, {
+      variant: type,
+    });
+  };
+
   const loadMoreBids = () => {
     setLoadMore(true);
     setLoadElements(loadElements + 5);
@@ -109,13 +116,13 @@ const Auction = () => {
   };
 
   const addBid = async () => {
-    setMessage("");
     const bidNumber = Number(bid);
     if (auction) {
       if (Number.isInteger(bidNumber)) {
         if (bidNumber - auction.currentPrice < auction.minIncrement) {
-          setMessage(
-            `Your bid should be higher than the current price by ${auction.minIncrement}`
+          handleSnackbar(
+            `your bid should be higher than the current price by ${auction.minIncrement}`,
+            "error"
           );
         } else {
           try {
@@ -133,12 +140,13 @@ const Auction = () => {
             socket.emit("make_bid", { bid: bidNumber, room: id });
             setBidPrice(bidNumber);
             getAuction();
+            handleSnackbar('your bid has been added successfully', 'success');
           } catch (error) {
             console.log(error);
           }
         }
       } else {
-        setMessage("It must be a number");
+        handleSnackbar("It must be a number", "error");
       }
     }
   };
@@ -253,7 +261,6 @@ const Auction = () => {
             {state.token && !auction.sold ? (
               <div className="auctionBid">
                 <h1>Make a bid</h1>
-                {message ? <div className="bidMessage">{message}</div> : ""}
                 <div>
                   <OutlinedInput
                     id="outlined-adornment-amount"
