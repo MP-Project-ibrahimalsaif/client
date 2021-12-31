@@ -32,6 +32,10 @@
   background-color: var(--text-light);
 }
 
+.dashboardTableAuctionTitle {
+  cursor: pointer;
+}
+
 .tableIcon {
   font-size: 170%;
   color: var(--text-dark);
