@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Box from "@mui/material/Box";
@@ -21,9 +23,12 @@ const category = [
 ];
 
 const Explore = () => {
+  const [auctionsShow, setAuctionsShow] = useState([]);
   const [auctions, setAuctions] = useState([]);
+  const [search, setSearch] = useState("");
   const [categories, setCategories] = useState([]);
   const [condition, setCondition] = useState("");
+  const [filter, setFilter] = useState("");
 
   const state = useSelector((state) => {
     return {
@@ -36,6 +41,103 @@ const Explore = () => {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    if (search.trim()) {
+      const searchedArray = auctionsShow.filter((auction) =>
+        auction.title.includes(search)
+      );
+      setAuctionsShow(searchedArray);
+    } else {
+      setAuctionsShow(auctions);
+    }
+    // eslint-disable-next-line
+  }, [search]);
+
+  useEffect(() => {
+    if (filter) {
+      switch (filter) {
+        case "all":
+          setAuctionsShow(auctions);
+          break;
+        case "live":
+          const liveAuctions = [...auctionsShow].filter(
+            (auction) => !auction.sold
+          );
+          setAuctionsShow(liveAuctions);
+          break;
+        case "ended":
+          const endedAuctions = [...auctionsShow].filter(
+            (auction) => auction.sold
+          );
+          setAuctionsShow(endedAuctions);
+          break;
+        case "popular":
+          const popularAuctions = [...auctionsShow]
+            .filter((auction) => !auction.sold)
+            .sort((a, b) => {
+              return b.bids - a.bids;
+            });
+          setAuctionsShow(popularAuctions);
+          break;
+        case "last_minute":
+          const lastMinuteAuctions = [...auctionsShow]
+            .filter((auction) => !auction.sold)
+            .sort((a, b) => {
+              return (
+                Math.abs(Date.now() - Date.parse(a.endDateTime)) -
+                Math.abs(Date.now() - Date.parse(b.endDateTime))
+              );
+            });
+          setAuctionsShow(lastMinuteAuctions);
+          break;
+        case "new":
+          const newAuctions = [...auctionsShow]
+            .filter((auction) => !auction.sold)
+            .sort((a, b) => {
+              return (
+                Math.abs(Date.now() - Date.parse(a.timestamp)) -
+                Math.abs(Date.now() - Date.parse(b.timestamp))
+              );
+            });
+          setAuctionsShow(newAuctions);
+          break;
+        default:
+          setAuctionsShow(auctions);
+      }
+    } else {
+      setAuctionsShow(auctions);
+    }
+    // eslint-disable-next-line
+  }, [filter]);
+
+  useEffect(() => {
+    if (condition) {
+      if (condition === "all") {
+        setAuctionsShow(auctions);
+      } else {
+        const conditionArray = [...auctionsShow].filter(
+          (auction) => auction.condition === condition
+        );
+        setAuctionsShow(conditionArray);
+      }
+    } else {
+      setAuctionsShow(auctions);
+    }
+    // eslint-disable-next-line
+  }, [condition]);
+
+  useEffect(() => {
+    if (categories.length > 0) {
+      const categoriesArray = [...auctionsShow].filter((auction) =>
+        auction.categories.some((category) => categories.indexOf(category) >= 0)
+      );
+      setAuctionsShow(categoriesArray);
+    } else {
+      setAuctionsShow(auctions);
+    }
+    // eslint-disable-next-line
+  }, [categories]);
+
   const handleCategoriesChange = (event) => {
     const {
       target: { value },
@@ -47,6 +149,7 @@ const Explore = () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/auctions`);
       setAuctions(res.data);
+      setAuctionsShow(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +168,7 @@ const Explore = () => {
               className="searchQueryInput"
               type="text"
               placeholder="Search"
+              onChange={(e) => setSearch(e.target.value)}
             />
             <button className="searchQuerySubmit" type="submit">
               <svg
@@ -79,64 +183,108 @@ const Explore = () => {
             </button>
           </div>
           <div className="filtering">
-            <Select
-              id="demo-simple-select"
-              className="filterItem"
-              value={condition}
-              onChange={(e) => setCondition(e.target.value)}
-            >
-              <MenuItem value={"new"}>New</MenuItem>
-              <MenuItem value={"used"}>Used</MenuItem>
-            </Select>
-            <Select
-              id="demo-simple-select"
-              className="filterItem"
-              value={condition}
-              onChange={(e) => setCondition(e.target.value)}
-            >
-              <MenuItem value={"new"}>New</MenuItem>
-              <MenuItem value={"used"}>Used</MenuItem>
-            </Select>
-            <Select
-              labelId="demo-multiple-chip-label"
-              className="filterItem"
-              multiple
-              value={categories}
-              onChange={handleCategoriesChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-              renderValue={(selected) => (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
+            <div className="filteringSelect">
+              <div>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Filters</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    className="filterItem"
+                    label="Filters"
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                  >
+                    <MenuItem value={"all"}>All Auctions</MenuItem>
+                    <MenuItem value={"live"}>Live Auctions</MenuItem>
+                    <MenuItem value={"ended"}>Ended Auctions</MenuItem>
+                    <MenuItem value={"popular"}>Popular Auctions</MenuItem>
+                    <MenuItem value={"last_minute"}>
+                      Last Minute Auctions
+                    </MenuItem>
+                    <MenuItem value={"new"}>New Auctions</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Condition
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    className="filterItem"
+                    label="Condition"
+                    value={condition}
+                    onChange={(e) => setCondition(e.target.value)}
+                  >
+                    <MenuItem value={"all"}>All</MenuItem>
+                    <MenuItem value={"new"}>New</MenuItem>
+                    <MenuItem value={"used"}>Used</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+            <div>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-chip-label">Categories</InputLabel>
+                <Select
+                  labelId="demo-multiple-chip-label"
+                  className="filterItemCategories"
+                  label="Categories"
+                  multiple
+                  value={categories}
+                  onChange={handleCategoriesChange}
+                  input={
+                    <OutlinedInput id="select-multiple-chip" label="Chip" />
+                  }
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                >
+                  {category.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
                   ))}
-                </Box>
-              )}
-            >
-              {category.map((name) => (
-                <MenuItem key={name} value={name}>
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
+                </Select>
+              </FormControl>
+            </div>
           </div>
         </div>
-        <div className="cards">
-          {auctions ? (
-            auctions.map((auction) => {
-              if (state.user.watchlist) {
-                if (
-                  state.user.watchlist.find(
-                    (addedAuction) => addedAuction === auction._id
-                  )
-                ) {
-                  return (
-                    <Card
-                      preview={false}
-                      data={auction}
-                      watchlist={true}
-                      key={auction._id}
-                    />
-                  );
+        {auctions.length > 0 ? (
+          auctionsShow.length > 0 ? (
+            <div className="cards">
+              {auctionsShow.map((auction) => {
+                if (state.user.watchlist) {
+                  if (
+                    state.user.watchlist.find(
+                      (addedAuction) => addedAuction === auction._id
+                    )
+                  ) {
+                    return (
+                      <Card
+                        preview={false}
+                        data={auction}
+                        watchlist={true}
+                        key={auction._id}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Card
+                        preview={false}
+                        data={auction}
+                        watchlist={false}
+                        key={auction._id}
+                      />
+                    );
+                  }
                 } else {
                   return (
                     <Card
@@ -147,28 +295,23 @@ const Explore = () => {
                     />
                   );
                 }
-              } else {
-                return (
-                  <Card
-                    preview={false}
-                    data={auction}
-                    watchlist={false}
-                    key={auction._id}
-                  />
-                );
-              }
-            })
+              })}
+            </div>
           ) : (
             <div className="center">
-              <div className="lds-ring">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
+              <h1>No result</h1>
             </div>
-          )}
-        </div>
+          )
+        ) : (
+          <div className="center">
+            <div className="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        )}
       </div>
       <Footer />
     </>

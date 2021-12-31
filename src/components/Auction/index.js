@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import io from "socket.io-client";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
+import { BiMoney } from "react-icons/bi";
 import { useSnackbar } from "notistack";
 import Navbar from "./../Navbar";
 import Footer from "./../Footer";
@@ -17,6 +18,7 @@ let socket;
 
 const Auction = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [auction, setAuction] = useState(null);
   const [bids, setBids] = useState([]);
@@ -231,16 +233,15 @@ const Auction = () => {
                         <img
                           src={auction.buyer.avatar}
                           alt={`${auction.buyer.name} avatar`}
+                          onClick={() => navigate(`/users/${auction.buyer._id}`)}
                         />
-                        <p>{auction.buyer.name}</p>
+                        <p onClick={() => navigate(`/users/${auction.buyer._id}`)}>{auction.buyer.name}</p>
                       </div>
                     </div>
                   </div>
                 ) : (
                   <div className="auctionNoBids">
-                    <div className="auctionInfoDetailsPriceLabel">
-                      <h2>Sold for</h2>
-                    </div>
+                    <BiMoney className="moneyIcon"/>
                     <p>Auction ended with no bids</p>
                   </div>
                 )}
@@ -252,8 +253,9 @@ const Auction = () => {
                     <img
                       src={auction.createdBy.avatar}
                       alt={`${auction.createdBy.name} avatar`}
+                      onClick={() => navigate(`/users/${auction.createdBy._id}`)}
                     />
-                    <p>{auction.createdBy.name}</p>
+                    <p onClick={() => navigate(`/users/${auction.createdBy._id}`)}>{auction.createdBy.name}</p>
                   </div>
                 </div>
               </div>
@@ -287,8 +289,9 @@ const Auction = () => {
                     <img
                       src={bid.createdBy.avatar}
                       alt={`${bid.createdBy.name}`}
+                      onClick={() => navigate(`/users/${bid.createdBy._id}`)}
                     />
-                    <span className="auctionBidsHistoryItemName">
+                    <span className="auctionBidsHistoryItemName" onClick={() => navigate(`/users/${bid.createdBy._id}`)}>
                       {bid.createdBy.name}
                     </span>
                     <p>&nbsp;Made a&nbsp;</p>

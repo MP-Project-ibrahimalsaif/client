@@ -6,6 +6,7 @@
   width: 18rem;
   margin: 1rem;
   padding: 0.8rem;
+  background-color: #ebeef7;
   border: 1px solid rgb(199, 199, 199);
   border-radius: 1rem;
 }
@@ -29,9 +30,9 @@
 }
 
 .auctionCardCounter {
-  padding: 0.3rem;
-  color: var(--text-light);
-  background-color: var(--background);
+  padding: 0.5rem;
+  color: var(--text-dark);
+  border: 1px solid rgb(199, 199, 199);
   border-radius: 1rem;
 }
 
@@ -101,7 +102,8 @@
   color: gray;
 }
 
-.auctionCardOptionsAdd, .auctionCardOptionsdelete {
+.auctionCardOptionsAdd,
+.auctionCardOptionsdelete {
   font-size: 150%;
   color: var(--text-dark);
 }
@@ -113,4 +115,10 @@
 .auctionCardOptionsdelete:hover {
   cursor: pointer;
   color: gray;
+}
+
+@media screen and (max-width: 400px) {
+  .auctionCard {
+    width: 15rem;
+  }
 }
