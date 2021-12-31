@@ -36,7 +36,10 @@
 }
 
 .dashboardLayout {
+  min-height: 100vh;
   margin-left: 14rem;
+  padding: 2rem;
+  background-color: #ebeef7;
 }
 
 .errorImg {
