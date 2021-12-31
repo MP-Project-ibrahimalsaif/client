@@ -35,6 +35,10 @@
   align-items: center;
 }
 
+.dashboardLayout {
+  margin-left: 14rem;
+}
+
 .errorImg {
   height: 20rem;
   width: 30rem;
