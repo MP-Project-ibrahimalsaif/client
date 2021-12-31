@@ -10,8 +10,18 @@
 
 .profileInfo {
   display: flex;
+  justify-content: space-between;
   width: 85%;
   align-items: center;
+}
+
+.profileInfo .AvatarName{
+  display: flex;
+  align-items: center;
+}
+
+.profileInfo .profileInfoReport{
+  font-size: 250%;
 }
 
 .profileInfo img {
@@ -23,31 +33,88 @@
 .profileInfo h1 {
   font-size: 300%;
   margin-left: 2rem;
+  color: var(--text-dark);
 }
 
 .profile .profileTitle {
   margin-top: 4rem;
   width: 85%;
+  color: var(--text-dark);
 }
 
 .profileCards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   margin: 0 auto;
-  max-width: 85%;
+  max-width: 90%;
   padding: 1.8rem 1.7rem;
   grid-gap: 1.9rem;
   align-items: stretch;
 }
 
+.loadMorCardseBtn {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: none;
+  font-size: 130%;
+  background-color: var(--text-dark);
+  color: var(--text-light);
+}
+
+.loadMorCardseBtn:hover {
+  cursor: pointer;
+  background-color: var(--background);
+}
+
 @media screen and (max-width: 800px) {
   .profileInfo {
-    flex-direction: column;
-    justify-content: center;
+    width: 90%;
+    align-items: center;
+  }
+
+  .profileInfo img {
+    height: 9rem;
+    width: 9rem;
+  }
+  
+  .profileInfo h1 {
+    font-size: 200%;
+  }
+
+  .profileInfo .profileInfoReport{
+    font-size: 200%;
+  }
+
+  .profile .profileTitle {
+    font-size: 90%;
   }
 
   .profileCards {
     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
     max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .profileInfo img {
+    height: 7rem;
+    width: 7rem;
+  }
+  
+  .profileInfo h1 {
+    font-size: 150%;
+  }
+
+  .profileInfo .profileInfoReport{
+    font-size: 150%;
+  }
+
+  .profile .profileTitle {
+    font-size: 75%;
+  }
+
+  .profileCards {
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    max-width: 95%;
   }
 }

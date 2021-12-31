@@ -21,6 +21,13 @@
   align-items: center;
 }
 
+.centerHight {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .error {
   display: flex;
   flex-direction: column;
