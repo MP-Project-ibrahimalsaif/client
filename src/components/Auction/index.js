@@ -155,12 +155,7 @@ const Auction = () => {
 
   return (
     <>
-      <Navbar show={false} />
-      <div className="auctionLanding">
-        <h1 className="auctionLandingTitle fade-in">
-          {auction ? auction.title : ""}
-        </h1>
-      </div>
+      <Navbar show={true} />
       <div className="auctionDisplay">
         {auction ? (
           <>
