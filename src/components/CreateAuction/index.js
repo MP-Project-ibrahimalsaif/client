@@ -39,9 +39,9 @@ const CreateAuction = () => {
   const [progress, setProgress] = useState(0);
   const [initialPrice, setInitialPrice] = useState("");
   const [minIncrement, setMinIncrement] = useState("");
-  const [condition, setCondition] = useState("new");
+  const [condition, setCondition] = useState("");
   const [categories, setCategories] = useState([]);
-  const [dateTime, setDateTime] = useState(new Date());
+  const [dateTime, setDateTime] = useState(null);
   const [cardData, setCardData] = useState(null);
 
   const state = useSelector((state) => {
@@ -173,7 +173,7 @@ const CreateAuction = () => {
                   <div className="createAuctionItem">
                     <label>Images</label>
                     <p className="imageDesc">
-                      After chossing all the images cclick on the upload button,
+                      After choosing all the images cclick on the upload button,
                       hint: the first image will be the cover of your auction
                       card
                     </p>

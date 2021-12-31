@@ -36,8 +36,10 @@ const Card = ({ preview, data, watchlist }) => {
   });
 
   useEffect(() => {
-    const time = setInterval(timer, 1000);
-    return () => clearInterval(time);
+    if (data.endDateTime) {
+      const time = setInterval(timer, 1000);
+      return () => clearInterval(time);
+    }
     // eslint-disable-next-line
   }, [data.endDateTime]);
 
@@ -186,7 +188,7 @@ const Card = ({ preview, data, watchlist }) => {
         <img
           className="auctionCardAvatar"
           src={data.createdBy.avatar}
-          onClick={() => navigate(`/users/${data.createdBy._id}`)}
+          onClick={() => !preview && navigate(`/users/${data.createdBy._id}`)}
           alt="user avatar"
         />
         {!data.sold && (
@@ -240,18 +242,18 @@ const Card = ({ preview, data, watchlist }) => {
         </div>
       </div>
       <div className="auctionCardOptions">
-        <span onClick={() => navigate(`/explore/${data._id}`)}>
+        <span onClick={() => !preview && navigate(`/explore/${data._id}`)}>
           {data.sold ? 'Visit auction' : 'Place a bid'}
         </span>
         {watchList ? (
           <CgPlayListRemove
             className="auctionCardOptionsdelete"
-            onClick={() => deleteFromWatchList(data._id)}
+            onClick={() => !preview && deleteFromWatchList(data._id)}
           />
         ) : (
           <CgPlayListAdd
             className="auctionCardOptionsAdd"
-            onClick={() => addToWatchList(data._id)}
+            onClick={() => !preview && addToWatchList(data._id)}
           />
         )}
       </div>
