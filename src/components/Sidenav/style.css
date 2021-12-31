@@ -47,10 +47,14 @@
   justify-content: space-between;
 }
 
+.sidenavLinks div {
+  display: flex;
+  align-items: center;
+}
+
 .sidenavLinks div:hover {
   cursor: pointer;
-  color: var(--light-purple2);
-  border-bottom: 3px solid var(--light-purple2);
+  color: var(--light-purple1);
 }
 
 .sidenavLogout {

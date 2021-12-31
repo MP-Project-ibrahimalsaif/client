@@ -23,7 +23,7 @@ const App = () => {
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/create_auction" element={<CreateAuction />} />
         <Route exact path="/edit_auction/:id" element={<EditAuction />} />
-        <Route exact path="/dashboard_myauctions" element={<DashboardMyAuctions />} />
+        <Route exact path="/dashboard/auctions" element={<DashboardMyAuctions />} />
       </Routes>
     </>
   );
