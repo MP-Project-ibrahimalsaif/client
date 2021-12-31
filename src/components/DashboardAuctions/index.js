@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { DataGrid } from "@mui/x-data-grid";
 import { MdEdit } from "react-icons/md";
+import { ImCross, ImCheckmark } from "react-icons/im";
 import Sidenav from "../Sidenav";
 import "./style.css";
 
@@ -28,7 +29,24 @@ const DashboardAuctions = () => {
   }, []);
 
   const columns = [
-    { field: "auction", headerName: "Auction Title", width: 300 },
+    {
+      field: "auction",
+      headerName: "Auction Title",
+      width: 300,
+      renderCell: (params) => {
+        return (
+          <a
+            className={params.row.status === "approved" && "dashboardTableAuctionTitle"}
+            onClick={() =>
+              params.row.status === "approved" &&
+              navigate(`/explore/${params.row.id}`)
+            }
+          >
+            {params.row.auction}
+          </a>
+        );
+      },
+    },
     {
       field: "bids",
       headerName: "Number of bids",
@@ -55,6 +73,13 @@ const DashboardAuctions = () => {
       field: "sold",
       headerName: "Sold",
       width: 150,
+      renderCell: (params) => {
+        return params.row.sold ? (
+          <ImCheckmark className="tableIcon" />
+        ) : (
+          <ImCross className="tableIcon" />
+        );
+      },
     },
     {
       field: "status",
@@ -141,7 +166,9 @@ const DashboardAuctions = () => {
       <div className="dashboardLayout">
         <div className="dashboardTableHeader">
           <h1 className="dashboardTableTitle">My Auctions</h1>
-          <button className="dashboardCreateAuctionBtn">Create a new auction</button>
+          <button className="dashboardCreateAuctionBtn">
+            Create a new auction
+          </button>
         </div>
         <div className="dashboardTable">
           <DataGrid
