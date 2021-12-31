@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import CreateAuction from "./components/CreateAuction";
 import EditAuction from "./components/EditAuction";
+import DashboardMyAuctions from "./components/DashboardMyAuctions";
 import "./App.css";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/create_auction" element={<CreateAuction />} />
         <Route exact path="/edit_auction/:id" element={<EditAuction />} />
+        <Route exact path="/dashboard_myauctions" element={<DashboardMyAuctions />} />
       </Routes>
     </>
   );

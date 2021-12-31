@@ -1,0 +1,79 @@
+.sidenav {
+  height: 100%;
+  width: 14rem;
+  padding: 1rem 0;
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  background-color: var(--text-dark);
+  color: var(--text-light);
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidenavInfo {
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidenavLogo {
+  width: 100%;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidenavLogo img {
+  height: 5rem;
+  width: 5rem;
+}
+
+.sidenavLogo img:hover {
+  cursor: pointer;
+}
+
+.sidenavLinks {
+  height: 65%;
+  font-size: 160%;
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidenavLinks div:hover {
+  cursor: pointer;
+  color: var(--light-purple2);
+  border-bottom: 3px solid var(--light-purple2);
+}
+
+.sidenavLogout {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.sidenavLogoutBtn {
+  letter-spacing: 1px;
+  font-weight: 300;
+  color: var(--text-dark);
+  background-color: var(--light-purple1);
+  border: 1.5px solid var(--light-purple1);
+  border-radius: 2em;
+  padding: 0.6rem 0.8rem;
+  font-size: 100%;
+}
+
+.sidenavLogoutBtn:hover {
+  color: var(--text-light);
+  cursor: pointer;
+  background-color: transparent;
+  border: 1.5px solid var(--text-light);
+  transition: all ease-in-out 350ms;
+}
