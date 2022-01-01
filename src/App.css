@@ -28,6 +28,13 @@
   align-items: center;
 }
 
+.centerDashboard {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .error {
   display: flex;
   flex-direction: column;

@@ -1,0 +1,18 @@
+.dashboardSectionTitle {
+  font-size: 250%;
+  margin-bottom: 1rem;
+}
+
+.loadMordWatchlisteBtn {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: none;
+  font-size: 130%;
+  background-color: var(--text-dark);
+  color: var(--text-light);
+}
+
+.loadMordWatchlisteBtn:hover {
+  cursor: pointer;
+  background-color: var(--background);
+}

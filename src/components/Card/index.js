@@ -16,7 +16,7 @@ import "./style.css";
 
 const MySwal = withReactContent(Swal);
 
-const Card = ({ preview, data, watchlist }) => {
+const Card = ({ preview, data, watchlist, render }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -170,6 +170,9 @@ const Card = ({ preview, data, watchlist }) => {
           "the auction has been removed from your watchlist",
           "success"
         );
+
+        if (render) render();
+        
       } catch (error) {
         console.log(error);
         handleSnackbar("oops something went wrong", "error");
@@ -243,7 +246,7 @@ const Card = ({ preview, data, watchlist }) => {
       </div>
       <div className="auctionCardOptions">
         <span onClick={() => !preview && navigate(`/explore/${data._id}`)}>
-          {data.sold ? 'Visit auction' : 'Place a bid'}
+          {data.sold ? "Visit auction" : "Place a bid"}
         </span>
         {watchList ? (
           <CgPlayListRemove
