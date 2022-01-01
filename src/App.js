@@ -11,6 +11,7 @@ import EditAuction from "./components/EditAuction";
 import DashboardAuctions from "./components/DashboardAuctions";
 import DashboardWatchList from "./components/DashboardWatchList";
 import DashboardBids from "./components/DashboardBids";
+import DashboardAccount from "./components/DashboardAccount";
 import "./App.css";
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
         <Route exact path="/dashboard/auctions" element={<DashboardAuctions />} />
         <Route exact path="/dashboard/watchlist" element={<DashboardWatchList />} />
         <Route exact path="/dashboard/bids" element={<DashboardBids />} />
+        <Route exact path="/dashboard/account" element={<DashboardAccount />} />
       </Routes>
     </>
   );
