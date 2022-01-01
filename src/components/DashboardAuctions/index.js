@@ -37,11 +37,14 @@ const DashboardAuctions = () => {
         return (
           <a
             className={
-              params.row.status === "approved" && "dashboardTableAuctionTitle"
+              params.row.status === "approved"
+                ? "dashboardATag dashboardTableAuctionTitle"
+                : "dashboardATag"
             }
-            onClick={() =>
-              params.row.status === "approved" &&
-              navigate(`/explore/${params.row.id}`)
+            href={
+              params.row.status === "approved"
+                ? `/explore/${params.row.id}`
+                : "#/"
             }
           >
             {params.row.auction}
@@ -164,27 +167,39 @@ const DashboardAuctions = () => {
 
   return (
     <>
-      <Sidenav />
-      <div className="dashboardLayout">
-        <div className="dashboardTableHeader">
-          <h1 className="dashboardTableTitle">My Auctions</h1>
-          <button
-            className="dashboardCreateAuctionBtn"
-            onClick={() => navigate("/create_auction")}
-          >
-            Create a new auction
-          </button>
+      {state.token ? (
+        <>
+          <Sidenav />
+          <div className="dashboardLayout">
+            <div className="dashboardTableHeader">
+              <h1 className="dashboardTableTitle">My Auctions</h1>
+              <button
+                className="dashboardCreateAuctionBtn"
+                onClick={() => navigate("/create_auction")}
+              >
+                Create a new auction
+              </button>
+            </div>
+            <div className="dashboardTable">
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
+                checkboxSelection={false}
+                hideFooterSelectedRowCount
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="centerDashboard">
+          <div className="error">
+            <img src="/img/stop.svg" className="errorImg" alt="error" />
+            <h1 className="errorText">You are not logged in yet</h1>
+          </div>
         </div>
-        <div className="dashboardTable">
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            checkboxSelection={false}
-            hideFooterSelectedRowCount
-          />
-        </div>
-      </div>
+      )}
     </>
   );
 };

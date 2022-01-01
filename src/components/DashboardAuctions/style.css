@@ -32,6 +32,12 @@
   background-color: var(--text-light);
 }
 
+.dashboardATag{
+  text-decoration: none;
+  color: black;
+  cursor: default;
+}
+
 .dashboardTableAuctionTitle {
   cursor: pointer;
 }
