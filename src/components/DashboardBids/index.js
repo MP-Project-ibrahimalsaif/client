@@ -5,7 +5,7 @@ import Sidenav from "../Sidenav";
 import Card from "./../Card";
 import "./style.css";
 
-const DashboardWatchList = () => {
+const DashboardBids = () => {
   const [live, setLive] = useState([]);
   const [showLive, setShowLive] = useState([]);
   const [sold, setSold] = useState([]);
@@ -23,7 +23,7 @@ const DashboardWatchList = () => {
   });
 
   useEffect(() => {
-    getUserWatchList();
+    getUserBids();
     // eslint-disable-next-line
   }, []);
 
@@ -49,18 +49,38 @@ const DashboardWatchList = () => {
     setLoadElementsSold(loadElementsSold + 4);
   };
 
-  const getUserWatchList = async () => {
+  const getUserBids = async () => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/userWatchList/${state.user._id}`,
+        `${process.env.REACT_APP_BASE_URL}/userBids/${state.user._id}`,
         {
           headers: {
             Authorization: `Bearer ${state.token}`,
           },
         }
       );
-      const live = res.data.watchlist.filter((auction) => !auction.sold);
-      const sold = res.data.watchlist.filter((auction) => auction.sold);
+      const liveData = res.data
+        .filter((auction) => !auction.auction.sold)
+        .map((auction) => auction.auction);
+      const live = [];
+      liveData.map((auction) =>
+        live.filter((auctionUnique) => auctionUnique._id === auction._id)
+          .length > 0
+          ? null
+          : live.push(auction)
+      );
+
+      const soldData = res.data
+        .filter((auction) => auction.auction.sold)
+        .map((auction) => auction.auction);
+      const sold = [];
+      soldData.map((auction) =>
+        sold.filter((auctionUnique) => auctionUnique._id === auction._id)
+          .length > 0
+          ? null
+          : sold.push(auction)
+      );
+
       setLive(live);
       setShowLive(live.slice(0, loadElementsLive));
       setSold(sold);
@@ -82,15 +102,34 @@ const DashboardWatchList = () => {
                 showLive.length > 0 ? (
                   <>
                     <div className="cards">
-                      {showLive.map((auction) => (
-                        <Card
-                          preview={false}
-                          data={auction}
-                          watchlist={true}
-                          key={auction._id}
-                          render={getUserWatchList}
-                        />
-                      ))}
+                      {showLive.map((auction) =>
+                        state.user.watchlist ? (
+                          state.user.watchlist.find(
+                            (addedAuction) => addedAuction === auction._id
+                          ) ? (
+                            <Card
+                              preview={false}
+                              data={auction}
+                              watchlist={true}
+                              key={auction._id}
+                            />
+                          ) : (
+                            <Card
+                              preview={false}
+                              data={auction}
+                              watchlist={false}
+                              key={auction._id}
+                            />
+                          )
+                        ) : (
+                          <Card
+                            preview={false}
+                            data={auction}
+                            watchlist={false}
+                            key={auction._id}
+                          />
+                        )
+                      )}
                     </div>
                     <div className="center">
                       {loadElementsLive < live.length ? (
@@ -123,19 +162,38 @@ const DashboardWatchList = () => {
             </div>
             <div className="dashboardSection">
               <h1 className="dashboardSectionTitle">Sold</h1>
-              {sold ? (
+              {sold? (
                 showSold.length > 0 ? (
                   <>
                     <div className="cards">
-                      {showSold.map((auction) => (
-                        <Card
-                          preview={false}
-                          data={auction}
-                          watchlist={true}
-                          key={auction._id}
-                          render={getUserWatchList}
-                        />
-                      ))}
+                      {showSold.map((auction) =>
+                        state.user.watchlist ? (
+                          state.user.watchlist.find(
+                            (addedAuction) => addedAuction === auction._id
+                          ) ? (
+                            <Card
+                              preview={false}
+                              data={auction}
+                              watchlist={true}
+                              key={auction._id}
+                            />
+                          ) : (
+                            <Card
+                              preview={false}
+                              data={auction}
+                              watchlist={false}
+                              key={auction._id}
+                            />
+                          )
+                        ) : (
+                          <Card
+                            preview={false}
+                            data={auction}
+                            watchlist={false}
+                            key={auction._id}
+                          />
+                        )
+                      )}
                     </div>
                     <div className="center">
                       {loadElementsSold < sold.length ? (
@@ -180,4 +238,4 @@ const DashboardWatchList = () => {
   );
 };
 
-export default DashboardWatchList;
+export default DashboardBids;
