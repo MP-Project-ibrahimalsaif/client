@@ -36,7 +36,9 @@ const DashboardAuctions = () => {
       renderCell: (params) => {
         return (
           <a
-            className={params.row.status === "approved" && "dashboardTableAuctionTitle"}
+            className={
+              params.row.status === "approved" && "dashboardTableAuctionTitle"
+            }
             onClick={() =>
               params.row.status === "approved" &&
               navigate(`/explore/${params.row.id}`)
@@ -75,9 +77,9 @@ const DashboardAuctions = () => {
       width: 150,
       renderCell: (params) => {
         return params.row.sold ? (
-          <ImCheckmark className="tableIcon" />
+          <ImCheckmark className="tableIconNoHover" />
         ) : (
-          <ImCross className="tableIcon" />
+          <ImCross className="tableIconNoHover" />
         );
       },
     },
@@ -166,7 +168,10 @@ const DashboardAuctions = () => {
       <div className="dashboardLayout">
         <div className="dashboardTableHeader">
           <h1 className="dashboardTableTitle">My Auctions</h1>
-          <button className="dashboardCreateAuctionBtn">
+          <button
+            className="dashboardCreateAuctionBtn"
+            onClick={() => navigate("/create_auction")}
+          >
             Create a new auction
           </button>
         </div>
