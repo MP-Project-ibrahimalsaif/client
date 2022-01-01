@@ -47,7 +47,7 @@ const Sidenav = () => {
           <div onClick={() => navigate("/dashboard/account")}>
             <MdAccountCircle />&nbsp;Account
           </div>
-          {state.user.role === "admin" && (
+          {state.user && state.user.role === "admin" && (
             <>
               <div onClick={() => navigate("/dashboard/allauctions")}>
                 <FaGavel />&nbsp;All Auctions

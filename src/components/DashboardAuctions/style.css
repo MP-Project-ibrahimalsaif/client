@@ -36,6 +36,11 @@
   cursor: pointer;
 }
 
+.tableIconNoHover {
+  font-size: 170%;
+  color: var(--text-dark);
+}
+
 .tableIcon {
   font-size: 170%;
   color: var(--text-dark);
