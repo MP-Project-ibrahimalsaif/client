@@ -6,7 +6,6 @@ import withReactContent from "sweetalert2-react-content";
 import { DataGrid } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import Sidenav from "../Sidenav";
-import "./style.css";
 
 const MySwal = withReactContent(Swal);
 

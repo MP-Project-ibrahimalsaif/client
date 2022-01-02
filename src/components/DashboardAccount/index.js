@@ -139,7 +139,7 @@ const DashboardAccount = () => {
               <div className="imgCon">
                 <a href="#\" onClick={updateAvatar}>
                   <div className="imgConOverlay"></div>
-                  <img src={url ? url : state.user.avatar} />
+                  <img src={url ? url : state.user.avatar} alt={`${state.user.name} avatar`} />
                   <div className="imgConOverlayContent imgConOverlayFadeIn">
                     <MdEdit className="avatarEditIcon" />
                   </div>
