@@ -22,6 +22,10 @@ const Login = (state = initialState, action) => {
       const userAfterDelete = payload;
       localStorage.setItem("user", JSON.stringify(userAfterDelete));
       return { role: state.role, token: state.token, user: userAfterDelete };
+    case "UPDATE_USER":
+      const updatedUser = payload;
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      return { role: state.role, token: state.token, user: updatedUser };
     case "LOGOUT":
       localStorage.removeItem("token");
       localStorage.removeItem("role");
@@ -56,6 +60,13 @@ export const addAuctionToWatchList = (data) => {
 export const deleteAuctionFromWatchList = (data) => {
   return {
     type: "DELETE_WATCHLIST",
+    payload: data,
+  };
+};
+
+export const updateUser = (data) => {
+  return {
+    type: "UPDATE_USER",
     payload: data,
   };
 };
