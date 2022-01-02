@@ -4,13 +4,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { DataGrid } from "@mui/x-data-grid";
-import { ImCross, ImCheckmark } from "react-icons/im";
+import { useSnackbar } from "notistack";
 import Sidenav from "../Sidenav";
 import "./style.css";
 
 const MySwal = withReactContent(Swal);
 
 const DashboardReports = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [rows, setRows] = useState([]);
 
   const state = useSelector((state) => {
@@ -24,6 +25,12 @@ const DashboardReports = () => {
     getReports();
     // eslint-disable-next-line
   }, []);
+
+  const handleSnackbar = (message, type) => {
+    enqueueSnackbar(message, {
+      variant: type,
+    });
+  };
 
   const columns = [
     {
@@ -147,8 +154,10 @@ const DashboardReports = () => {
           }
         );
         getReports();
+        handleSnackbar('the report has been updated successfully', 'success');
       } catch (error) {
         console.log(error);
+        handleSnackbar('oops something went wrong', 'error');
       }
     }
   };
