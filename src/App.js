@@ -14,6 +14,7 @@ import DashboardBids from "./components/DashboardBids";
 import DashboardAccount from "./components/DashboardAccount";
 import DashboardAllAuctions from "./components/DashboardAllAuctions";
 import DashboardUsers from "./components/DashboardUsers";
+import DashboardReports from "./components/DashboardReports";
 import "./App.css";
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
         <Route exact path="/dashboard/account" element={<DashboardAccount />} />
         <Route exact path="/dashboard/allauctions" element={<DashboardAllAuctions />} />
         <Route exact path="/dashboard/users" element={<DashboardUsers />} />
+        <Route exact path="/dashboard/reports" element={<DashboardReports />} />
       </Routes>
     </>
   );
