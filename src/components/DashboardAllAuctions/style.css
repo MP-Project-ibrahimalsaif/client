@@ -1,0 +1,13 @@
+.changeStatusBtn {
+  font-size: 90%;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: none;
+  background-color: var(--text-dark);
+  color: var(--text-light);
+}
+
+.changeStatusBtn:hover {
+  cursor: pointer;
+  background-color: var(--background);
+}

@@ -12,6 +12,7 @@ import DashboardAuctions from "./components/DashboardAuctions";
 import DashboardWatchList from "./components/DashboardWatchList";
 import DashboardBids from "./components/DashboardBids";
 import DashboardAccount from "./components/DashboardAccount";
+import DashboardAllAuctions from "./components/DashboardAllAuctions";
 import "./App.css";
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
         <Route exact path="/dashboard/watchlist" element={<DashboardWatchList />} />
         <Route exact path="/dashboard/bids" element={<DashboardBids />} />
         <Route exact path="/dashboard/account" element={<DashboardAccount />} />
+        <Route exact path="/dashboard/allauctions" element={<DashboardAllAuctions />} />
       </Routes>
     </>
   );
