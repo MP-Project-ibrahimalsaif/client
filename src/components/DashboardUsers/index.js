@@ -10,7 +10,7 @@ import "./style.css";
 
 const MySwal = withReactContent(Swal);
 
-const DashboardAllAuctions = () => {
+const DashboardUsers = () => {
   const [rows, setRows] = useState([]);
 
   const state = useSelector((state) => {
@@ -21,62 +21,41 @@ const DashboardAllAuctions = () => {
   });
 
   useEffect(() => {
-    getAuctions();
+    getUsers();
     // eslint-disable-next-line
   }, []);
 
   const columns = [
     {
-      field: "auction",
-      headerName: "Auction Title",
+      field: "name",
+      headerName: "Name",
       width: 300,
       renderCell: (params) => {
         return (
           <a
             className={
-              params.row.status === "approved"
+              !params.row.blocked
                 ? "dashboardATag dashboardTableAuctionTitle"
                 : "dashboardATag"
             }
-            href={
-              params.row.status === "approved"
-                ? `/explore/${params.row.id}`
-                : "#/"
-            }
+            href={!params.row.blocked ? `/users/${params.row.id}` : "#/"}
           >
-            {params.row.auction}
+            {params.row.name}
           </a>
         );
       },
     },
     {
-      field: "price",
-      headerName: "Price",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-      width: 150,
+      field: "email",
+      headerName: "Email",
+      width: 300,
     },
     {
-      field: "createdBy",
-      headerName: "Created By",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-      width: 150,
-    },
-    {
-      field: "endDateTime",
-      headerName: "End",
-      type: "dateTime",
-      width: 200,
-    },
-    {
-      field: "sold",
-      headerName: "Sold",
+      field: "blocked",
+      headerName: "Blocked",
       width: 150,
       renderCell: (params) => {
-        return params.row.sold ? (
+        return params.row.blocked ? (
           <ImCheckmark className="tableIconNoHover" />
         ) : (
           <ImCross className="tableIconNoHover" />
@@ -84,82 +63,115 @@ const DashboardAllAuctions = () => {
       },
     },
     {
-      field: "status",
-      headerName: "Status",
+      field: "role",
+      headerName: "Role",
       width: 160,
       renderCell: (params) => {
         return (
-          <div className={`chip ${params.row.status}`}>{params.row.status}</div>
+          <div className={`chip ${params.row.role}`}>{params.row.role}</div>
         );
       },
     },
     {
       field: "timestamp",
-      headerName: "publish",
+      headerName: "Joined",
       type: "dateTime",
       width: 200,
     },
     {
-      field: "change",
+      field: "change_blocked",
       headerName: "Change Status",
-      description:
-        "You can change an auction status, hit: only approved auctions appear in the website",
+      description: "You can change the user status either blocked or unblocked",
+      sortable: false,
+      width: 200,
+      renderCell: (params) => {
+        const onClick = (e) => {
+          e.stopPropagation();
+          updateUserStatus(params.row.id, params.row.blocked ? false : true);
+        };
+
+        return !params.row.blocked ? (
+          <div onClick={onClick}>
+            <button className="blockBtn block">Block</button>
+          </div>
+        ) : (
+          <div onClick={onClick}>
+            <button className="blockBtn unblock">Unblock</button>
+          </div>
+        );
+      },
+    },
+    {
+      field: "change_role",
+      headerName: "Change Role",
+      description: "You can change the user role either user or admin",
       sortable: false,
       width: 160,
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation();
-          updateStatus(params.row.id);
+          updateUserRole(params.row.id);
         };
 
         return (
           <div onClick={onClick}>
-            <button className="changeStatusBtn">Change Status</button>
+            <button className="changeStatusBtn">Change Role</button>
           </div>
         );
       },
     },
   ];
 
-  const getAuctions = async () => {
+  const getUsers = async () => {
     try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/allauctions`,
+      const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/users`, {
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        },
+      });
+      const users = res.data.map((user) => ({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role.role,
+        blocked: user.blocked,
+        timestamp: user.timestamp.slice(0, 10),
+      }));
+      setRows(users);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateUserStatus = async (id, block) => {
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/${
+          block ? "blockUser" : "unblockUser"
+        }/${id}`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${state.token}`,
           },
         }
       );
-      const auctions = res.data.map((auction) => ({
-        id: auction._id,
-        auction: auction.title,
-        bids: auction.bids,
-        price: auction.currentPrice,
-        endDateTime: auction.endDateTime.slice(0, 10),
-        sold: auction.sold,
-        createdBy: auction.createdBy.name,
-        status: auction.status.status,
-        timestamp: auction.timestamp.slice(0, 10),
-        timestampFull: auction.timestamp,
-      }));
-      setRows(auctions);
+      getUsers();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateStatus = async (id) => {
-    const { value: status } = await MySwal.fire({
-      title: "Change Auction Status",
+  const updateUserRole = async (id) => {
+    const { value: role } = await MySwal.fire({
+      title: "Change User Role",
       input: "select",
 
       inputOptions: {
-        PENDING_STATUS: "Pending",
-        APPROVED_STATUS: "Approved",
-        REJECTED_STATUS: "Rejected",
+        user: "User",
+        admin: "Admin",
       },
-      inputPlaceholder: "Select a status",
+      inputPlaceholder: "Select a role",
       showCancelButton: true,
       confirmButtonColor: "#2f2057",
       confirmButtonText: "Change",
@@ -167,30 +179,27 @@ const DashboardAllAuctions = () => {
       reverseButtons: true,
     });
 
-    if (status) {
-      let newStatus;
+    if (role) {
+      let newRole;
 
-      if (status === "PENDING_STATUS") {
-        newStatus = process.env.REACT_APP_PENDING_STATUS;
+      if (role === "user") {
+        newRole = process.env.REACT_APP_ROLE_USER;
       }
-      if (status === "APPROVED_STATUS") {
-        newStatus = process.env.REACT_APP_APPROVED_STATUS;
-      }
-      if (status === "REJECTED_STATUS") {
-        newStatus = process.env.REACT_APP_REJECTED_STATUS;
+      if (role === "admin") {
+        newRole = process.env.REACT_APP_ROLE_ADMIN;
       }
 
       try {
         await axios.put(
-          `${process.env.REACT_APP_BASE_URL}/changeAuctionStatus/${id}`,
-          { status_id: newStatus },
+          `${process.env.REACT_APP_BASE_URL}/changeRole/${id}`,
+          { role_id: newRole },
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
             },
           }
         );
-        getAuctions();
+        getUsers();
       } catch (error) {
         console.log(error);
       }
@@ -204,7 +213,7 @@ const DashboardAllAuctions = () => {
           <Sidenav />
           <div className="dashboardLayout">
             <div className="dashboardTableHeader">
-              <h1 className="dashboardTableTitle">Mazad Auctions</h1>
+              <h1 className="dashboardTableTitle">Mazad Users</h1>
             </div>
             <div className="dashboardTable">
               <DataGrid
@@ -230,4 +239,4 @@ const DashboardAllAuctions = () => {
   );
 };
 
-export default DashboardAllAuctions;
+export default DashboardUsers;

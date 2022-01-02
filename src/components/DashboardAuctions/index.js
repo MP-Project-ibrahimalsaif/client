@@ -89,7 +89,6 @@ const DashboardAuctions = () => {
     {
       field: "status",
       headerName: "Status",
-      description: "This column has a value getter and is not sortable.",
       width: 160,
       renderCell: (params) => {
         return (

@@ -1,0 +1,34 @@
+.admin {
+  background-color: #5cb85c;
+}
+
+.user {
+  background-color: #007bff;
+}
+
+.blockBtn {
+  width: 5rem;
+  font-size: 90%;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: none;
+  color: var(--text-light);
+}
+
+.block {
+  background-color: #dc3545;
+}
+
+.block:hover {
+  cursor: pointer;
+  background-color: #e05664;
+}
+
+.unblock {
+  background-color: #007bff;
+}
+
+.unblock:hover {
+  cursor: pointer;
+  background-color: #3b95f5;
+}
