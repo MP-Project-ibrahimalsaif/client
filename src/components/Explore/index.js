@@ -27,8 +27,8 @@ const Explore = () => {
   const [auctions, setAuctions] = useState([]);
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState([]);
-  const [condition, setCondition] = useState("");
-  const [filter, setFilter] = useState("");
+  const [condition, setCondition] = useState("all");
+  const [filter, setFilter] = useState("all");
   const [loadMore, setLoadMore] = useState(false);
   const [loadElements, setLoadElements] = useState(20);
 
@@ -50,6 +50,26 @@ const Explore = () => {
   }, [loadMore]);
 
   useEffect(() => {
+    filterSearch();
+    // eslint-disable-next-line
+  }, [search]);
+
+  useEffect(() => {
+    filterType();
+    // eslint-disable-next-line
+  }, [filter]);
+
+  useEffect(() => {
+    filterCondition();
+    // eslint-disable-next-line
+  }, [condition]);
+
+  useEffect(() => {
+    filterCat();
+    // eslint-disable-next-line
+  }, [categories]);
+
+  const filterSearch = () => {
     if (search.trim()) {
       const searchedArray = auctionsShow.filter((auction) =>
         auction.title.includes(search)
@@ -58,25 +78,20 @@ const Explore = () => {
     } else {
       setAuctionsShow(auctions);
     }
-    // eslint-disable-next-line
-  }, [search]);
+  };
 
-  useEffect(() => {
+  const filterType = () => {
     if (filter) {
       switch (filter) {
         case "all":
           setAuctionsShow(auctions);
           break;
         case "live":
-          const liveAuctions = [...auctionsShow].filter(
-            (auction) => !auction.sold
-          );
+          const liveAuctions = [...auctionsShow].filter((auction) => !auction.sold);
           setAuctionsShow(liveAuctions);
           break;
         case "ended":
-          const endedAuctions = [...auctionsShow].filter(
-            (auction) => auction.sold
-          );
+          const endedAuctions = [...auctionsShow].filter((auction) => auction.sold);
           setAuctionsShow(endedAuctions);
           break;
         case "popular":
@@ -115,10 +130,9 @@ const Explore = () => {
     } else {
       setAuctionsShow(auctions);
     }
-    // eslint-disable-next-line
-  }, [filter]);
+  };
 
-  useEffect(() => {
+  const filterCondition = () => {
     if (condition) {
       if (condition === "all") {
         setAuctionsShow(auctions);
@@ -131,10 +145,9 @@ const Explore = () => {
     } else {
       setAuctionsShow(auctions);
     }
-    // eslint-disable-next-line
-  }, [condition]);
+  };
 
-  useEffect(() => {
+  const filterCat = () => {
     if (categories.length > 0) {
       const categoriesArray = [...auctionsShow].filter((auction) =>
         auction.categories.some((category) => categories.indexOf(category) >= 0)
@@ -143,8 +156,7 @@ const Explore = () => {
     } else {
       setAuctionsShow(auctions);
     }
-    // eslint-disable-next-line
-  }, [categories]);
+  };
 
   const handleCategoriesChange = (event) => {
     const {
@@ -303,7 +315,7 @@ const Explore = () => {
                   )
                 )}
               </div>
-              {loadElements <= auctions.length ? (
+              {loadElements <= auctionsShow.length ? (
                 <button
                   className="loadMorCardsExploreeBtn"
                   onClick={loadMoreAuctions}
@@ -315,12 +327,12 @@ const Explore = () => {
               )}
             </>
           ) : (
-            <div className="center">
+            <div className="centerNoResult">
               <h1>No result</h1>
             </div>
           )
         ) : (
-          <div className="center">
+          <div className="centerNoResult">
             <div className="lds-ring">
               <div></div>
               <div></div>

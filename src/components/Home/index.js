@@ -12,7 +12,7 @@ import "./style.css";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [auctions, setAuctions] = useState([]);
+  const [auctions, setAuctions] = useState(null);
 
   const state = useSelector((state) => {
     return {
@@ -93,7 +93,7 @@ const Home = () => {
             <p onClick={() => navigate("/explore")}>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards" rightArrow={null}>
-            {auctions.lastMinAuctions ? (
+            {auctions ? (
               auctions.lastMinAuctions.length > 0 ? (
                 <Carousel
                   show={5}
@@ -136,10 +136,12 @@ const Home = () => {
                   )}
                 </Carousel>
               ) : (
-                <h2>No auctions yet!!</h2>
+                <div className="centerNoResult">
+                  <h2>No auctions yet!!</h2>
+                </div>
               )
             ) : (
-              <div className="center">
+              <div className="centerNoResult">
                 <div className="lds-ring">
                   <div></div>
                   <div></div>
@@ -161,8 +163,8 @@ const Home = () => {
             <p onClick={() => navigate("/explore")}>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
-            {auctions.popularAuctions ? (
-              auctions.lastMinAuctions.length > 0 ? (
+            {auctions ? (
+              auctions.popularAuctions.length > 0 ? (
                 <Carousel
                   show={5}
                   swiping={true}
@@ -204,10 +206,12 @@ const Home = () => {
                   )}
                 </Carousel>
               ) : (
-                <h2>No auctions yet!!</h2>
+                <div className="centerNoResult">
+                  <h2>No auctions yet!!</h2>
+                </div>
               )
             ) : (
-              <div className="center">
+              <div className="centerNoResult">
                 <div className="lds-ring">
                   <div></div>
                   <div></div>
@@ -229,8 +233,8 @@ const Home = () => {
             <p onClick={() => navigate("/explore")}>view more&nbsp;&#8594;</p>
           </div>
           <div className="showCards">
-            {auctions.newAuctions ? (
-              auctions.lastMinAuctions.length > 0 ? (
+            {auctions ? (
+              auctions.newAuctions.length > 0 ? (
                 <Carousel
                   show={5}
                   swiping={true}
@@ -272,10 +276,12 @@ const Home = () => {
                   )}
                 </Carousel>
               ) : (
-                <h2>No auctions yet!!</h2>
+                <div className="centerNoResult">
+                  <h2>No auctions yet!!</h2>
+                </div>
               )
             ) : (
-              <div className="center">
+              <div className="centerNoResult">
                 <div className="lds-ring">
                   <div></div>
                   <div></div>

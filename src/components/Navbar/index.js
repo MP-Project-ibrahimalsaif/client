@@ -8,7 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaGavel } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
 import { userLogout } from "./../../reducers/Login";
@@ -81,7 +81,7 @@ const Navbar = ({ show }) => {
         }
       >
         <div className="logo">
-          <img src="/logo.png" alt="Logo" />
+          <img src="/logo.png" alt="Logo" onClick={() => navigate("/")} />
         </div>
         <>
           <div
@@ -94,11 +94,11 @@ const Navbar = ({ show }) => {
           </div>
           <ul className="navLinks">
             <li className="link">
-              <a href="/">Home</a>
+              <a href="#/" onClick={() => navigate("/")} >Home</a>
             </li>
             <span className="dot link">&#11044;</span>
             <li className="link">
-              <a href="/explore">Explore</a>
+              <a href="#/" onClick={() => navigate("/explore")} >Explore</a>
             </li>
           </ul>
         </>
@@ -114,7 +114,10 @@ const Navbar = ({ show }) => {
               >
                 <Tooltip title="Account settings">
                   <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                    <Avatar src={state.user.avatar} sx={{ width: 45, height: 45 }}></Avatar>
+                    <Avatar
+                      src={state.user.avatar}
+                      sx={{ width: 45, height: 45 }}
+                    ></Avatar>
                   </IconButton>
                 </Tooltip>
               </Box>
@@ -152,11 +155,15 @@ const Navbar = ({ show }) => {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                <MenuItem onClick={() => navigate(`/users/${state.user._id}`)} >
+                <MenuItem onClick={() => navigate(`/users/${state.user._id}`)}>
                   <FaUser />
                   &nbsp;Profile
                 </MenuItem>
-                <MenuItem onClick={() => navigate('/dashboard/auctions')}>
+                <MenuItem onClick={() => navigate("/create_auction")}>
+                  <FaGavel />
+                  &nbsp;Create auction
+                </MenuItem>
+                <MenuItem onClick={() => navigate("/dashboard/auctions")}>
                   <MdDashboard />
                   &nbsp;Dashboard
                 </MenuItem>
@@ -168,8 +175,18 @@ const Navbar = ({ show }) => {
             </>
           ) : (
             <>
-              <button onClick={() => navigate("/login")} className="login-button">Login</button>
-              <button onClick={() => navigate("/signup")} className="signup-button">Signup</button>
+              <button
+                onClick={() => navigate("/login")}
+                className="login-button"
+              >
+                Login
+              </button>
+              <button
+                onClick={() => navigate("/signup")}
+                className="signup-button"
+              >
+                Signup
+              </button>
             </>
           )}
         </div>
@@ -177,7 +194,8 @@ const Navbar = ({ show }) => {
       <div id="myNav" className={openMenu ? "overlay open" : "overlay"}>
         {
           //eslint-disable-next-line
-        }<a className="closebtn" onClick={hamburgerClick}>
+        }
+        <a className="closebtn" href="#/" onClick={hamburgerClick}>
           &times;
         </a>
         {state.token && (
@@ -191,7 +209,10 @@ const Navbar = ({ show }) => {
             >
               <Tooltip title="Account settings">
                 <IconButton onClick={handleClickMobile}>
-                  <Avatar src={state.user.avatar} sx={{ width: 55, height: 55 }}></Avatar>
+                  <Avatar
+                    src={state.user.avatar}
+                    sx={{ width: 55, height: 55 }}
+                  ></Avatar>
                 </IconButton>
               </Tooltip>
             </Box>
@@ -229,9 +250,13 @@ const Navbar = ({ show }) => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem onClick={() => navigate(`/users/${state.user._id}`)} >
-                <FaUser/>
+              <MenuItem onClick={() => navigate(`/users/${state.user._id}`)}>
+                <FaUser />
                 &nbsp;Profile
+              </MenuItem>
+              <MenuItem onClick={() => navigate("/create_auction")}>
+                <FaGavel />
+                &nbsp;Create auction
               </MenuItem>
               <MenuItem onClick={signout}>
                 <BiLogOut />
@@ -245,12 +270,22 @@ const Navbar = ({ show }) => {
             state.token ? "overlayContent contentMargin" : "overlayContent"
           }
         >
-          <a href="/">Home</a>
-          <a href="/explore">Explore</a>
+          <a href="#/" onClick={() => navigate("/")}>Home</a>
+          <a href="#/" onClick={() => navigate("/explore")}>Explore</a>
           {!state.token && (
             <div className="overlyButtons">
-              <button onClick={() => navigate("/login")} className="login-button">Login</button>
-              <button onClick={() => navigate("/signup")} className="signup-button">Signup</button>
+              <button
+                onClick={() => navigate("/login")}
+                className="login-button"
+              >
+                Login
+              </button>
+              <button
+                onClick={() => navigate("/signup")}
+                className="signup-button"
+              >
+                Signup
+              </button>
             </div>
           )}
         </div>
