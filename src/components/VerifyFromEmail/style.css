@@ -1,0 +1,91 @@
+.verify {
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ebeef7;
+}
+
+.verifyBox {
+  height: 30rem;
+  width: 60rem;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--text-light);
+  color: var(--text-dark);
+}
+
+.verifyBox h1 {
+  font-size: 450%;
+  margin-bottom: 4rem;
+}
+
+.verifyBox p {
+  font-size: 200%;
+}
+
+@media (max-width: 1200px) {
+  .verifyBox {
+    height: 25rem;
+    width: 50rem;
+    padding: 1.5rem 2rem;
+  }
+
+  .verifyBox h1 {
+    font-size: 400%;
+  }
+  
+  .verifyBox p {
+    font-size: 170%;
+  }
+}
+
+@media (max-width: 900px) {
+  .verifyBox {
+    height: 20rem;
+    width: 45rem;
+    padding: 1rem 2rem;
+  }
+
+  .verifyBox h1 {
+    font-size: 350%;
+  }
+  
+  .verifyBox p {
+    font-size: 150%;
+  }
+}
+
+@media (max-width: 800px) {
+  .verifyBox {
+    height: 15rem;
+    width: 35rem;
+  }
+
+  .verifyBox h1 {
+    font-size: 300%;
+  }
+  
+  .verifyBox p {
+    font-size: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .verifyBox {
+    height: 50%;
+    width: 90%;
+  }
+
+  .verifyBox h1 {
+    font-size: 200%;
+  }
+  
+  .verifyBox p {
+    font-size: 70%;
+  }
+}

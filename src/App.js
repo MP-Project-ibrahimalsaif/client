@@ -16,6 +16,7 @@ import DashboardAllAuctions from "./components/DashboardAllAuctions";
 import DashboardUsers from "./components/DashboardUsers";
 import DashboardReports from "./components/DashboardReports";
 import DashboardInvoices from "./components/DashboardInvoices";
+import VerifyFromEmail from "./components/VerifyFromEmail";
 import "./App.css";
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
         <Route exact path="/dashboard/users" element={<DashboardUsers />} />
         <Route exact path="/dashboard/reports" element={<DashboardReports />} />
         <Route exact path="/dashboard/invoices" element={<DashboardInvoices />} />
+        <Route exact path="/verify_from_email" element={<VerifyFromEmail />} />
       </Routes>
     </>
   );
