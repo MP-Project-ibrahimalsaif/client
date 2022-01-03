@@ -65,15 +65,19 @@ const Login = () => {
           console.log(err);
           handleSnackbar("oops something went wrong", "error");
         } else {
-          dispatch(
-            userLogin({
-              role: user.result.role.role,
-              token: user.token,
-              user: user.result,
-            })
-          );
-          handleSnackbar("you have been logged-in successfully", "success");
-          navigate("/");
+          if (user.message === "Email is already taken!!") {
+            handleSnackbar("Email is already taken, try another account", "error");
+          } else {
+            dispatch(
+              userLogin({
+                role: user.result.role.role,
+                token: user.token,
+                user: user.result,
+              })
+            );
+            handleSnackbar("you have been logged-in successfully", "success");
+            navigate("/");
+          }
         }
       }
     );

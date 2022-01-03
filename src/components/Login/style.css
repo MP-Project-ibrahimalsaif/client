@@ -7,7 +7,7 @@
 }
 
 .loginBox {
-  min-width: 40%;
+  min-width: 30%;
   padding: 1rem;
   border-radius: 1rem;
   background-color: var(--text-light);
@@ -171,24 +171,24 @@
 
 @media screen and (max-width: 1100px) {
   .loginBox {
-    min-width: 60%;
+    min-width: 50%;
   }
 }
 
 @media screen and (max-width: 800px) {
   .loginBox {
-    min-width: 70%;
+    min-width: 60%;
   }
 }
 
 @media screen and (max-width: 650px) {
   .loginBox {
-    min-width: 80%;
+    min-width: 70%;
   }
 }
 
 @media screen and (max-width: 550px) {
   .loginBox {
-    min-width: 90%;
+    min-width: 80%;
   }
 }
