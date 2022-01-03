@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import { ImCross, ImCheckmark } from "react-icons/im";
-// import { useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 import Sidenav from "../Sidenav";
 import "./style.css";
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
 const DashboardInvoices = () => {
-  // const { enqueueSnackbar } = useSnackbar();
+  const query = useQuery();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const [rows, setRows] = useState([]);
 
   const state = useSelector((state) => {
@@ -23,17 +30,53 @@ const DashboardInvoices = () => {
     // eslint-disable-next-line
   }, []);
 
-  // const handleSnackbar = (message, type) => {
-  //   enqueueSnackbar(message, {
-  //     variant: type,
-  //   });
-  // };
+  const handleSnackbar = (message, type) => {
+    enqueueSnackbar(message, {
+      variant: type,
+    });
+  };
+
+  useEffect(() => {
+    const updatePayment = async () => {
+      const id = query.get("id");
+      const status = query.get("redirect_status");
+      if (id && status) {
+        if (status === "succeeded") {
+          try {
+            await axios.put(
+              `${process.env.REACT_APP_BASE_URL}/invoices/${id}`,
+              {},
+              {
+                headers: {
+                  Authorization: `Bearer ${state.token}`,
+                },
+              }
+            );
+            handleSnackbar("your payment was successful", "success");
+            getInvoices();
+          } catch (error) {
+            console.log(error);
+            handleSnackbar("oops something went wrong", "error");
+          }
+        } else {
+          handleSnackbar("oops something went wrong", "error");
+        }
+      }
+    };
+    updatePayment();
+    // eslint-disable-next-line
+  }, []);
 
   const columns = [
     {
       field: "auction",
       headerName: "Auction",
-      width: 400,
+      width: 300,
+    },
+    {
+      field: "price",
+      headerName: "Price",
+      width: 250,
     },
     {
       field: "paid",
@@ -50,7 +93,7 @@ const DashboardInvoices = () => {
     {
       field: "status",
       headerName: "Status",
-      width: 300,
+      width: 250,
       renderCell: (params) => {
         return (
           <div className={`chip ${params.row.status}`}>{params.row.status}</div>
@@ -61,23 +104,23 @@ const DashboardInvoices = () => {
       field: "timestamp",
       headerName: "issued",
       type: "dateTime",
-      width: 300,
+      width: 250,
     },
     {
       field: "change",
-      headerName: "Change Status",
-      description: "You can change a report status",
+      headerName: "Pay",
+      description: "Pay for the unpaid invoices",
       sortable: false,
-      width: 300,
+      width: 250,
       renderCell: (params) => {
-        const onClick = (e) => {
-          e.stopPropagation();
-          pay(params.row.id);
-        };
-
         return !params.row.paid ? (
-          <div onClick={onClick}>
-            <button className="payBtn">Pay</button>
+          <div>
+            <button
+              className="payBtn"
+              onClick={() => navigate(`/pay/${params.row.id}`)}
+            >
+              Pay
+            </button>
           </div>
         ) : (
           <ImCheckmark className="tableIconNoHover" />
@@ -100,6 +143,7 @@ const DashboardInvoices = () => {
         id: invoice._id,
         auction: invoice.auction.title,
         status: invoice.status.status,
+        price: invoice.auction.currentPrice,
         paid: invoice.paid,
         timestamp: invoice.timestamp.slice(0, 10),
       }));
@@ -107,26 +151,6 @@ const DashboardInvoices = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const pay = async (id) => {
-    console.log(id);
-    // try {
-    //   // await axios.put(
-    //   //   `${process.env.REACT_APP_BASE_URL}/changeReportStatus/${id}`,
-    //   //   { status_id: newStatus },
-    //   //   {
-    //   //     headers: {
-    //   //       Authorization: `Bearer ${state.token}`,
-    //   //     },
-    //   //   }
-    //   // );
-    //   getReports();
-    //   handleSnackbar("the report has been updated successfully", "success");
-    // } catch (error) {
-    //   console.log(error);
-    //   handleSnackbar("oops something went wrong", "error");
-    // }
   };
 
   return (
