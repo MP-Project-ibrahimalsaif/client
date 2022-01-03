@@ -38,6 +38,10 @@
   width: 3rem;
 }
 
+.logo img:hover {
+  cursor: pointer;
+}
+
 .dot {
   color: var(--text-light);
 }

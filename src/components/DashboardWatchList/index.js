@@ -78,7 +78,7 @@ const DashboardWatchList = () => {
           <div className="dashboardLayout">
             <div className="dashboardSection">
               <h1 className="dashboardSectionTitle">Live Now</h1>
-              {live ? (
+              {live.length > 0 ? (
                 showLive.length > 0 ? (
                   <>
                     <div className="cards">
@@ -106,12 +106,12 @@ const DashboardWatchList = () => {
                     </div>
                   </>
                 ) : (
-                  <div className="center">
+                  <div className="centerNoResult">
                     <h2>No live auctions</h2>
                   </div>
                 )
               ) : (
-                <div className="center">
+                <div className="centerNoResult">
                   <div className="lds-ring">
                     <div></div>
                     <div></div>
@@ -123,7 +123,7 @@ const DashboardWatchList = () => {
             </div>
             <div className="dashboardSection">
               <h1 className="dashboardSectionTitle">Sold</h1>
-              {sold ? (
+              {sold.length > 0 ? (
                 showSold.length > 0 ? (
                   <>
                     <div className="cards">
@@ -151,12 +151,12 @@ const DashboardWatchList = () => {
                     </div>
                   </>
                 ) : (
-                  <div className="center">
+                  <div className="centerNoResult">
                     <h2>No sold auctions</h2>
                   </div>
                 )
               ) : (
-                <div className="center">
+                <div className="centerNoResult">
                   <div className="lds-ring">
                     <div></div>
                     <div></div>

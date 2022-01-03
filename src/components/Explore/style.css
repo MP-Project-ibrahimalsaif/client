@@ -105,6 +105,30 @@
   background-color: var(--background);
 }
 
+#fixedbutton {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 1rem;
+  right: 1rem;
+  width: 4rem;
+  height: 4rem;
+  background-color: #5f5380;
+  color: var(--text-light);
+  border-radius: 3.125rem;
+  border: none;
+}
+
+#fixedbutton:hover {
+  cursor: pointer;
+  background-color: #443866;
+}
+
+.plusIcon {
+  font-size: 200%;
+}
+
 @media screen and (max-width: 1100px) {
   .exploreLandingTitle {
     font-size: 250%;
