@@ -53,3 +53,47 @@
   background-color: var(--text-light);
   color: var(--text-dark);
 }
+
+@media (max-width: 1100px) {
+  .resetPasswordBox {
+    height: 40rem;
+    width: 80%;
+  }
+
+  .resetPasswordBox h1 {
+    font-size: 250%;
+  }
+
+  .resetPasswordBox .resetBtn {
+    font-size: 120%;
+  }
+}
+
+@media (max-width: 650px) {
+  .resetPasswordBox {
+    width: 85%;
+  }
+
+  .resetPasswordBox h1 {
+    font-size: 200%;
+  }
+
+  .resetPasswordBox .resetBtn {
+    font-size: 110%;
+  }
+}
+
+@media (max-width: 650px) {
+  .resetPasswordBox {
+    margin: 2rem 0;
+    width: 95%;
+  }
+
+  .resetPasswordBox h1 {
+    font-size: 150%;
+  }
+
+  .resetPasswordBox .resetBtn {
+    font-size: 90%;
+  }
+}
