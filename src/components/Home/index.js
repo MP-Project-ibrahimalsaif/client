@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Typewriter from "typewriter-effect";
@@ -12,6 +13,12 @@ import "./style.css";
 const Home = () => {
   const navigate = useNavigate();
   const [auctions, setAuctions] = useState([]);
+
+  const state = useSelector((state) => {
+    return {
+      user: state.Login.user,
+    };
+  });
 
   useEffect(() => {
     getAuctions();
@@ -96,11 +103,37 @@ const Home = () => {
                   rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
                   leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
                 >
-                  {auctions.lastMinAuctions.map((auction) => {
-                    return (
-                      <Card preview={false} data={auction} key={auction._id} />
-                    );
-                  })}
+                  {auctions.lastMinAuctions.map((auction) =>
+                    state.user.watchlist ? (
+                      state.user.watchlist.find(
+                        (addedAuction) => addedAuction === auction._id
+                      ) ? (
+                        <Card
+                          preview={false}
+                          data={auction}
+                          watchlist={true}
+                          key={auction._id}
+                          render={getAuctions}
+                        />
+                      ) : (
+                        <Card
+                          preview={false}
+                          data={auction}
+                          watchlist={false}
+                          key={auction._id}
+                          render={getAuctions}
+                        />
+                      )
+                    ) : (
+                      <Card
+                        preview={false}
+                        data={auction}
+                        watchlist={false}
+                        key={auction._id}
+                        render={getAuctions}
+                      />
+                    )
+                  )}
                 </Carousel>
               ) : (
                 <h2>No auctions yet!!</h2>
@@ -138,11 +171,37 @@ const Home = () => {
                   rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
                   leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
                 >
-                  {auctions.popularAuctions.map((auction) => {
-                    return (
-                      <Card preview={false} data={auction} key={auction._id} />
-                    );
-                  })}
+                  {auctions.popularAuctions.map((auction) =>
+                    state.user.watchlist ? (
+                      state.user.watchlist.find(
+                        (addedAuction) => addedAuction === auction._id
+                      ) ? (
+                        <Card
+                          preview={false}
+                          data={auction}
+                          watchlist={true}
+                          key={auction._id}
+                          render={getAuctions}
+                        />
+                      ) : (
+                        <Card
+                          preview={false}
+                          data={auction}
+                          watchlist={false}
+                          key={auction._id}
+                          render={getAuctions}
+                        />
+                      )
+                    ) : (
+                      <Card
+                        preview={false}
+                        data={auction}
+                        watchlist={false}
+                        key={auction._id}
+                        render={getAuctions}
+                      />
+                    )
+                  )}
                 </Carousel>
               ) : (
                 <h2>No auctions yet!!</h2>
@@ -180,11 +239,37 @@ const Home = () => {
                   rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
                   leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
                 >
-                  {auctions.newAuctions.map((auction) => {
-                    return (
-                      <Card preview={false} data={auction} key={auction._id} />
-                    );
-                  })}
+                  {auctions.newAuctions.map((auction) =>
+                    state.user.watchlist ? (
+                      state.user.watchlist.find(
+                        (addedAuction) => addedAuction === auction._id
+                      ) ? (
+                        <Card
+                          preview={false}
+                          data={auction}
+                          watchlist={true}
+                          key={auction._id}
+                          render={getAuctions}
+                        />
+                      ) : (
+                        <Card
+                          preview={false}
+                          data={auction}
+                          watchlist={false}
+                          key={auction._id}
+                          render={getAuctions}
+                        />
+                      )
+                    ) : (
+                      <Card
+                        preview={false}
+                        data={auction}
+                        watchlist={false}
+                        key={auction._id}
+                        render={getAuctions}
+                      />
+                    )
+                  )}
                 </Carousel>
               ) : (
                 <h2>No auctions yet!!</h2>

@@ -29,6 +29,8 @@ const Explore = () => {
   const [categories, setCategories] = useState([]);
   const [condition, setCondition] = useState("");
   const [filter, setFilter] = useState("");
+  const [loadMore, setLoadMore] = useState(false);
+  const [loadElements, setLoadElements] = useState(20);
 
   const state = useSelector((state) => {
     return {
@@ -40,6 +42,12 @@ const Explore = () => {
     getAuctions();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    setAuctionsShow(auctions.slice(0, loadElements));
+    setLoadMore(false);
+    // eslint-disable-next-line
+  }, [loadMore]);
 
   useEffect(() => {
     if (search.trim()) {
@@ -145,11 +153,16 @@ const Explore = () => {
     setCategories(typeof value === "string" ? value.split(",") : value);
   };
 
+  const loadMoreAuctions = () => {
+    setLoadMore(true);
+    setLoadElements(loadElements + 5);
+  };
+
   const getAuctions = async () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/auctions`);
       setAuctions(res.data);
-      setAuctionsShow(res.data);
+      setAuctionsShow(res.data.slice(0, loadElements));
     } catch (error) {
       console.log(error);
     }
@@ -259,44 +272,48 @@ const Explore = () => {
         </div>
         {auctions.length > 0 ? (
           auctionsShow.length > 0 ? (
-            <div className="cards">
-              {auctionsShow.map((auction) => {
-                if (state.user.watchlist) {
-                  if (
+            <>
+              <div className="cards">
+                {auctionsShow.map((auction) =>
+                  state.user.watchlist ? (
                     state.user.watchlist.find(
                       (addedAuction) => addedAuction === auction._id
-                    )
-                  ) {
-                    return (
+                    ) ? (
                       <Card
                         preview={false}
                         data={auction}
                         watchlist={true}
                         key={auction._id}
                       />
-                    );
-                  } else {
-                    return (
+                    ) : (
                       <Card
                         preview={false}
                         data={auction}
                         watchlist={false}
                         key={auction._id}
                       />
-                    );
-                  }
-                } else {
-                  return (
+                    )
+                  ) : (
                     <Card
                       preview={false}
                       data={auction}
                       watchlist={false}
                       key={auction._id}
                     />
-                  );
-                }
-              })}
-            </div>
+                  )
+                )}
+              </div>
+              {loadElements <= auctions.length ? (
+                <button
+                  className="loadMorCardsExploreeBtn"
+                  onClick={loadMoreAuctions}
+                >
+                  {loadMore ? "Loading..." : "Load More"}
+                </button>
+              ) : (
+                ""
+              )}
+            </>
           ) : (
             <div className="center">
               <h1>No result</h1>

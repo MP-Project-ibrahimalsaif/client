@@ -20,7 +20,9 @@ const Navbar = ({ show }) => {
   const [navbar, setNavbar] = useState(show);
   const [openMenu, setOpenMenu] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorElMobile, setAnchorElMobile] = useState(null);
   const open = Boolean(anchorEl);
+  const openMobile = Boolean(anchorElMobile);
 
   const state = useSelector((state) => {
     return {
@@ -45,6 +47,14 @@ const Navbar = ({ show }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleClickMobile = (event) => {
+    setAnchorElMobile(event.currentTarget);
+  };
+
+  const handleCloseMobile = () => {
+    setAnchorElMobile(null);
   };
 
   const changeColor = () => {
@@ -142,11 +152,11 @@ const Navbar = ({ show }) => {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                <MenuItem>
+                <MenuItem onClick={() => navigate(`/users/${state.user._id}`)} >
                   <FaUser />
                   &nbsp;Profile
                 </MenuItem>
-                <MenuItem>
+                <MenuItem onClick={() => navigate('/dashboard/auctions')}>
                   <MdDashboard />
                   &nbsp;Dashboard
                 </MenuItem>
@@ -180,16 +190,16 @@ const Navbar = ({ show }) => {
               }}
             >
               <Tooltip title="Account settings">
-                <IconButton onClick={handleClick}>
+                <IconButton onClick={handleClickMobile}>
                   <Avatar src={state.user.avatar} sx={{ width: 55, height: 55 }}></Avatar>
                 </IconButton>
               </Tooltip>
             </Box>
             <Menu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              onClick={handleClose}
+              anchorEl={anchorElMobile}
+              open={openMobile}
+              onClose={handleCloseMobile}
+              onClick={handleCloseMobile}
               PaperProps={{
                 elevation: 0,
                 sx: {
@@ -219,13 +229,9 @@ const Navbar = ({ show }) => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem>
-                <FaUser />
+              <MenuItem onClick={() => navigate(`/users/${state.user._id}`)} >
+                <FaUser/>
                 &nbsp;Profile
-              </MenuItem>
-              <MenuItem>
-                <MdDashboard />
-                &nbsp;Dashboard
               </MenuItem>
               <MenuItem onClick={signout}>
                 <BiLogOut />

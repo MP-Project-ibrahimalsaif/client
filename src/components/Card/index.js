@@ -135,6 +135,8 @@ const Card = ({ preview, data, watchlist, render }) => {
           "the auction has been added to your watchlist",
           "success"
         );
+
+        if (render) render();
       } catch (error) {
         console.log(error);
         handleSnackbar("oops something went wrong", "error");
