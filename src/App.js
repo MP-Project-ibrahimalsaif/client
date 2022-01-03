@@ -17,6 +17,7 @@ import DashboardUsers from "./components/DashboardUsers";
 import DashboardReports from "./components/DashboardReports";
 import DashboardInvoices from "./components/DashboardInvoices";
 import VerifyFromEmail from "./components/VerifyFromEmail";
+import ResetPassword from "./components/ResetPassword";
 import "./App.css";
 
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
         <Route exact path="/dashboard/reports" element={<DashboardReports />} />
         <Route exact path="/dashboard/invoices" element={<DashboardInvoices />} />
         <Route exact path="/verify_from_email" element={<VerifyFromEmail />} />
+        <Route exact path="/reset_password/:id" element={<ResetPassword />} />
       </Routes>
     </>
   );
