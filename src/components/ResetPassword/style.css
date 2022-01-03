@@ -1,0 +1,55 @@
+.resetPasswordWrapper {
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ebeef7;
+}
+
+.resetPasswordBox {
+  height: 40rem;
+  width: 60rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--text-dark);
+  color: var(--text-light);
+}
+
+.resetPasswordBox h1 {
+  font-size: 300%;
+}
+
+.passwordInput {
+  background-color: var(--text-light);
+}
+
+.resetPasswordBox .resetBtn {
+  font-size: 150%;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  letter-spacing: 1px;
+  border: none;
+  transition: all 500ms ease;
+}
+
+.resetPasswordBox .resetBtn:disabled {
+  background-color: var(--text-light);
+  color: var(--text-dark);
+}
+
+.resetPasswordBox .resetBtn:hover,
+.resetPasswordBox .resetBtn:focus {
+  cursor: pointer;
+  background-color: var(--light-purple1);
+  color: var(--text-light);
+}
+
+.resetPasswordBox .resetBtn:hover:disabled,
+.resetPasswordBox .resetBtn:focus:disabled {
+  cursor: default;
+  background-color: var(--text-light);
+  color: var(--text-dark);
+}
