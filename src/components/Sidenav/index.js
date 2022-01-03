@@ -20,9 +20,9 @@ const Sidenav = () => {
   });
 
   const signout = async () => {
-    dispatch(userLogout({ role: "", token: "", user: null }));
     await axios.get(`${process.env.REACT_APP_BASE_URL}/logout`);
     navigate("/login");
+    dispatch(userLogout({ role: "", token: "", user: null }));
   };
 
   return (

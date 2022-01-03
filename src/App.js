@@ -19,6 +19,7 @@ import DashboardInvoices from "./components/DashboardInvoices";
 import VerifyFromEmail from "./components/VerifyFromEmail";
 import VerifyTheAccount from "./components/VerifyTheAccount";
 import ResetPassword from "./components/ResetPassword";
+import Payment from "./components/Payment";
 import "./App.css";
 
 const App = () => {
@@ -44,6 +45,7 @@ const App = () => {
         <Route exact path="/verify_from_email" element={<VerifyFromEmail />} />
         <Route exact path="/verify_account/:id" element={<VerifyTheAccount />} />
         <Route exact path="/reset_password/:id" element={<ResetPassword />} />
+        <Route exact path="/pay/:id" element={<Payment />} />
       </Routes>
     </>
   );
