@@ -1,0 +1,23 @@
+.verifyBtn {
+  font-size: 150%;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  letter-spacing: 1px;
+  border: none;
+  transition: all 500ms ease;
+  background-color: var(--text-light);
+  color: var(--text-dark);
+}
+
+.verifyBtn:hover,
+.verifyBtn:focus {
+  cursor: pointer;
+  background-color: var(--light-purple1);
+  color: var(--text-light);
+}
+
+@media (max-width: 600px) {
+  .verifyBtn {
+    font-size: 100%;
+  }
+}

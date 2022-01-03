@@ -7,16 +7,16 @@
 }
 
 .verifyBox {
-  height: 30rem;
+  height: 35rem;
   width: 60rem;
   padding: 2rem 3rem;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  background-color: var(--text-light);
-  color: var(--text-dark);
+  background-color: var(--text-dark);
+  color: var(--text-light);
 }
 
 .verifyBox h1 {
@@ -30,7 +30,7 @@
 
 @media (max-width: 1200px) {
   .verifyBox {
-    height: 25rem;
+    height: 30rem;
     width: 50rem;
     padding: 1.5rem 2rem;
   }
@@ -46,7 +46,7 @@
 
 @media (max-width: 900px) {
   .verifyBox {
-    height: 20rem;
+    height: 25rem;
     width: 45rem;
     padding: 1rem 2rem;
   }
@@ -62,7 +62,7 @@
 
 @media (max-width: 800px) {
   .verifyBox {
-    height: 15rem;
+    height: 20rem;
     width: 35rem;
   }
 
@@ -77,12 +77,12 @@
 
 @media (max-width: 600px) {
   .verifyBox {
-    height: 50%;
+    height: 25rem;
     width: 90%;
   }
 
   .verifyBox h1 {
-    font-size: 200%;
+    font-size: 150%;
   }
   
   .verifyBox p {
