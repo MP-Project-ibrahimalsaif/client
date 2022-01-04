@@ -55,7 +55,7 @@ export default function CheckoutForm({ auctionId }) {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `http://localhost:3000/dashboard/invoices?id=${auctionId.id}`,
+        return_url: `https://mazadwebsite.herokuapp.com/dashboard/invoices?id=${auctionId.id}`,
       },
     });
 
