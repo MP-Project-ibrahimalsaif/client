@@ -35,6 +35,7 @@ const Auction = () => {
   const state = useSelector((state) => {
     return {
       token: state.Login.token,
+      user: state.Login.user,
     };
   });
 
@@ -52,7 +53,7 @@ const Auction = () => {
   useEffect(() => {
     if (auction) {
       schedule.scheduleJob(auction.endDateTime, () => {
-        getAuction();
+        setTimeout(()=>{endRender();}, 1000)
       });
     }
     // eslint-disable-next-line
@@ -102,6 +103,13 @@ const Auction = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const endRender = async () => {
+    setBids([]);
+    setBidsShow([]);
+    setAuction(null);
+    getAuction();
   };
 
   const timer = () => {
@@ -255,7 +263,7 @@ const Auction = () => {
                 </div>
               </div>
             </div>
-            {state.token && !auction.sold ? (
+            {state.token && !auction.sold && state.user._id !== auction.createdBy._id ? (
               <div className="auctionBid">
                 <h1>Make a bid</h1>
                 <div>

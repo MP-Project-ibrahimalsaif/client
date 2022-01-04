@@ -115,30 +115,46 @@ const CreateAuction = () => {
   };
 
   const addAuction = async () => {
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/auctions`,
-        {
-          title,
-          description,
-          images: urls,
-          initialPrice,
-          minIncrement,
-          categories,
-          endDateTime: dateTime,
-          condition,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${state.token}`,
+    if (
+      title &&
+      description &&
+      urls &&
+      initialPrice &&
+      minIncrement &&
+      condition &&
+      categories &&
+      dateTime
+    ) {
+      try {
+        await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/auctions`,
+          {
+            title,
+            description,
+            images: urls,
+            initialPrice,
+            minIncrement,
+            categories,
+            endDateTime: dateTime,
+            condition,
           },
-        }
+          {
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+          }
+        );
+        handleSnackbar("your auction has been added successfully", "success");
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+        handleSnackbar("oops something went wrong", "error");
+      }
+    } else {
+      handleSnackbar(
+        "all fields are required, make sure to fill every field correctly",
+        "error"
       );
-      handleSnackbar('your auction has been added successfully', 'success');
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-      handleSnackbar('oops something went wrong', 'error');
     }
   };
 
@@ -157,6 +173,7 @@ const CreateAuction = () => {
                   <div className="createAuctionItem">
                     <label>Title</label>
                     <TextField
+                      required
                       id="outlined-basic"
                       onChange={(e) => setTitle(e.target.value)}
                     />
@@ -203,7 +220,11 @@ const CreateAuction = () => {
                     <label>Initial price</label>
                     <OutlinedInput
                       id="outlined-adornment-amount"
-                      onChange={(e) => setInitialPrice(e.target.value)}
+                      onChange={(e) => {
+                        if (Number.isInteger(Number(e.target.value))) {
+                          setInitialPrice(e.target.value);
+                        }
+                      }}
                       endAdornment={
                         <InputAdornment position="end">SAR</InputAdornment>
                       }
@@ -213,7 +234,11 @@ const CreateAuction = () => {
                     <label>Minimum increment</label>
                     <OutlinedInput
                       id="outlined-adornment-amount"
-                      onChange={(e) => setMinIncrement(e.target.value)}
+                      onChange={(e) => {
+                        if (Number.isInteger(Number(e.target.value))) {
+                          setMinIncrement(e.target.value);
+                        }
+                      }}
                       endAdornment={
                         <InputAdornment position="end">SAR</InputAdornment>
                       }

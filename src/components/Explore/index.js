@@ -24,6 +24,7 @@ const category = [
 
 const Explore = () => {
   const [auctionsShow, setAuctionsShow] = useState([]);
+  const [auctionsFiltered, setAuctionsFiltered] = useState([]);
   const [auctions, setAuctions] = useState([]);
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState([]);
@@ -44,117 +45,103 @@ const Explore = () => {
   }, []);
 
   useEffect(() => {
-    setAuctionsShow(auctions.slice(0, loadElements));
+    setAuctionsShow([...auctionsFiltered].slice(0, loadElements));
     setLoadMore(false);
     // eslint-disable-next-line
   }, [loadMore]);
 
   useEffect(() => {
-    filterSearch();
+    setLoadElements(20);
+    filters();
     // eslint-disable-next-line
-  }, [search]);
+  }, [filter, condition, categories, search]);
 
-  useEffect(() => {
-    filterType();
-    // eslint-disable-next-line
-  }, [filter]);
+  const filters = () => {
+    const auctionsCopy = [...auctions];
+    const typeFiltered = filterType(auctionsCopy);
+    const conditionFiltered = filterCondition(typeFiltered);
+    const catFiltered = filterCat(conditionFiltered);
+    const searchFiltered = filterSearch(catFiltered);
+    setAuctionsFiltered(searchFiltered);
+    setAuctionsShow(searchFiltered.slice(0, loadElements));
+  };
 
-  useEffect(() => {
-    filterCondition();
-    // eslint-disable-next-line
-  }, [condition]);
-
-  useEffect(() => {
-    filterCat();
-    // eslint-disable-next-line
-  }, [categories]);
-
-  const filterSearch = () => {
+  const filterSearch = (auctionsFiltered) => {
     if (search.trim()) {
-      const searchedArray = auctionsShow.filter((auction) =>
+      const searchedArray = auctionsFiltered.filter((auction) =>
         auction.title.includes(search)
       );
-      setAuctionsShow(searchedArray);
+      return searchedArray;
     } else {
-      setAuctionsShow(auctions);
+      return auctionsFiltered;
     }
   };
 
-  const filterType = () => {
-    if (filter) {
-      switch (filter) {
-        case "all":
-          setAuctionsShow(auctions);
-          break;
-        case "live":
-          const liveAuctions = [...auctionsShow].filter((auction) => !auction.sold);
-          setAuctionsShow(liveAuctions);
-          break;
-        case "ended":
-          const endedAuctions = [...auctionsShow].filter((auction) => auction.sold);
-          setAuctionsShow(endedAuctions);
-          break;
-        case "popular":
-          const popularAuctions = [...auctionsShow]
-            .filter((auction) => !auction.sold)
-            .sort((a, b) => {
-              return b.bids - a.bids;
-            });
-          setAuctionsShow(popularAuctions);
-          break;
-        case "last_minute":
-          const lastMinuteAuctions = [...auctionsShow]
-            .filter((auction) => !auction.sold)
-            .sort((a, b) => {
-              return (
-                Math.abs(Date.now() - Date.parse(a.endDateTime)) -
-                Math.abs(Date.now() - Date.parse(b.endDateTime))
-              );
-            });
-          setAuctionsShow(lastMinuteAuctions);
-          break;
-        case "new":
-          const newAuctions = [...auctionsShow]
-            .filter((auction) => !auction.sold)
-            .sort((a, b) => {
-              return (
-                Math.abs(Date.now() - Date.parse(a.timestamp)) -
-                Math.abs(Date.now() - Date.parse(b.timestamp))
-              );
-            });
-          setAuctionsShow(newAuctions);
-          break;
-        default:
-          setAuctionsShow(auctions);
-      }
-    } else {
-      setAuctionsShow(auctions);
-    }
-  };
-
-  const filterCondition = () => {
-    if (condition) {
-      if (condition === "all") {
-        setAuctionsShow(auctions);
-      } else {
-        const conditionArray = [...auctionsShow].filter(
-          (auction) => auction.condition === condition
+  const filterType = (auctionsFiltered) => {
+    switch (filter) {
+      case "all":
+        return auctionsFiltered;
+      case "live":
+        const liveAuctions = [...auctionsFiltered].filter(
+          (auction) => !auction.sold
         );
-        setAuctionsShow(conditionArray);
-      }
-    } else {
-      setAuctionsShow(auctions);
+        return liveAuctions;
+      case "ended":
+        const endedAuctions = [...auctionsFiltered].filter(
+          (auction) => auction.sold
+        );
+        return endedAuctions;
+      case "popular":
+        const popularAuctions = [...auctionsFiltered]
+          .filter((auction) => !auction.sold)
+          .sort((a, b) => {
+            return b.bids - a.bids;
+          });
+        return popularAuctions;
+      case "last_minute":
+        const lastMinuteAuctions = [...auctionsFiltered]
+          .filter((auction) => !auction.sold)
+          .sort((a, b) => {
+            return (
+              Math.abs(Date.now() - Date.parse(a.endDateTime)) -
+              Math.abs(Date.now() - Date.parse(b.endDateTime))
+            );
+          });
+        return lastMinuteAuctions;
+      case "new":
+        const newAuctions = [...auctionsFiltered]
+          .filter((auction) => !auction.sold)
+          .sort((a, b) => {
+            return (
+              Math.abs(Date.now() - Date.parse(a.timestamp)) -
+              Math.abs(Date.now() - Date.parse(b.timestamp))
+            );
+          });
+        return newAuctions;
+      default:
+        return auctionsFiltered;
     }
   };
 
-  const filterCat = () => {
+  const filterCondition = (auctionsFiltered) => {
+    if (condition === "all") {
+      return auctionsFiltered;
+    } else {
+      const conditionArray = [...auctionsFiltered].filter(
+        (auction) => auction.condition === condition
+      );
+      return conditionArray;
+    }
+  };
+
+  const filterCat = (auctionsFiltered) => {
     if (categories.length > 0) {
-      const categoriesArray = [...auctionsShow].filter((auction) =>
+      const categoriesArray = [...auctionsFiltered].filter((auction) =>
         auction.categories.some((category) => categories.indexOf(category) >= 0)
       );
-      setAuctionsShow(categoriesArray);
+      return categoriesArray;
     } else {
-      setAuctionsShow(auctions);
+      return auctionsFiltered;
     }
   };
 
@@ -174,10 +161,17 @@ const Explore = () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/auctions`);
       setAuctions(res.data);
+      setAuctionsFiltered(res.data);
       setAuctionsShow(res.data.slice(0, loadElements));
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const endRender = async () => {
+    setAuctions([]);
+    setAuctionsShow([]);
+    getAuctions();
   };
 
   return (
@@ -287,7 +281,7 @@ const Explore = () => {
             <>
               <div className="cards">
                 {auctionsShow.map((auction) =>
-                  state.user.watchlist ? (
+                  state.user && state.user.watchlist ? (
                     state.user.watchlist.find(
                       (addedAuction) => addedAuction === auction._id
                     ) ? (
@@ -296,6 +290,7 @@ const Explore = () => {
                         data={auction}
                         watchlist={true}
                         key={auction._id}
+                        render={endRender}
                       />
                     ) : (
                       <Card
@@ -303,6 +298,7 @@ const Explore = () => {
                         data={auction}
                         watchlist={false}
                         key={auction._id}
+                        render={endRender}
                       />
                     )
                   ) : (
@@ -311,6 +307,7 @@ const Explore = () => {
                       data={auction}
                       watchlist={false}
                       key={auction._id}
+                      render={endRender}
                     />
                   )
                 )}

@@ -90,6 +90,14 @@ const DashboardBids = () => {
     }
   };
 
+  const endRender = async () => {
+    setLive([]);
+    setShowLive([]);
+    setSold([]);
+    setShowSold([]);
+    getUserBids();
+  };
+
   return (
     <>
       {state.token ? (
@@ -98,7 +106,7 @@ const DashboardBids = () => {
           <div className="dashboardLayout">
             <div className="dashboardSection">
               <h1 className="dashboardSectionTitle">Live Now</h1>
-              {live.length > 0 ? (
+              {live ? (
                 showLive.length > 0 ? (
                   <>
                     <div className="cards">
@@ -112,6 +120,7 @@ const DashboardBids = () => {
                               data={auction}
                               watchlist={true}
                               key={auction._id}
+                              render={endRender}
                             />
                           ) : (
                             <Card
@@ -119,6 +128,7 @@ const DashboardBids = () => {
                               data={auction}
                               watchlist={false}
                               key={auction._id}
+                              render={endRender}
                             />
                           )
                         ) : (
@@ -127,6 +137,7 @@ const DashboardBids = () => {
                             data={auction}
                             watchlist={false}
                             key={auction._id}
+                            render={endRender}
                           />
                         )
                       )}
@@ -162,7 +173,7 @@ const DashboardBids = () => {
             </div>
             <div className="dashboardSection">
               <h1 className="dashboardSectionTitle">Sold</h1>
-              {sold.length > 0 ? (
+              {sold ? (
                 showSold.length > 0 ? (
                   <>
                     <div className="cards">
@@ -176,6 +187,7 @@ const DashboardBids = () => {
                               data={auction}
                               watchlist={true}
                               key={auction._id}
+                              render={endRender}
                             />
                           ) : (
                             <Card
@@ -183,6 +195,7 @@ const DashboardBids = () => {
                               data={auction}
                               watchlist={false}
                               key={auction._id}
+                              render={endRender}
                             />
                           )
                         ) : (
@@ -191,6 +204,7 @@ const DashboardBids = () => {
                             data={auction}
                             watchlist={false}
                             key={auction._id}
+                            render={endRender}
                           />
                         )
                       )}
