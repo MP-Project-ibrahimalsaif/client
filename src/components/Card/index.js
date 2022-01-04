@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import schedule from "node-schedule";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -16,7 +17,7 @@ import "./style.css";
 
 const MySwal = withReactContent(Swal);
 
-const Card = ({ preview, data, watchlist, render }) => {
+const Card = ({ preview, data, watchlist, render, renderCard }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -42,6 +43,17 @@ const Card = ({ preview, data, watchlist, render }) => {
     }
     // eslint-disable-next-line
   }, [data.endDateTime]);
+
+  useEffect(() => {
+    if (!preview) {
+      schedule.scheduleJob(data.endDateTime, () => {
+        setTimeout(() => {
+          render();
+        }, 1000);
+      });
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const handleSnackbar = (message, type) => {
     enqueueSnackbar(message, {
@@ -136,7 +148,7 @@ const Card = ({ preview, data, watchlist, render }) => {
           "success"
         );
 
-        if (render) render();
+        if (renderCard) renderCard();
       } catch (error) {
         console.log(error);
         handleSnackbar("oops something went wrong", "error");
@@ -173,8 +185,7 @@ const Card = ({ preview, data, watchlist, render }) => {
           "success"
         );
 
-        if (render) render();
-        
+        if (renderCard) renderCard();
       } catch (error) {
         console.log(error);
         handleSnackbar("oops something went wrong", "error");
@@ -248,13 +259,30 @@ const Card = ({ preview, data, watchlist, render }) => {
       </div>
       <div className="auctionCardOptions">
         <span onClick={() => !preview && navigate(`/explore/${data._id}`)}>
-          {data.sold ? "Visit auction" : "Place a bid"}
+          {state.user
+            ? data.sold || state.user._id === data.createdBy._id
+              ? "Visit auction"
+              : "Place a bid"
+            : data.sold
+            ? "Visit auction"
+            : "Place a bid"}
         </span>
-        {watchList ? (
-          <CgPlayListRemove
-            className="auctionCardOptionsdelete"
-            onClick={() => !preview && deleteFromWatchList(data._id)}
-          />
+        {state.user ? (
+          state.user._id !== data.createdBy._id ? (
+            watchList ? (
+              <CgPlayListRemove
+                className="auctionCardOptionsdelete"
+                onClick={() => !preview && deleteFromWatchList(data._id)}
+              />
+            ) : (
+              <CgPlayListAdd
+                className="auctionCardOptionsAdd"
+                onClick={() => !preview && addToWatchList(data._id)}
+              />
+            )
+          ) : (
+            ""
+          )
         ) : (
           <CgPlayListAdd
             className="auctionCardOptionsAdd"

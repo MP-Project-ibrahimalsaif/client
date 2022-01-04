@@ -120,6 +120,12 @@ const Profile = () => {
     }
   };
 
+  const endRender = async () => {
+    setProfile(null);
+    setCards([]);
+    getUserAuction();
+  };
+
   return (
     <>
       <Navbar show={true} />
@@ -158,11 +164,37 @@ const Profile = () => {
             </div>
             {cards.length > 0 ? (
               <div className="profileCards">
-                {cards.map((auction) => {
-                  return (
-                    <Card preview={false} data={auction} key={auction._id} />
-                  );
-                })}
+                {cards.map((auction) =>
+                  state.user && state.user.watchlist ? (
+                    state.user.watchlist.find(
+                      (addedAuction) => addedAuction === auction._id
+                    ) ? (
+                      <Card
+                        preview={false}
+                        data={auction}
+                        watchlist={true}
+                        key={auction._id}
+                        render={endRender}
+                      />
+                    ) : (
+                      <Card
+                        preview={false}
+                        data={auction}
+                        watchlist={false}
+                        key={auction._id}
+                        render={endRender}
+                      />
+                    )
+                  ) : (
+                    <Card
+                      preview={false}
+                      data={auction}
+                      watchlist={false}
+                      key={auction._id}
+                      render={endRender}
+                    />
+                  )
+                )}
               </div>
             ) : (
               <div className="centerHight">

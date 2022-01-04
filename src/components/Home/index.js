@@ -58,6 +58,11 @@ const Home = () => {
     }
   };
 
+  const endRender = async () => {
+    setAuctions(null);
+    getAuctions();
+  };
+
   return (
     <>
       <Navbar show={false} />
@@ -104,7 +109,7 @@ const Home = () => {
                   leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
                 >
                   {auctions.lastMinAuctions.map((auction) =>
-                    state.user.watchlist ? (
+                    state.user && state.user.watchlist ? (
                       state.user.watchlist.find(
                         (addedAuction) => addedAuction === auction._id
                       ) ? (
@@ -113,7 +118,8 @@ const Home = () => {
                           data={auction}
                           watchlist={true}
                           key={auction._id}
-                          render={getAuctions}
+                          render={endRender}
+                          renderCard={endRender}
                         />
                       ) : (
                         <Card
@@ -121,7 +127,8 @@ const Home = () => {
                           data={auction}
                           watchlist={false}
                           key={auction._id}
-                          render={getAuctions}
+                          render={endRender}
+                          renderCard={endRender}
                         />
                       )
                     ) : (
@@ -130,7 +137,8 @@ const Home = () => {
                         data={auction}
                         watchlist={false}
                         key={auction._id}
-                        render={getAuctions}
+                        render={endRender}
+                        renderCard={endRender}
                       />
                     )
                   )}
@@ -170,11 +178,11 @@ const Home = () => {
                   swiping={true}
                   infinite={false}
                   className="cardsCarousel"
-                  rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
-                  leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
+                  // rightarrow={<AiOutlineArrowRight className="carouselArrow" />}
+                  // leftarrow={<AiOutlineArrowLeft className="carouselArrow" />}
                 >
                   {auctions.popularAuctions.map((auction) =>
-                    state.user.watchlist ? (
+                    state.user && state.user.watchlist ? (
                       state.user.watchlist.find(
                         (addedAuction) => addedAuction === auction._id
                       ) ? (
@@ -183,7 +191,8 @@ const Home = () => {
                           data={auction}
                           watchlist={true}
                           key={auction._id}
-                          render={getAuctions}
+                          render={endRender}
+                          renderCard={endRender}
                         />
                       ) : (
                         <Card
@@ -191,7 +200,8 @@ const Home = () => {
                           data={auction}
                           watchlist={false}
                           key={auction._id}
-                          render={getAuctions}
+                          render={endRender}
+                          renderCard={endRender}
                         />
                       )
                     ) : (
@@ -200,7 +210,8 @@ const Home = () => {
                         data={auction}
                         watchlist={false}
                         key={auction._id}
-                        render={getAuctions}
+                        render={endRender}
+                        renderCard={endRender}
                       />
                     )
                   )}
@@ -244,7 +255,7 @@ const Home = () => {
                   leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
                 >
                   {auctions.newAuctions.map((auction) =>
-                    state.user.watchlist ? (
+                    state.user && state.user.watchlist ? (
                       state.user.watchlist.find(
                         (addedAuction) => addedAuction === auction._id
                       ) ? (
@@ -253,7 +264,8 @@ const Home = () => {
                           data={auction}
                           watchlist={true}
                           key={auction._id}
-                          render={getAuctions}
+                          render={endRender}
+                          renderCard={endRender}
                         />
                       ) : (
                         <Card
@@ -261,7 +273,8 @@ const Home = () => {
                           data={auction}
                           watchlist={false}
                           key={auction._id}
-                          render={getAuctions}
+                          render={endRender}
+                          renderCard={endRender}
                         />
                       )
                     ) : (
@@ -270,7 +283,8 @@ const Home = () => {
                         data={auction}
                         watchlist={false}
                         key={auction._id}
-                        render={getAuctions}
+                        render={endRender}
+                        renderCard={endRender}
                       />
                     )
                   )}

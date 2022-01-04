@@ -134,30 +134,46 @@ const EditAuction = () => {
   };
 
   const editAuction = async () => {
-    try {
-      await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/auctions/${id}`,
-        {
-          title,
-          description,
-          images: urls.length > 0 ? urls : auction.images,
-          initialPrice,
-          minIncrement,
-          categories: categories.length > 0 ? categories : auction.categories,
-          endDateTime: dateTime,
-          condition,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${state.token}`,
+    if (
+      title &&
+      description &&
+      urls &&
+      initialPrice &&
+      minIncrement &&
+      condition &&
+      categories &&
+      dateTime
+    ) {
+      try {
+        await axios.put(
+          `${process.env.REACT_APP_BASE_URL}/auctions/${id}`,
+          {
+            title,
+            description,
+            images: urls.length > 0 ? urls : auction.images,
+            initialPrice,
+            minIncrement,
+            categories: categories.length > 0 ? categories : auction.categories,
+            endDateTime: dateTime,
+            condition,
           },
-        }
+          {
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+          }
+        );
+        handleSnackbar("your auction has been updated successfully", "success");
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+        handleSnackbar("oops something went wrong", "error");
+      }
+    } else {
+      handleSnackbar(
+        "all fields are required, make sure to fill every field correctly",
+        "error"
       );
-      handleSnackbar('your auction has been updated successfully', 'success');
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-      handleSnackbar('oops something went wrong', 'error');
     }
   };
 
@@ -231,7 +247,11 @@ const EditAuction = () => {
                         <OutlinedInput
                           id="outlined-adornment-amount"
                           defaultValue={auction.initialPrice}
-                          onChange={(e) => setInitialPrice(e.target.value)}
+                          onChange={(e) => {
+                            if (Number.isInteger(Number(e.target.value))) {
+                              setInitialPrice(e.target.value);
+                            }
+                          }}
                           required
                           endAdornment={
                             <InputAdornment position="end">SAR</InputAdornment>
@@ -243,7 +263,11 @@ const EditAuction = () => {
                         <OutlinedInput
                           id="outlined-adornment-amount"
                           defaultValue={auction.minIncrement}
-                          onChange={(e) => setMinIncrement(e.target.value)}
+                          onChange={(e) => {
+                            if (Number.isInteger(Number(e.target.value))) {
+                              setMinIncrement(e.target.value);
+                            }
+                          }}
                           required
                           endAdornment={
                             <InputAdornment position="end">SAR</InputAdornment>

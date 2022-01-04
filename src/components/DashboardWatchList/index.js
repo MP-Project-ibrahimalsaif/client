@@ -70,6 +70,14 @@ const DashboardWatchList = () => {
     }
   };
 
+  const endRender = async () => {
+    setLive([]);
+    setShowLive([]);
+    setSold([]);
+    setShowSold([]);
+    getUserWatchList();
+  };
+
   return (
     <>
       {state.token ? (
@@ -78,7 +86,7 @@ const DashboardWatchList = () => {
           <div className="dashboardLayout">
             <div className="dashboardSection">
               <h1 className="dashboardSectionTitle">Live Now</h1>
-              {live.length > 0 ? (
+              {live ? (
                 showLive.length > 0 ? (
                   <>
                     <div className="cards">
@@ -88,7 +96,8 @@ const DashboardWatchList = () => {
                           data={auction}
                           watchlist={true}
                           key={auction._id}
-                          render={getUserWatchList}
+                          render={endRender}
+                          renderCard={getUserWatchList}
                         />
                       ))}
                     </div>
@@ -123,7 +132,7 @@ const DashboardWatchList = () => {
             </div>
             <div className="dashboardSection">
               <h1 className="dashboardSectionTitle">Sold</h1>
-              {sold.length > 0 ? (
+              {sold ? (
                 showSold.length > 0 ? (
                   <>
                     <div className="cards">
@@ -133,7 +142,8 @@ const DashboardWatchList = () => {
                           data={auction}
                           watchlist={true}
                           key={auction._id}
-                          render={getUserWatchList}
+                          render={endRender}
+                          renderCard={getUserWatchList}
                         />
                       ))}
                     </div>
