@@ -126,26 +126,33 @@ const CreateAuction = () => {
       dateTime
     ) {
       try {
-        await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/auctions`,
-          {
-            title,
-            description,
-            images: urls,
-            initialPrice,
-            minIncrement,
-            categories,
-            endDateTime: dateTime,
-            condition,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${state.token}`,
+        if (dateTime > new Date()) {
+          await axios.post(
+            `${process.env.REACT_APP_BASE_URL}/auctions`,
+            {
+              title,
+              description,
+              images: urls,
+              initialPrice,
+              minIncrement,
+              categories,
+              endDateTime: dateTime,
+              condition,
             },
-          }
-        );
-        handleSnackbar("your auction has been added successfully", "success");
-        navigate("/");
+            {
+              headers: {
+                Authorization: `Bearer ${state.token}`,
+              },
+            }
+          );
+          handleSnackbar("your auction has been added successfully", "success");
+          navigate("/");
+        } else {
+          handleSnackbar(
+            "the time of the auction must be in the future",
+            "error"
+          );
+        }
       } catch (error) {
         console.log(error);
         handleSnackbar("oops something went wrong", "error");

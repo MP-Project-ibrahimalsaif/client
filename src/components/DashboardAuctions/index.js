@@ -41,11 +41,12 @@ const DashboardAuctions = () => {
                 ? "dashboardATag dashboardTableAuctionTitle"
                 : "dashboardATag"
             }
-            href={
-              params.row.status === "approved"
-                ? `/explore/${params.row.id}`
-                : "#/"
-            }
+            onClick={() => {
+              if (params.row.status === "approved") {
+                navigate(`/explore/${params.row.id}`);
+              }
+            }}
+            href="#/"
           >
             {params.row.auction}
           </a>

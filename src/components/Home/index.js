@@ -178,8 +178,8 @@ const Home = () => {
                   swiping={true}
                   infinite={false}
                   className="cardsCarousel"
-                  // rightarrow={<AiOutlineArrowRight className="carouselArrow" />}
-                  // leftarrow={<AiOutlineArrowLeft className="carouselArrow" />}
+                  rightArrow={<AiOutlineArrowRight className="carouselArrow" />}
+                  leftArrow={<AiOutlineArrowLeft className="carouselArrow" />}
                 >
                   {auctions.popularAuctions.map((auction) =>
                     state.user && state.user.watchlist ? (
