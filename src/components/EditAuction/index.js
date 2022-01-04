@@ -145,26 +145,37 @@ const EditAuction = () => {
       dateTime
     ) {
       try {
-        await axios.put(
-          `${process.env.REACT_APP_BASE_URL}/auctions/${id}`,
-          {
-            title,
-            description,
-            images: urls.length > 0 ? urls : auction.images,
-            initialPrice,
-            minIncrement,
-            categories: categories.length > 0 ? categories : auction.categories,
-            endDateTime: dateTime,
-            condition,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${state.token}`,
+        if (dateTime > new Date()) {
+          await axios.put(
+            `${process.env.REACT_APP_BASE_URL}/auctions/${id}`,
+            {
+              title,
+              description,
+              images: urls.length > 0 ? urls : auction.images,
+              initialPrice,
+              minIncrement,
+              categories:
+                categories.length > 0 ? categories : auction.categories,
+              endDateTime: dateTime,
+              condition,
             },
-          }
-        );
-        handleSnackbar("your auction has been updated successfully", "success");
-        navigate("/");
+            {
+              headers: {
+                Authorization: `Bearer ${state.token}`,
+              },
+            }
+          );
+          handleSnackbar(
+            "your auction has been updated successfully",
+            "success"
+          );
+          navigate("/");
+        } else {
+          handleSnackbar(
+            "the time of the auction must be in the future",
+            "error"
+          );
+        }
       } catch (error) {
         console.log(error);
         handleSnackbar("oops something went wrong", "error");
