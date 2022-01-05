@@ -24,8 +24,8 @@ const category = [
   "Art",
   "Entertainment",
   "Services",
+  "Digital Goods",
   "Collectibles",
-  "Electronics",
   "Jewelry",
 ];
 
