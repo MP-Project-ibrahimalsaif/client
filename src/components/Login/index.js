@@ -48,6 +48,7 @@ const Login = () => {
           user: res.data.result,
         })
       );
+      localStorage.setItem("tokenExpiration", Date.now() + 36000000);
       handleSnackbar("you have been logged-in successfully", "success");
       navigate("/");
     } catch (error) {
@@ -79,10 +80,9 @@ const Login = () => {
                   user: user.result,
                 })
               );
+              localStorage.setItem("tokenExpiration", Date.now() + 36000000);
               handleSnackbar("you have been logged-in successfully", "success");
               navigate("/");
-            } else {
-              handleSnackbar("oops something went wrong", "error");
             }
           }
         }

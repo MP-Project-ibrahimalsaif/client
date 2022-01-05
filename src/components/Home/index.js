@@ -13,6 +13,7 @@ import "./style.css";
 const Home = () => {
   const navigate = useNavigate();
   const [auctions, setAuctions] = useState(null);
+  const [cards, setCards] = useState(0);
 
   const state = useSelector((state) => {
     return {
@@ -21,9 +22,25 @@ const Home = () => {
   });
 
   useEffect(() => {
+    windowSize();
     getAuctions();
     // eslint-disable-next-line
   }, []);
+
+  const windowSize = () => {
+    const width = window.innerWidth;
+    if (width > 1800) {
+      setCards(5);
+    } else if (width >= 1550 && width <= 1800) {
+      setCards(4);
+    } else if (width >= 1150 && width <= 1550) {
+      setCards(3);
+    } else if (width >= 800 && width <= 1150) {
+      setCards(2);
+    } else if (width < 800) {
+      setCards(1);
+    }
+  };
 
   const getAuctions = async () => {
     try {
@@ -52,9 +69,17 @@ const Home = () => {
           );
         })
         .slice(0, 10);
-      setAuctions({ lastMinAuctions, popularAuctions, newAuctions });
+      setAuctions({
+        lastMinAuctions: lastMinAuctions ? lastMinAuctions : [],
+        popularAuctions: popularAuctions ? popularAuctions : [],
+        newAuctions: newAuctions ? newAuctions : [],
+      });
     } catch (error) {
-      console.log(error);
+      setAuctions({
+        lastMinAuctions: [],
+        popularAuctions: [],
+        newAuctions: [],
+      });
     }
   };
 
@@ -101,7 +126,7 @@ const Home = () => {
             {auctions ? (
               auctions.lastMinAuctions.length > 0 ? (
                 <Carousel
-                  show={5}
+                  show={cards}
                   swiping={true}
                   infinite={false}
                   className="cardsCarousel"
@@ -174,7 +199,7 @@ const Home = () => {
             {auctions ? (
               auctions.popularAuctions.length > 0 ? (
                 <Carousel
-                  show={5}
+                  show={cards}
                   swiping={true}
                   infinite={false}
                   className="cardsCarousel"
@@ -247,7 +272,7 @@ const Home = () => {
             {auctions ? (
               auctions.newAuctions.length > 0 ? (
                 <Carousel
-                  show={5}
+                  show={cards}
                   swiping={true}
                   infinite={false}
                   className="cardsCarousel"

@@ -30,6 +30,7 @@ const Login = (state = initialState, action) => {
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       localStorage.removeItem("user");
+      localStorage.removeItem("tokenExpiration");
       return { role: "", token: "", user: null };
     default:
       const tokenStorge = localStorage.getItem("token");
