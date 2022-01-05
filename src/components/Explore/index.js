@@ -30,6 +30,7 @@ const Explore = () => {
   const [categories, setCategories] = useState([]);
   const [condition, setCondition] = useState("all");
   const [filter, setFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
   const [loadMore, setLoadMore] = useState(false);
   const [loadElements, setLoadElements] = useState(20);
 
@@ -158,6 +159,7 @@ const Explore = () => {
   };
 
   const getAuctions = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/auctions`);
       setAuctions(res.data);
@@ -166,12 +168,15 @@ const Explore = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const endRender = async () => {
+    setLoading(true);
     setAuctions([]);
     setAuctionsShow([]);
     getAuctions();
+    setLoading(false);
   };
 
   return (
@@ -276,7 +281,7 @@ const Explore = () => {
             </div>
           </div>
         </div>
-        {auctions.length > 0 ? (
+        {!loading ? (
           auctionsShow.length > 0 ? (
             <>
               <div className="cards">
