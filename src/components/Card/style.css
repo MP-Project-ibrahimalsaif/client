@@ -61,6 +61,13 @@
   font-size: 120%;
   font-weight: bold;
   color: var(--text-dark);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1; 
+  line-height: X;
+  max-height: X * 1;
 }
 
 .auctionCardReport {

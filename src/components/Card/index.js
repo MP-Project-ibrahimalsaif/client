@@ -245,7 +245,7 @@ const Card = ({ preview, data, watchlist, render, renderCard }) => {
               onClose={handleClose}
             >
               <MenuItem
-                onClick={() => createReport(data.createdBy._id, data._id)}
+                onClick={() => !preview && createReport(data.createdBy._id, data._id)}
               >
                 Report
               </MenuItem>
