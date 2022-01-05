@@ -42,6 +42,14 @@
   align-items: center;
 }
 
+.errorHight {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .dashboardLayout {
   min-height: 100vh;
   margin-left: 15rem;
