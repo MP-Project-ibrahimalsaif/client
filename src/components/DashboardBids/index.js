@@ -14,6 +14,7 @@ const DashboardBids = () => {
   const [loadElementsLive, setLoadElementsLive] = useState(4);
   const [loadMoreSold, setLoadMoreSold] = useState(false);
   const [loadElementsSold, setLoadElementsSold] = useState(4);
+  const [loading, setLoading] = useState(true);
 
   const state = useSelector((state) => {
     return {
@@ -50,6 +51,7 @@ const DashboardBids = () => {
   };
 
   const getUserBids = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/userBids/${state.user._id}`,
@@ -88,14 +90,17 @@ const DashboardBids = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const endRender = async () => {
+    setLoading(true);
     setLive([]);
     setShowLive([]);
     setSold([]);
     setShowSold([]);
     getUserBids();
+    setLoading(false);
   };
 
   return (
@@ -106,7 +111,7 @@ const DashboardBids = () => {
           <div className="dashboardLayout">
             <div className="dashboardSection">
               <h1 className="dashboardSectionTitle">Live Now</h1>
-              {live ? (
+              {!loading ? (
                 showLive.length > 0 ? (
                   <>
                     <div className="cards">
@@ -173,7 +178,7 @@ const DashboardBids = () => {
             </div>
             <div className="dashboardSection">
               <h1 className="dashboardSectionTitle">Sold</h1>
-              {sold ? (
+              {!loading ? (
                 showSold.length > 0 ? (
                   <>
                     <div className="cards">
