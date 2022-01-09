@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Home from "./components/Home";
@@ -30,10 +30,18 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const state = useSelector((state) => {
+    return {
+      token: state.Login.token,
+    };
+  });
+
   useEffect(() => {
-    const tokenEnd = localStorage.getItem("tokenExpiration");
-    if (tokenEnd <= Date.now()) {
-      signout();
+    if (state.token) {
+      const tokenEnd = localStorage.getItem("tokenExpiration");
+      if (tokenEnd <= Date.now()) {
+        signout();
+      }
     }
     // eslint-disable-next-line
   }, []);

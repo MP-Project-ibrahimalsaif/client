@@ -70,7 +70,7 @@ const Explore = () => {
   const filterSearch = (auctionsFiltered) => {
     if (search.trim()) {
       const searchedArray = auctionsFiltered.filter((auction) =>
-        auction.title.includes(search)
+        auction.title.toLowerCase().includes(search.toLowerCase())
       );
       return searchedArray;
     } else {
