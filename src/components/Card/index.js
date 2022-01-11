@@ -253,7 +253,7 @@ const Card = ({ preview, data, watchlist, render, renderCard }) => {
           </div>
         </div>
         <div className="auctionCardInfoPrice">
-          <span>{data.initialPrice ? data.initialPrice : "0"} SAR</span>
+          <span>{data.currentPrice ? data.currentPrice : "0"} SAR</span>
           <span>{data.bids ? data.bids : "0"} Bids</span>
         </div>
       </div>
