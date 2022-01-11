@@ -63,7 +63,7 @@ const EditAuction = () => {
       setCardData({
         title,
         images: urls.length > 0 ? urls : auction.images,
-        initialPrice,
+        currentPrice: initialPrice,
         endDateTime: dateTime,
         createdBy: { avatar: auction.createdBy.avatar },
       });

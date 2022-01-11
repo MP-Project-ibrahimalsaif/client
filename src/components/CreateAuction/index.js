@@ -56,7 +56,7 @@ const CreateAuction = () => {
       setCardData({
         title,
         images: urls,
-        initialPrice,
+        currentPrice: initialPrice,
         endDateTime: dateTime,
         createdBy: { avatar: state.user.avatar },
       });
